@@ -1,0 +1,30 @@
+<?php
+
+require_once(realpath(dirname(__FILE__).'/../config/config.inc.php'));
+require_once(NLB_LIB_ROOT.'PageTimer.class.php');
+$PageTimer = new PageTimer();
+$PageTimer->start();
+
+if(SHOW_ERRORS)
+{
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+}
+
+require_once(NLB_LIB_ROOT.'DB.class.php');
+require_once(NLB_LIB_ROOT.'UI.class.php');
+
+try
+{
+	$DB = DB::getInstance();
+}
+catch(DBException $e)
+{
+	if($_SERVER['REQUEST_URI'] != '/error.php?t=db')
+	{
+		header('Location: /error.php?t=db');
+		exit();
+	}
+}
+
+$UI = UI::getInstance();
