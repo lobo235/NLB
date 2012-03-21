@@ -1,22 +1,50 @@
 <?php
 
+/**
+ * The Log class is a service level class that handles the logging/emailing of status, warning, and error messages
+ */
 class Log
 {
+	/**
+	 * Logs a status message
+	 * @param string $src The source of this message
+	 * @param string $message The message to log
+	 * @return void
+	 */
 	public static function status($src, $message)
 	{
 		self::message('status', $src, $message);
 	}
 
+	/**
+	 * Logs a warning message
+	 * @param string $src The source of this message
+	 * @param string $message The message to log
+	 * @return void
+	 */
 	public static function warning($src, $message)
 	{
 		self::message('warning', $src, $message);
 	}
 
+	/**
+	 * Logs an error message
+	 * @param string $src The source of this message
+	 * @param string $message The message to log
+	 * @return void
+	 */
 	public static function error($src, $message)
 	{
 		self::message('error', $src, $message);
 	}
 
+	/**
+	 * This private function is used by the other methods in this class to log/email messages
+	 * @param string $type
+	 * @param string $src
+	 * @param string $message
+	 * @return void
+	 */
 	private static function message($type, $src, $message)
 	{
 		if(NLB_LOG_DEST_EMAIL != '')

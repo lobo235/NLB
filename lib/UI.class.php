@@ -2,11 +2,18 @@
 
 require_once(NLB_SMARTY_CLASS_LOC);
 
+/**
+ * The UI class is a service class that handles UI related tasks
+ */
 class UI
 {
 	private static $instance;
 	private static $smarty;
 
+	/**
+	 * The constructor for the UI class
+	 * @return UI
+	 */
 	private function __construct()
 	{
 		self::$smarty = new Smarty();
@@ -17,9 +24,15 @@ class UI
 		self::$smarty->addPluginsDir(NLB_SMARTY_DIR.'plugins');
 	}
 
-	// This declaration of a private __clone method helps enforce the singleton pattern
+	/**
+	 * This declaration of a private __clone method helps enforce the singleton pattern
+	 */
 	private function __clone() { }
 
+	/**
+	 * Returns an instance of the UI class
+	 * @return UI 
+	 */
 	public static function getInstance()
 	{
 		if(!self::$instance)
@@ -29,6 +42,12 @@ class UI
 		return self::$instance;
 	}
 
+	/**
+	 * Renders the template using the provided vars and returns the output as a string
+	 * @param string $template the filename of the template
+	 * @param array $vars an array where keys are the variable names and values are the variable values
+	 * @return string 
+	 */
 	public function renderTemplate($template, $vars = NULL)
 	{
 		// clear all assigned variables
