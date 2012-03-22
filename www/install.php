@@ -15,7 +15,7 @@ foreach($queries as $query)
 {
 	if($query != '')
 	{
-		$res = DatabaseService::getInstance()->exec($query);
+		$res = $DB->exec($query);
 		if($res)
 		{
 			$vars['successfulQueries'] = $query;
