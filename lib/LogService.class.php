@@ -3,7 +3,7 @@
 /**
  * The Log class is a service level class that handles the logging/emailing of status, warning, and error messages
  */
-class Log
+class LogService
 {
 	/**
 	 * Logs a status message

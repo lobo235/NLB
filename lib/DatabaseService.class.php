@@ -1,6 +1,6 @@
 <?php
 
-require_once(NLB_LIB_ROOT.'Log.class.php');
+require_once(NLB_LIB_ROOT.'LogService.class.php');
 require_once(NLB_LIB_ROOT.'DBException.class.php');
 
 /**
@@ -24,7 +24,7 @@ class DatabaseService
 		}
 		catch(PDOException $e)
 		{
-			Log::error('DB __construct()', $e->getMessage());
+			LogService::error('DB __construct()', $e->getMessage());
 			throw new DBException('Unable to connect to the Database', 1);
 		}
 	}
@@ -140,12 +140,12 @@ class DatabaseService
 			}
 			else
 			{
-				Log::error('DB executePreparedQuery()', 'Cannot run query because the connection is NULL');
+				LogService::error('DB executePreparedQuery()', 'Cannot run query because the connection is NULL');
 			}
 		}
 		catch(PDOException $e)
 		{
-			Log::error('DB executePreparedQuery()', $e->getMessage());
+			LogService::error('DB executePreparedQuery()', $e->getMessage());
 			throw new DBException('Could not prepare query', DBException::QUERY_ERROR, $query, $params);
 		}
 		return FALSE;
