@@ -19,7 +19,7 @@ try
 {
 	$DB = DatabaseService::getInstance();
 }
-catch(DBException $e)
+catch(DatabaseServiceException $e)
 {
 	if($_SERVER['REQUEST_URI'] != '/error.php?t=db')
 	{

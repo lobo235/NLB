@@ -14,7 +14,7 @@ class PageTimerService
 	 */
 	function start()
 	{
-		$microstart = explode(' ',microtime());
+		$microstart = explode(' ', microtime());
 		$this->_start_time = $microstart[0] + $microstart[1];
 	}
 	
@@ -23,7 +23,7 @@ class PageTimerService
 	 */
 	function stop()
 	{
-		$microstop = explode(' ',microtime());
+		$microstop = explode(' ', microtime());
 		$this->_stop_time = $microstop[0] + $microstop[1];
 	}
 	

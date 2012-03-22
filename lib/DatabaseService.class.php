@@ -1,7 +1,7 @@
 <?php
 
 require_once(NLB_LIB_ROOT.'LogService.class.php');
-require_once(NLB_LIB_ROOT.'DBException.class.php');
+require_once(NLB_LIB_ROOT.'DatabaseServiceException.class.php');
 
 /**
  * The DatabaseService class is a service layer class that provides an API for interacting with the database
@@ -25,7 +25,7 @@ class DatabaseService
 		catch(PDOException $e)
 		{
 			LogService::error('DB __construct()', $e->getMessage());
-			throw new DBException('Unable to connect to the Database', 1);
+			throw new DatabaseServiceException('Unable to connect to the Database', 1);
 		}
 	}
 
@@ -135,7 +135,7 @@ class DatabaseService
 				}
 				else
 				{
-					throw new DBException('Could not execute query', DBException::QUERY_ERROR, $query, $params);
+					throw new DatabaseServiceException('Could not execute query', DatabaseServiceException::QUERY_ERROR, $query, $params);
 				}
 			}
 			else
@@ -146,7 +146,7 @@ class DatabaseService
 		catch(PDOException $e)
 		{
 			LogService::error('DB executePreparedQuery()', $e->getMessage());
-			throw new DBException('Could not prepare query', DBException::QUERY_ERROR, $query, $params);
+			throw new DatabaseServiceException('Could not prepare query', DatabaseServiceException::QUERY_ERROR, $query, $params);
 		}
 		return FALSE;
 	}
