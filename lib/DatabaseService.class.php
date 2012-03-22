@@ -4,7 +4,7 @@ require_once(NLB_LIB_ROOT.'LogService.class.php');
 require_once(NLB_LIB_ROOT.'DBException.class.php');
 
 /**
- * The DB class is a service layer class that provides an API for interacting with the database
+ * The DatabaseService class is a service layer class that provides an API for interacting with the database
  */
 class DatabaseService
 {

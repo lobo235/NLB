@@ -3,7 +3,7 @@
 require_once(NLB_SMARTY_CLASS_LOC);
 
 /**
- * The UI class is a service class that handles UI related tasks
+ * The UIService class is a service class that handles UI related tasks
  */
 class UIService
 {

@@ -1,8 +1,8 @@
 <?php
 /**
- * The PageTimer class provides function to help in determining page generation times
+ * The PageTimerService class is a service class that provides function to help in determining page generation times
  */
-class PageTimer
+class PageTimerService
 {
 	private $_start_time;
 	private $_stop_time;
