@@ -27,6 +27,6 @@ foreach($queries as $query)
 	}
 }
 
-print UI::getInstance()->renderTemplate('install.tpl', $vars);
+print $UI->renderTemplate('install.tpl', $vars);
 
 include('footer.php');

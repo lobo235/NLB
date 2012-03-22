@@ -5,14 +5,14 @@ require_once(NLB_SMARTY_CLASS_LOC);
 /**
  * The UI class is a service class that handles UI related tasks
  */
-class UI
+class UIService
 {
 	private static $instance;
 	private static $smarty;
 
 	/**
 	 * The constructor for the UI class
-	 * @return UI
+	 * @return UIService
 	 */
 	private function __construct()
 	{
@@ -31,13 +31,13 @@ class UI
 
 	/**
 	 * Returns an instance of the UI class
-	 * @return UI 
+	 * @return UIService 
 	 */
 	public static function getInstance()
 	{
 		if(!self::$instance)
 		{
-			self::$instance = new UI();
+			self::$instance = new UIService();
 		}
 		return self::$instance;
 	}

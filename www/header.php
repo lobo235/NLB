@@ -12,7 +12,7 @@ if(SHOW_ERRORS)
 }
 
 require_once(NLB_LIB_ROOT.'DatabaseService.class.php');
-require_once(NLB_LIB_ROOT.'UI.class.php');
+require_once(NLB_LIB_ROOT.'UIService.class.php');
 require_once(NLB_LIB_ROOT.'User.class.php');
 
 try
@@ -28,4 +28,4 @@ catch(DBException $e)
 	}
 }
 
-$UI = UI::getInstance();
+$UI = UIService::getInstance();
