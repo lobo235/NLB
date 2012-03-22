@@ -6,14 +6,14 @@ require_once(NLB_LIB_ROOT.'DBException.class.php');
 /**
  * The DB class is a service layer class that provides an API for interacting with the database
  */
-class DB
+class DatabaseService
 {
 	private static $instance;
 	private static $connection;
 
 	/**
 	 * The constructor for the DB class
-	 * @return DB
+	 * @return DatabaseService
 	 */
 	private function __construct()
 	{
@@ -36,13 +36,13 @@ class DB
 
 	/**
 	 * Returns an instance of the DB class
-	 * @return DB 
+	 * @return DatabaseService 
 	 */
 	public static function getInstance()
 	{
 		if(!self::$instance)
 		{
-			self::$instance = new DB();
+			self::$instance = new DatabaseService();
 		}
 
 		return self::$instance;

@@ -11,12 +11,13 @@ if(SHOW_ERRORS)
 	ini_set('display_errors', 1);
 }
 
-require_once(NLB_LIB_ROOT.'DB.class.php');
+require_once(NLB_LIB_ROOT.'DatabaseService.class.php');
 require_once(NLB_LIB_ROOT.'UI.class.php');
+require_once(NLB_LIB_ROOT.'User.class.php');
 
 try
 {
-	$DB = DB::getInstance();
+	$DB = DatabaseService::getInstance();
 }
 catch(DBException $e)
 {
