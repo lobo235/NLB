@@ -107,7 +107,14 @@ class DatabaseService
 	 */
 	public function exec($query, $params = NULL)
 	{
-		return ($this->executePreparedQuery($query, $params) !== FALSE);
+		try
+		{
+			return ($this->executePreparedQuery($query, $params) !== FALSE);
+		}
+		catch(Exception $e)
+		{
+			return FALSE;
+		}
 	}
 
 	/**

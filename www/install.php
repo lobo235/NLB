@@ -15,14 +15,15 @@ foreach($queries as $query)
 {
 	if($query != '')
 	{
+		$query = trim($query);
 		$res = $DB->exec($query);
 		if($res)
 		{
-			$vars['successfulQueries'] = $query;
+			$vars['successfulQueries'][] = $query;
 		}
 		else
 		{
-			$vars['failedQueries'] = $query;
+			$vars['failedQueries'][] = $query;
 		}
 	}
 }
