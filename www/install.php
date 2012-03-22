@@ -13,17 +13,20 @@ $vars['failedQueries'] = array();
 
 foreach($queries as $query)
 {
-	$res = DB::getInstance()->exec($query);
-	if($res)
+	if($query != '')
 	{
-		$vars['successfulQueries'] = $query;
-	}
-	else
-	{
-		$vars['failedQueries'] = $query;
+		$res = DB::getInstance()->exec($query);
+		if($res)
+		{
+			$vars['successfulQueries'] = $query;
+		}
+		else
+		{
+			$vars['failedQueries'] = $query;
+		}
 	}
 }
 
-UI::getInstance()->renderTemplate('install.tpl', $vars);
+print UI::getInstance()->renderTemplate('install.tpl', $vars);
 
 include('footer.php');
