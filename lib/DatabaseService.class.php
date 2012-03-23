@@ -9,22 +9,24 @@ require_once(NLB_LIB_ROOT.'DatabaseServiceException.class.php');
 class DatabaseService
 {
 	private static $instance;
-	private static $connection;
+	private $connection;
+	private $Log;
 
 	/**
-	 * The constructor for the DB class
+	 * The constructor for the DatabaseService class
 	 * @return DatabaseService
 	 */
 	private function __construct()
 	{
 		try
 		{
+			$this->Log = LogService::getInstance();
 			$this->connection = new PDO('mysql:host='.NLB_MYSQL_HOST.';dbname='.NLB_MYSQL_DB, NLB_MYSQL_USER, NLB_MYSQL_PASS);
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 		catch(PDOException $e)
 		{
-			LogService::error('DB __construct()', $e->getMessage());
+			$this->Log->error('DatabaseService __construct()', $e->getMessage());
 			throw new DatabaseServiceException('Unable to connect to the Database', 1);
 		}
 	}
@@ -35,7 +37,7 @@ class DatabaseService
 	private function __clone() { }
 
 	/**
-	 * Returns an instance of the DB class
+	 * Returns an instance of the DatabaseService class
 	 * @return DatabaseService 
 	 */
 	public static function getInstance()
@@ -147,12 +149,12 @@ class DatabaseService
 			}
 			else
 			{
-				LogService::error('DB executePreparedQuery()', 'Cannot run query because the connection is NULL');
+				$this->Log->error('DatabaseService executePreparedQuery()', 'Cannot run query because the connection is NULL');
 			}
 		}
 		catch(PDOException $e)
 		{
-			LogService::error('DB executePreparedQuery()', $e->getMessage());
+			$this->Log->error('DatabaseService executePreparedQuery()', $e->getMessage());
 			throw new DatabaseServiceException('Could not prepare query', DatabaseServiceException::QUERY_ERROR, $query, $params);
 		}
 		return FALSE;

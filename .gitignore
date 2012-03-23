@@ -1,3 +1,4 @@
 config/config.inc.php
 smarty/templates_c
 smarty/cache
+logs/*.log

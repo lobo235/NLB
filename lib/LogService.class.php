@@ -5,15 +5,54 @@
  */
 class LogService
 {
+	private static $instance;
+	private $logfileresource = FALSE;
+
+	/**
+	 * The constructor for the LogService class
+	 * @return LogService
+	 */
+	private function __construct()
+	{
+		
+	}
+	
+	public function __destruct()
+	{
+		if($this->logfileresource !== FALSE)
+		{
+			fclose($this->logfileresource);
+		}
+	}
+
+	/**
+	 * This declaration of a private __clone method helps enforce the singleton pattern
+	 */
+	private function __clone() { }
+
+	/**
+	 * Returns an instance of the LogService class
+	 * @return LogService 
+	 */
+	public static function getInstance()
+	{
+		if(!self::$instance)
+		{
+			self::$instance = new LogService();
+		}
+
+		return self::$instance;
+	}
+	
 	/**
 	 * Logs a status message
 	 * @param string $src The source of this message
 	 * @param string $message The message to log
 	 * @return void
 	 */
-	public static function status($src, $message)
+	public function status($src, $message)
 	{
-		self::message('status', $src, $message);
+		$this->message('status', $src, $message);
 	}
 
 	/**
@@ -22,9 +61,9 @@ class LogService
 	 * @param string $message The message to log
 	 * @return void
 	 */
-	public static function warning($src, $message)
+	public function warning($src, $message)
 	{
-		self::message('warning', $src, $message);
+		$this->message('warning', $src, $message);
 	}
 
 	/**
@@ -33,9 +72,9 @@ class LogService
 	 * @param string $message The message to log
 	 * @return void
 	 */
-	public static function error($src, $message)
+	public function error($src, $message)
 	{
-		self::message('error', $src, $message);
+		$this->message('error', $src, $message);
 	}
 
 	/**
@@ -45,21 +84,35 @@ class LogService
 	 * @param string $message
 	 * @return void
 	 */
-	private static function message($type, $src, $message)
+	private function message($type, $src, $message)
 	{
+		$datetime = date('Y-m-d h:i:sa');
+		$server = $_SERVER['SERVER_NAME'];
+		$uri = $_SERVER['REQUEST_URI'];
 		if(NLB_LOG_DEST_EMAIL != '')
 		{
-			$subject = strtoupper($type).': '.$_SERVER['SERVER_NAME'];
-			$msg = "Date/Time: ".date('Y-m-d h:i:s a')."\n";
-			$msg .= "Request URI: ".$_SERVER['REQUEST_URI']."\n";
+			$subject = strtoupper($type).": $server";
+			$msg = "Date/Time: $datetime\n";
+			$msg .= "Request URI: $uri\n";
 			$msg .= "Source: $src\n";
 			$msg .= "Message: $message\n";
 			// send the email
 			mail(NLB_LOG_DEST_EMAIL, $subject, $msg);
 		}
-		elseif(NLB_LOG_DEST_FILE != '')
+		if(NLB_LOG_DEST_FILE != '')
 		{
 			// append to file
+			$error = "[$datetime] $server$uri $src\n$message\n";
+			$this->openLogFile();
+			fwrite($this->logfileresource, $error);
+		}
+	}
+	
+	private function openLogFile()
+	{
+		if($this->logfileresource == FALSE && NLB_LOG_DEST_FILE != '')
+		{
+			$this->logfileresource = fopen(NLB_LOG_DEST_FILE, 'a');
 		}
 	}
 }

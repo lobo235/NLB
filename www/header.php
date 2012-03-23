@@ -23,6 +23,7 @@ else
 require_once(NLB_LIB_ROOT.'DatabaseService.class.php');
 require_once(NLB_LIB_ROOT.'UIService.class.php');
 require_once(NLB_LIB_ROOT.'User.class.php');
+require_once(NLB_LIB_ROOT.'LogService.class.php');
 
 // get an instance of the DatabaseService to communicate/use the database
 try
@@ -40,3 +41,6 @@ catch(DatabaseServiceException $e)
 
 // get an instance of the UIService to be able to render UI components
 $UI = UIService::getInstance();
+
+// get an instance of the LogService class to be able to log/email messages
+$Log = LogService::getInstance();
