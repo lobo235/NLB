@@ -1,31 +1,33 @@
 <?php
 
-require_once(NLB_LIB_ROOT.'Log.class.php');
-require_once(NLB_LIB_ROOT.'DBException.class.php');
+require_once(NLB_LIB_ROOT.'LogService.class.php');
+require_once(NLB_LIB_ROOT.'DatabaseServiceException.class.php');
 
 /**
- * The DB class is a service layer class that provides an API for interacting with the database
+ * The DatabaseService class is a service layer class that provides an API for interacting with the database
  */
-class DB
+class DatabaseService
 {
 	private static $instance;
-	private static $connection;
+	private $connection;
+	private $Log;
 
 	/**
-	 * The constructor for the DB class
-	 * @return DB
+	 * The constructor for the DatabaseService class
+	 * @return DatabaseService
 	 */
 	private function __construct()
 	{
 		try
 		{
+			$this->Log = LogService::getInstance();
 			$this->connection = new PDO('mysql:host='.NLB_MYSQL_HOST.';dbname='.NLB_MYSQL_DB, NLB_MYSQL_USER, NLB_MYSQL_PASS);
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 		catch(PDOException $e)
 		{
-			Log::error('DB __construct()', $e->getMessage());
-			throw new DBException('Unable to connect to the Database', 1);
+			$this->Log->error('DatabaseService __construct()', $e->getMessage());
+			throw new DatabaseServiceException('Unable to connect to the Database', 1);
 		}
 	}
 
@@ -35,14 +37,14 @@ class DB
 	private function __clone() { }
 
 	/**
-	 * Returns an instance of the DB class
-	 * @return DB 
+	 * Returns an instance of the DatabaseService class
+	 * @return DatabaseService 
 	 */
 	public static function getInstance()
 	{
 		if(!self::$instance)
 		{
-			self::$instance = new DB();
+			self::$instance = new DatabaseService();
 		}
 
 		return self::$instance;
@@ -107,7 +109,14 @@ class DB
 	 */
 	public function exec($query, $params = NULL)
 	{
-		return ($this->executePreparedQuery($query, $params) !== FALSE);
+		try
+		{
+			return ($this->executePreparedQuery($query, $params) !== FALSE);
+		}
+		catch(Exception $e)
+		{
+			return FALSE;
+		}
 	}
 
 	/**
@@ -135,18 +144,18 @@ class DB
 				}
 				else
 				{
-					throw new DBException('Could not execute query', DBException::QUERY_ERROR, $query, $params);
+					throw new DatabaseServiceException('Could not execute query', DatabaseServiceException::QUERY_ERROR, $query, $params);
 				}
 			}
 			else
 			{
-				Log::error('DB executePreparedQuery()', 'Cannot run query because the connection is NULL');
+				$this->Log->error('DatabaseService executePreparedQuery()', 'Cannot run query because the connection is NULL');
 			}
 		}
 		catch(PDOException $e)
 		{
-			Log::error('DB executePreparedQuery()', $e->getMessage());
-			throw new DBException('Could not prepare query', DBException::QUERY_ERROR, $query, $params);
+			$this->Log->error('DatabaseService executePreparedQuery()', $e->getMessage());
+			throw new DatabaseServiceException('Could not prepare query', DatabaseServiceException::QUERY_ERROR, $query, $params);
 		}
 		return FALSE;
 	}

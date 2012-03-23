@@ -1,9 +1,9 @@
 <?php
 
 /**
- * The DBException class extends the Exception class and is used by the DB class to throw errors
+ * The DatabaseServiceException class extends the Exception class and is used by the DB class to throw errors
  */
-class DBException extends Exception
+class DatabaseServiceException extends Exception
 {
 	const QUERY_ERROR = 2;
 
@@ -23,7 +23,7 @@ class DBException extends Exception
 	{
 		if(!$message)
 		{
-			throw new DBException($this->message);
+			throw new DatabaseServiceException($this->message);
 		}
 		parent::__construct($message, $code);
 	}

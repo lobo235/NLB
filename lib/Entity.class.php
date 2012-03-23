@@ -5,12 +5,12 @@
  */
 class Entity
 {
-	private $eid;
-	private $createdDate;
-	private $modifiedDate;
-	private $uid;
-	private $type;
-	private $status;
+	protected $eid;
+	protected $createdDate;
+	protected $modifiedDate;
+	protected $uid;
+	protected $type;
+	protected $status;
 
 	/**
 	 * The constructor for the Entity class
