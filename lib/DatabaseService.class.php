@@ -18,17 +18,7 @@ class DatabaseService
 	 */
 	private function __construct()
 	{
-		try
-		{
-			$this->Log = LogService::getInstance();
-			$this->connection = new PDO('mysql:host='.NLB_MYSQL_HOST.';dbname='.NLB_MYSQL_DB, NLB_MYSQL_USER, NLB_MYSQL_PASS);
-			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		}
-		catch(PDOException $e)
-		{
-			$this->Log->error('DatabaseService __construct()', $e->getMessage());
-			throw new DatabaseServiceException('Unable to connect to the Database', 1);
-		}
+		$this->Log = LogService::getInstance();
 	}
 
 	/**
@@ -127,6 +117,9 @@ class DatabaseService
 	 */
 	private function executePreparedQuery($query, $params = NULL)
 	{
+		// Connect to the DB first if needed
+		$this->makeConnectionIfNeeded();
+		
 		// If the parameter passed in was not an array (single value) wrap it in an array
 		if($params !== NULL && !is_array($params))
 		{
@@ -158,5 +151,26 @@ class DatabaseService
 			throw new DatabaseServiceException('Could not prepare query', DatabaseServiceException::QUERY_ERROR, $query, $params);
 		}
 		return FALSE;
+	}
+	
+	/**
+	 * This method checks to see if the connection is NULL. If it is, it will initialize the connection.
+	 * @return void
+	 */
+	private function makeConnectionIfNeeded()
+	{
+		if($this->connection === NULL)
+		{
+			try
+			{
+				$this->connection = new PDO('mysql:host='.NLB_MYSQL_HOST.';dbname='.NLB_MYSQL_DB, NLB_MYSQL_USER, NLB_MYSQL_PASS);
+				$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			}
+			catch(PDOException $e)
+			{
+				$this->Log->error('DatabaseService __construct()', $e->getMessage());
+				throw new DatabaseServiceException('Unable to connect to the Database', 1);
+			}
+		}
 	}
 }

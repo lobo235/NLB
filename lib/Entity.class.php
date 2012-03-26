@@ -29,7 +29,7 @@ class Entity
 	 * Set the eid for this Entity
 	 * @param int $eid the entity id 
 	 */
-	public function setEid(int $eid)
+	public function setEid($eid)
 	{
 		$this->eid = $eid;
 	}
@@ -56,7 +56,7 @@ class Entity
 	 * Set the uid for this Entity
 	 * @param int $uid the uid of the user who created this entity
 	 */
-	public function setUid(int $uid)
+	public function setUid($uid)
 	{
 		$this->uid = $uid;
 	}
@@ -65,7 +65,7 @@ class Entity
 	 * Set the type for this Entity
 	 * @param string $type the type of this entity
 	 */
-	public function setType(string $type)
+	public function setType($type)
 	{
 		$this->type = $type;
 	}
@@ -74,7 +74,7 @@ class Entity
 	 * Set the status for this Entity
 	 * @param int $status the status of this entity
 	 */
-	public function setStatus(int $status)
+	public function setStatus($status)
 	{
 		$this->status = $status;
 	}

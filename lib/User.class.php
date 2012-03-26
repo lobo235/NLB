@@ -12,6 +12,7 @@ class User extends Entity {
 	protected $lastName;
 	protected $lastLoginDate;
 	protected $email;
+	protected $userRights;
 	
 	/**
 	 * The constructor for the User class
@@ -20,13 +21,14 @@ class User extends Entity {
 	{
 		parent::__construct();
 		$this->type = 'user';
+		$this->uid = FALSE;
 	}
 	
 	/**
 	 * Sets the username for this User
 	 * @param string $username the username for this User
 	 */
-	public function setUsername(string $username)
+	public function setUsername($username)
 	{
 		$this->username = $username;
 	}
@@ -35,7 +37,7 @@ class User extends Entity {
 	 * Sets the password for this User
 	 * @param string $password the password for this User
 	 */
-	public function setPassword(string $password)
+	public function setPassword($password)
 	{
 		$this->password = $password;
 	}
@@ -44,7 +46,7 @@ class User extends Entity {
 	 * Sets the first name for this User
 	 * @param string $firstName the first name for this User
 	 */
-	public function setFirstName(string $firstName)
+	public function setFirstName($firstName)
 	{
 		$this->firstName = $firstName;
 	}
@@ -53,7 +55,7 @@ class User extends Entity {
 	 * Sets the last name for this User
 	 * @param string $lastName the last name for this User
 	 */
-	public function setLastName(string $lastName)
+	public function setLastName($lastName)
 	{
 		$this->lastName = $lastName;
 	}
@@ -71,9 +73,18 @@ class User extends Entity {
 	 * Sets the email address for this User
 	 * @param string $email the email address for this User
 	 */
-	public function setEmail(string $email)
+	public function setEmail($email)
 	{
 		$this->email = $email;
+	}
+	
+	/**
+	 * Sets the UserRights for this User
+	 * @param UserRights $userRights the UserRights for this User
+	 */
+	public function setUserRights(UserRights $userRights)
+	{
+		$this->userRights = $userRights;
 	}
 	
 	/**
@@ -128,5 +139,14 @@ class User extends Entity {
 	public function getEmail()
 	{
 		return $this->email;
+	}
+	
+	/**
+	 * Returns the UserRights for this User
+	 * @return UserRights the UserRights for this User
+	 */
+	public function getUserRights()
+	{
+		return $this->userRights;
 	}
 }
