@@ -1,5 +1,7 @@
 <?php
 
+require_once(NLB_LIB_ROOT.'DatabaseTable.class.php');
+require_once(NLB_LIB_ROOT.'DatabaseColumn.class.php');
 require_once(NLB_LIB_ROOT.'Entity.class.php');
 
 /**
@@ -17,11 +19,21 @@ class User extends Entity {
 	/**
 	 * The constructor for the User class
 	 */
-	public function __construct()
+	public function __construct($id = NULL)
 	{
-		parent::__construct();
-		$this->type = 'user';
-		$this->uid = FALSE;
+		parent::__construct($id);
+		$table = new DatabaseTable('users', 'uid');
+		$table->addColumn(new DatabaseColumn('uid', 'hidden,primary,id'));
+		$table->addColumn(new DatabaseColumn('username', 'string', 32));
+		$table->addColumn(new DatabaseColumn('password', 'string,password', 32));
+		$table->addColumn(new DatabaseColumn('first_name', 'string', 32));
+		$table->addColumn(new DatabaseColumn('last_name', 'string', 32));
+		$table->addColumn(new DatabaseColumn('last_login_date', 'hidden,datetime'));
+		$table->addColumn(new DatabaseColumn('email', 'string', 64));
+		$this->addTable($table);
+		
+		$this->setType('user');
+		$this->setLastLoginDate(NULL);
 	}
 	
 	/**
@@ -30,7 +42,7 @@ class User extends Entity {
 	 */
 	public function setUsername($username)
 	{
-		$this->username = $username;
+		$this->setField('username', $username);
 	}
 	
 	/**
@@ -39,7 +51,7 @@ class User extends Entity {
 	 */
 	public function setPassword($password)
 	{
-		$this->password = $password;
+		$this->setField('password', $password);
 	}
 	
 	/**
@@ -48,7 +60,7 @@ class User extends Entity {
 	 */
 	public function setFirstName($firstName)
 	{
-		$this->firstName = $firstName;
+		$this->setField('first_name', $firstName);
 	}
 	
 	/**
@@ -57,16 +69,16 @@ class User extends Entity {
 	 */
 	public function setLastName($lastName)
 	{
-		$this->lastName = $lastName;
+		$this->setField('last_name', $lastName);
 	}
 	
 	/**
 	 * Sets the last login date for this User
 	 * @param DateTime $lastLoginDate the last login date for this User
 	 */
-	public function setLastLoginDate(DateTime $lastLoginDate)
+	public function setLastLoginDate($lastLoginDate)
 	{
-		$this->lastLoginDate = $lastLoginDate;
+		$this->setField('last_login_date', $lastLoginDate);
 	}
 	
 	/**
@@ -75,14 +87,14 @@ class User extends Entity {
 	 */
 	public function setEmail($email)
 	{
-		$this->email = $email;
+		$this->setField('email', $email);
 	}
 	
 	/**
-	 * Sets the UserRights for this User
-	 * @param UserRights $userRights the UserRights for this User
+	 * Sets the user rights for this User
+	 * @param array $userRights an array of UserRight objects for this User
 	 */
-	public function setUserRights(UserRights $userRights)
+	public function setUserRights(array $userRights)
 	{
 		$this->userRights = $userRights;
 	}
@@ -93,7 +105,7 @@ class User extends Entity {
 	 */
 	public function getUsername()
 	{
-		return $this->username;
+		return $this->getField('username');
 	}
 	
 	/**
@@ -102,7 +114,7 @@ class User extends Entity {
 	 */
 	public function getPassword()
 	{
-		return $this->password;
+		return $this->getField('password');
 	}
 	
 	/**
@@ -111,7 +123,7 @@ class User extends Entity {
 	 */
 	public function getFirstName()
 	{
-		return $this->firstName;
+		return $this->getField('first_name');
 	}
 	
 	/**
@@ -120,7 +132,7 @@ class User extends Entity {
 	 */
 	public function getLastName()
 	{
-		return $this->lastName;
+		return $this->getField('last_name');
 	}
 	
 	/**
@@ -129,7 +141,7 @@ class User extends Entity {
 	 */
 	public function getLastLoginDate()
 	{
-		return $this->lastLoginDate;
+		return $this->getField('last_login_date');
 	}
 	
 	/**
@@ -138,12 +150,12 @@ class User extends Entity {
 	 */
 	public function getEmail()
 	{
-		return $this->email;
+		return $this->getField('email');
 	}
 	
 	/**
-	 * Returns the UserRights for this User
-	 * @return UserRights the UserRights for this User
+	 * Returns the user rights for this User
+	 * @return array the array of UserRight objects for this User
 	 */
 	public function getUserRights()
 	{

@@ -20,3 +20,6 @@ define('NLB_SMARTY_DIR', NLB_SITE_ROOT.'smarty/'); // The directory that holds t
 
 // TESTING & DEBUGGING
 define('SHOW_ERRORS', TRUE); // makes sure php errors are show on the screen
+
+// PASSWORD HASH SALT
+define('PASSWORD_HASH_SALT', 'exampleSaltString');

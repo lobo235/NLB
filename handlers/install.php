@@ -1,7 +1,5 @@
 <?php
 
-include('header.php');
-
 $schema = file_get_contents(NLB_SITE_ROOT.'schema/nlb.sql');
 $queries = explode(';', $schema);
 
@@ -29,5 +27,3 @@ foreach($queries as $query)
 }
 
 print $UI->renderTemplate('install.tpl', $vars);
-
-include('footer.php');

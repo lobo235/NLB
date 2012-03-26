@@ -24,5 +24,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `eid` (`eid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/* user_rights table */
+CREATE TABLE IF NOT EXISTS `user_rights` (
+  `rid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) unsigned NOT NULL,
+  `right` varchar(64) NOT NULL,
+  PRIMARY KEY (`rid`),
+  KEY `uid` (`uid`,`right`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /* this one should fail */
 POO;

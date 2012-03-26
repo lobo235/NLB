@@ -19,6 +19,7 @@ if(strpos($_SERVER['REQUEST_URI'], '/index') === 0)
 		header('Location: /', true, 301);
 	}
 	exit();
+	//print '<pre>'.print_r($_SERVER, TRUE).'</pre>';
 }
 
 // Use our RequestRouter to route our request

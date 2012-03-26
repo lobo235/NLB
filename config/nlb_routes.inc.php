@@ -11,7 +11,7 @@ $nlb_routes = array(
 	),
 	'install' => array(
 		'handler' => 'install.php',
-		'access' => array('admin user'),
+		'access' => array('anonymous user'),
 	),
 	'phpinfo' => array(
 		'handler' => 'phpinfo.php',

@@ -1,7 +1,7 @@
 <?php
 
 require_once(NLB_LIB_ROOT.'User.class.php');
-require_once(NLB_LIB_ROOT.'UserRights.class.php');
+require_once(NLB_LIB_ROOT.'UserRight.class.php');
 
 /**
  * The UserService is a service layer class that provides useful methods for dealing with User objects
@@ -62,9 +62,9 @@ class UserService {
 			$user->setFirstName('Anonymous');
 			$user->setLastName('User');
 			$user->setUsername('anonymous');
-			$userRights = new UserRights();
-			$userRights->setRights(array('anonymous user'));
-			$user->setUserRights($userRights);
+			$userRight = new UserRight();
+			$userRight->setRight('anonymous user');
+			$user->setUserRights(array($userRight));
 			return $user;
 		}
 	}
@@ -72,9 +72,9 @@ class UserService {
 	public function userHasRight(User $user, $right)
 	{
 		$hasRight = FALSE;
-		foreach($user->getUserRights()->getRights() as $val)
+		foreach($user->getUserRights() as $rightObj)
 		{
-			if($right == $val)
+			if($rightObj->getRight() == $right)
 			{
 				$hasRight = TRUE;
 				break;
