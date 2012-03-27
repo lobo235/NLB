@@ -6,13 +6,26 @@ require_once(NLB_LIB_ROOT.'DatabaseObject.class.php');
  * The UserRight class is a domain level object that holds all the user rights for a particular User
  */
 class UserRight extends DatabaseObject {
-	public function __construct($id = NULL) {
-		$this->rights = NULL;
+	public function __construct($rid = NULL) {
+		parent::__construct();
+		$this->primaryIdColumn = 'rid';
 		$table = new DatabaseTable('user_rights', 'rid');
 		$table->addColumn(new DatabaseColumn('rid', 'hidden,primary,id'));
 		$table->addColumn(new DatabaseColumn('uid', 'hidden,id'));
 		$table->addColumn(new DatabaseColumn('right', 'hidden,string', 64));
 		$this->addTable($table);
+		
+		if($rid !== NULL)
+		{
+			$this->setField('rid', $rid);
+			$this->lookup();
+		}
+		else
+		{
+			$this->setRid(NULL);
+			$this->setRight(NULL);
+			$this->setUid(NULL);
+		}
 	}
 	
 	public function setRid($rid)

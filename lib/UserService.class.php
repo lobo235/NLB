@@ -1,5 +1,6 @@
 <?php
 
+require_once(NLB_LIB_ROOT.'DatabaseService.class.php');
 require_once(NLB_LIB_ROOT.'User.class.php');
 require_once(NLB_LIB_ROOT.'UserRight.class.php');
 
@@ -8,12 +9,15 @@ require_once(NLB_LIB_ROOT.'UserRight.class.php');
  */
 class UserService {
 	private static $instance;
+	private $DB;
 	
 	/**
 	 * The constructor for the UserService class
 	 * @return UserService
 	 */
-	private function __construct() { }
+	private function __construct() {
+		$this->DB = DatabaseService::getInstance();
+	}
 	
 	/**
 	 * This declaration of a private __clone method helps enforce the singleton pattern
@@ -35,6 +39,9 @@ class UserService {
 	
 	public function getUser()
 	{
+		// DEBUG
+		//return new User(2);
+		
 		$anonymousUser = FALSE;
 		
 		// non-invasive session checking. Will not set a session cookie for users who don't already have one.
@@ -42,9 +49,9 @@ class UserService {
 		if(isset($_COOKIE[$session_cookie_name]) && $_COOKIE[$session_cookie_name] != '')
 		{
 			session_start( );
-			if(isset($_SESSION['nlb_user']) && $_SESSION['nlb_user']->getUid() !== FALSE)
+			if(isset($_SESSION['nlb_user_uid']) && is_numeric($_SESSION['nlb_user_uid']))
 			{
-				return $_SESSION['nlb_user'];
+				return new User($_SESSION['nlb_user_uid']);
 			}
 			else
 			{
@@ -71,6 +78,15 @@ class UserService {
 	
 	public function userHasRight(User $user, $right)
 	{
+		if($right == 'anonymous user')
+		{
+			return TRUE;
+		}
+		
+		if(!$user->userRightsLoaded())
+		{
+			$this->loadUserRights($user);
+		}
 		$hasRight = FALSE;
 		foreach($user->getUserRights() as $rightObj)
 		{
@@ -81,5 +97,42 @@ class UserService {
 			}
 		}
 		return $hasRight;
+	}
+	
+	private function loadUserRights(User $user)
+	{
+		$query = "SELECT * FROM `user_rights` WHERE `uid` = ?";
+		$res = $this->DB->getSelectArray($query, $user->getUid());
+		$rights = array();
+		if(is_array($res) && count($res) > 0)
+		{
+			foreach($res as $row)
+			{
+				$right = new UserRight();
+				$right->setRid($row['rid']);
+				$right->setUid($row['uid']);
+				$right->setRight($row['right']);
+				
+				$rights[] = $right;
+			}
+		}
+		$user->setUserRights($rights);
+	}
+	
+	public function loginUser($username, $password)
+	{
+		$query = "SELECT `uid` FROM `users` WHERE (`username` = ? OR `email` = ?) AND `password` = ?";
+		$params = array($username, $username, md5(PASSWORD_HASH_SALT.$password));
+		$uid = $this->DB->getSelectFirst($query, $params);
+		if($uid !== FALSE)
+		{
+			session_start();
+			$_SESSION['nlb_user_uid'] = $uid;
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 }

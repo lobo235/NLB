@@ -11,10 +11,18 @@ $nlb_routes = array(
 	),
 	'install' => array(
 		'handler' => 'install.php',
-		'access' => array('anonymous user'),
+		'access' => array('admin user'),
 	),
 	'phpinfo' => array(
 		'handler' => 'phpinfo.php',
 		'access' => array('admin user'),
+	),
+	'login' => array(
+		'handler' => 'login.php',
+		'access' => array('anonymous user'),
+	),
+	'processLogin' => array(
+		'handler' => 'login.php',
+		'access' => array('anonymous user'),
 	),
 );

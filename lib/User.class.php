@@ -8,20 +8,17 @@ require_once(NLB_LIB_ROOT.'Entity.class.php');
  * The User class represents a user of the system
  */
 class User extends Entity {
-	protected $username;
-	protected $password;
-	protected $firstName;
-	protected $lastName;
-	protected $lastLoginDate;
-	protected $email;
 	protected $userRights;
+	protected $userRightsLoaded;
 	
 	/**
 	 * The constructor for the User class
 	 */
-	public function __construct($id = NULL)
+	public function __construct($uid = NULL)
 	{
-		parent::__construct($id);
+		parent::__construct();
+		$this->primaryIdColumn = 'uid';
+		
 		$table = new DatabaseTable('users', 'uid');
 		$table->addColumn(new DatabaseColumn('uid', 'hidden,primary,id'));
 		$table->addColumn(new DatabaseColumn('username', 'string', 32));
@@ -33,7 +30,18 @@ class User extends Entity {
 		$this->addTable($table);
 		
 		$this->setType('user');
-		$this->setLastLoginDate(NULL);
+		
+		if($uid !== NULL)
+		{
+			$this->setField('uid', $uid);
+			$this->lookup();
+		}
+		else
+		{
+			$this->setLastLoginDate(NULL);
+		}
+		
+		$this->userRightsLoaded = FALSE;
 	}
 	
 	/**
@@ -97,6 +105,7 @@ class User extends Entity {
 	public function setUserRights(array $userRights)
 	{
 		$this->userRights = $userRights;
+		$this->userRightsLoaded = TRUE;
 	}
 	
 	/**
@@ -160,5 +169,14 @@ class User extends Entity {
 	public function getUserRights()
 	{
 		return $this->userRights;
+	}
+	
+	/**
+	 * Returns TRUE if the user rights have been loaded, otherwise returns FALSE
+	 * @return boolean TRUE if the user rights have been loaded, otherwise FALSE
+	 */
+	public function userRightsLoaded()
+	{
+		return $this->userRightsLoaded;
 	}
 }

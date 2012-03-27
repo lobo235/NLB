@@ -9,19 +9,15 @@ require_once(NLB_LIB_ROOT.'DatabaseObject.class.php');
  */
 class Entity extends DatabaseObject
 {
-	protected $eid;
-	protected $createdDate;
-	protected $modifiedDate;
-	protected $uid;
-	protected $type;
-	protected $status;
 
 	/**
 	 * The constructor for the Entity class
 	 */
-	public function __construct($id = NULL)
+	public function __construct($eid = NULL)
 	{
-		parent::__construct($id);
+		parent::__construct();
+		$this->primaryIdColumn = 'eid';
+		
 		$table = new DatabaseTable('entities', 'eid');
 		$table->addColumn(new DatabaseColumn('eid', 'hidden,primary,id'));
 		$table->addColumn(new DatabaseColumn('created_date', 'hidden,datetime,created'));
@@ -31,12 +27,20 @@ class Entity extends DatabaseObject
 		$table->addColumn(new DatabaseColumn('status', 'hidden,boolean', NULL, 'radio|1:Published|0:Unpublished'));
 		$this->addTable($table);
 		
-		$this->setEid(NULL);
-		$this->setCreatedDate(NULL);
-		$this->setModifiedDate(NULL);
-		$this->setStatus(0);
-		$this->setType(NULL);
-		$this->setUid(0);
+		if($eid !== NULL)
+		{
+			$this->setField('eid', $eid);
+			$this->lookup();
+		}
+		else
+		{
+			$this->setEid(NULL);
+			$this->setCreatedDate(NULL);
+			$this->setModifiedDate(NULL);
+			$this->setStatus(0);
+			$this->setType(NULL);
+			$this->setUid(0);
+		}
 	}
 
 	/**
