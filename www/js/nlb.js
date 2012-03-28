@@ -1,6 +1,5 @@
-var $main = function() {
-	alert('hi there');
+var windowloaded = function() {
 	console.log('this is a test');
 }
 
-window.onload = $main;
+window.onload = windowloaded;

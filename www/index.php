@@ -33,6 +33,7 @@ $handler = $RequestRouter->routeRequest($path, $user);
 include(NLB_SITE_ROOT.'handlers/'.$handler);
 
 $UI->registerAsset('css/nlb.css');
+$UI->registerAsset('css/util.css');
 $UI->registerAsset('js/jquery-1.7.2.min.js');
 $UI->registerAsset('js/nlb.js');
 
