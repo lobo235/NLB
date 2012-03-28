@@ -19,4 +19,4 @@ $vars = array(
 $UI->registerAsset('css/error.css');
 
 $pageVars['title'] = $su->prettyFromURL($vars['type']).' Error';
-$pageVars['content'] = $UI->renderTemplate('error.tpl', $vars);
+$pageVars['content'] = $UI->renderTemplate('error.tpl', $vars, 3);

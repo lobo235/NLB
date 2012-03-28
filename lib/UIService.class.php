@@ -51,7 +51,7 @@ class UIService
 	 * @param array $vars an array where keys are the variable names and values are the variable values
 	 * @return string 
 	 */
-	public function renderTemplate($template, $vars = NULL)
+	public function renderTemplate($template, $vars = NULL, $indentLevel = 0)
 	{
 		// clear all assigned variables
 		$this->smarty->clearAllAssign();
@@ -66,11 +66,36 @@ class UIService
 		// assign our assets
 		$this->smarty->assign('assets', $this->assets);
 		
-		return $this->smarty->fetch($template);
+		if(DEBUG)
+		{
+			return "\n\n<!-- START $template -->\n".$this->addIndenting($this->smarty->fetch($template), $indentLevel)."\n<!-- END $template -->\n\n";
+		}
+		else
+		{
+			return $this->addIndenting($this->smarty->fetch($template), $indentLevel);
+		}
 	}
 	
 	public function registerAsset($filename)
 	{
 		$this->assets[] = $filename;
+	}
+	
+	private function addIndenting($str, $level, $indentString = "\t")
+	{
+		if($level == 0)
+		{
+			return $str;
+		}
+		else
+		{
+			$lines = preg_split("/(\n|\r|\n\r)/", $str);
+			$output = array();
+			foreach($lines as $line)
+			{
+				$output[] = str_repeat($indentString, $level).$line;
+			}
+			return implode("\n", $output);
+		}
 	}
 }

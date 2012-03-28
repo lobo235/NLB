@@ -22,7 +22,8 @@ define('NLB_SMARTY_CLASS_LOC', NLB_LIB_ROOT.'Smarty-3.1.8/libs/Smarty.class.php'
 define('NLB_SMARTY_DIR', NLB_SITE_ROOT.'smarty/'); // The directory that holds the smarty configs, templates, templates_c, plugins, and cache directories
 
 // TESTING & DEBUGGING
-define('SHOW_ERRORS', TRUE); // makes sure php errors are show on the screen
+define('SHOW_ERRORS', FALSE); // makes sure php errors are show on the screen
+define('DEBUG', FALSE); // Turns debugging mode on
 
 // PASSWORD HASH SALT
 define('PASSWORD_HASH_SALT', 'exampleSaltString');

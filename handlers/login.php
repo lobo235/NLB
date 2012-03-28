@@ -10,4 +10,4 @@ if(isset($_POST['username']) && isset($_POST['password']))
 }
 
 $pageVars['title'] = 'Login';
-$pageVars['content'] = $UI->renderTemplate('login.tpl');
+$pageVars['content'] = $UI->renderTemplate('login.tpl', NULL, 3);

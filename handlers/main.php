@@ -5,4 +5,4 @@ $vars = array(
 );
 
 $pageVars['title'] = 'Site Index';
-$pageVars['content'] = $UI->renderTemplate('index.tpl', $vars);
+$pageVars['content'] = $UI->renderTemplate('index.tpl', $vars, 3);
