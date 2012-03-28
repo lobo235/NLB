@@ -1,10 +1,6 @@
-var $main = function(input) {
-	alert(input + ' hi');
+var $main = function() {
+	alert('hi there');
 	console.log('this is a test');
-	$('#main').each(function(i, e) {
-		this.value = e.value;
-		alert(i);
-	});
 }
 
 window.onload = $main;

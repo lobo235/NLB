@@ -32,6 +32,10 @@ $handler = $RequestRouter->routeRequest($path, $user);
 
 include(NLB_SITE_ROOT.'handlers/'.$handler);
 
+$UI->registerAsset('css/nlb.css');
+$UI->registerAsset('js/jquery-1.7.2.min.js');
+$UI->registerAsset('js/nlb.js');
+
 print $UI->renderTemplate('page.tpl', $pageVars);
 
 require_once(NLB_SITE_ROOT.'includes/footer.php');

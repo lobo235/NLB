@@ -1,5 +1,8 @@
 <?php
 
+// SITE INFORMATION
+define('SITE_NAME', 'NLB Site');
+
 // FILE SYSTEM
 define('NLB_SITE_ROOT', realpath(dirname(__FILE__).'/..').'/');
 define('NLB_LIB_ROOT', NLB_SITE_ROOT.'lib/');

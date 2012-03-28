@@ -8,7 +8,8 @@ require_once(NLB_SMARTY_CLASS_LOC);
 class UIService
 {
 	private static $instance;
-	private static $smarty;
+	private $smarty;
+	private $assets;
 
 	/**
 	 * The constructor for the UI class
@@ -16,12 +17,14 @@ class UIService
 	 */
 	private function __construct()
 	{
-		self::$smarty = new Smarty();
-		self::$smarty->setConfigDir(NLB_SMARTY_DIR.'configs');
-		self::$smarty->setTemplateDir(NLB_SMARTY_DIR.'templates');
-		self::$smarty->setCompileDir(NLB_SMARTY_DIR.'templates_c');
-		self::$smarty->setCacheDir(NLB_SMARTY_DIR.'cache');
-		self::$smarty->addPluginsDir(NLB_SMARTY_DIR.'plugins');
+		$this->smarty = new Smarty();
+		$this->smarty->setConfigDir(NLB_SMARTY_DIR.'configs');
+		$this->smarty->setTemplateDir(NLB_SMARTY_DIR.'templates');
+		$this->smarty->setCompileDir(NLB_SMARTY_DIR.'templates_c');
+		$this->smarty->setCacheDir(NLB_SMARTY_DIR.'cache');
+		$this->smarty->addPluginsDir(NLB_SMARTY_DIR.'plugins');
+		
+		$this->assets = array();
 	}
 
 	/**
@@ -51,14 +54,23 @@ class UIService
 	public function renderTemplate($template, $vars = NULL)
 	{
 		// clear all assigned variables
-		self::$smarty->clearAllAssign();
+		$this->smarty->clearAllAssign();
 		if(is_array($vars))
 		{
 			foreach($vars as $key => $var)
 			{
-				self::$smarty->assign($key, $var);
+				$this->smarty->assign($key, $var);
 			}
 		}
-		return self::$smarty->fetch($template);
+		
+		// assign our assets
+		$this->smarty->assign('assets', $this->assets);
+		
+		return $this->smarty->fetch($template);
+	}
+	
+	public function registerAsset($filename)
+	{
+		$this->assets[] = $filename;
 	}
 }
