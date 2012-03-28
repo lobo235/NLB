@@ -25,5 +25,6 @@ define('SHOW_ERRORS', TRUE); // makes sure php errors are show on the screen
 define('PASSWORD_HASH_SALT', 'exampleSaltString');
 
 // PATHS TO 3RD PARTY TOOLS/PROGRAMS
+define('BASH_PATH', '/bin/bash');
 define('JAVA_BIN', '/usr/bin/java');
 define('YUI_COMPRESSOR_PATH', JAVA_BIN.' -jar /Users/lobo235/yuicompressor-2.4.7.jar');
