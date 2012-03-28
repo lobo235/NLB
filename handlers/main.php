@@ -1,4 +1,8 @@
 <?php
 
-echo 'This is the site index<br />';
-echo 'Welcome, '.$user->getFirstName();
+$vars = array(
+	'user' => $user,
+);
+
+$pageVars['title'] = 'Site Index';
+$pageVars['content'] = $UI->renderTemplate('index.tpl', $vars);

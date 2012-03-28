@@ -25,7 +25,13 @@ if(strpos($_SERVER['REQUEST_URI'], '/index') === 0)
 // Use our RequestRouter to route our request
 $RequestRouter = RequestRouterService::getInstance();
 $path = isset($_GET['q']) ? $_GET['q'] : 'index';
+
+$pageVars = array();
+
 $handler = $RequestRouter->routeRequest($path, $user);
+
 include(NLB_SITE_ROOT.'handlers/'.$handler);
+
+print $UI->renderTemplate('page.tpl', $pageVars);
 
 require_once(NLB_SITE_ROOT.'includes/footer.php');

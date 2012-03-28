@@ -1,7 +1,8 @@
 <?php
 
 $vars = array(
-	'type' => $_GET['t'],
+	'type' => $su->prettyFromURL($_GET['t']),
 );
 
-print $UI->renderTemplate('error.tpl', $vars);
+$pageVars['title'] = $su->prettyFromURL($vars['type']).' Error';
+$pageVars['content'] = $UI->renderTemplate('error.tpl', $vars);

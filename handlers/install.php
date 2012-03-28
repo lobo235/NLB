@@ -26,4 +26,5 @@ foreach($queries as $query)
 	}
 }
 
-print $UI->renderTemplate('install.tpl', $vars);
+$pageVars['title'] = 'Installation Results';
+$pageVars['content'] = $UI->renderTemplate('install.tpl', $vars);

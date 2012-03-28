@@ -1,1 +1,1 @@
-This is the error: {$smarty.get.t|escape}
+This is the error: {$type|escape}
