@@ -1,14 +1,14 @@
 <html>
 	<head>
-		<title>{if $title}{$title|escape}{else}{$smarty.const.SITE_NAME}{/if}</title>
+		<title>{if isset($title)}{$title|escape}{else}{$smarty.const.SITE_NAME}{/if}</title>
 		{if $assets}{asset_combine files=$assets}{/if}
 	</head>
 	<body>
 		<div id="container">
 			<div id="left">
 				<div id="main-content">
-					<h1>{if isset($pageTitle)}{$pageTitle|escape}{else}{$title|escape}{/if}</h1>
-					{if $content}{$content}{/if}
+					<h1>{if isset($pageTitle)}{$pageTitle|escape}{elseif isset($title)}{$title|escape}{else}{$smarty.const.SITE_NAME}{/if}</h1>
+					{if isset($content)}{$content}{/if}
 				</div>
 			</div>
 			<div id="right">

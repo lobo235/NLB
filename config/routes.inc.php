@@ -1,8 +1,8 @@
 <?php
 
 $routes = array(
-	'blog/%1' => array(
-		'handler' => 'blog.php?id=%1',
+	'blog/%post_id' => array(
+		'handler' => 'blog.php?id=%post_id',
 		'access' => array('anonymous user'),
 	),
 );

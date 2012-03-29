@@ -5,8 +5,8 @@ $nlb_routes = array(
 		'handler' => 'main.php',
 		'access' => array('anonymous user'),
 	),
-	'error/%1' => array(
-		'handler' => 'error.php?t=%1',
+	'error/%type' => array(
+		'handler' => 'error.php?t=%type',
 		'access' => array('anonymous user'),
 	),
 	'install' => array(
@@ -23,6 +23,10 @@ $nlb_routes = array(
 	),
 	'processLogin' => array(
 		'handler' => 'login.php',
+		'access' => array('anonymous user'),
+	),
+	'entity/%action/%eid' => array(
+		'handler' => 'entity.php?action=%action&eid=%eid',
 		'access' => array('anonymous user'),
 	),
 );
