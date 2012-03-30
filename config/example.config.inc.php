@@ -10,6 +10,7 @@ define('NLB_LIB_ROOT', NLB_SITE_ROOT.'lib/');
 // LOGGING
 define('NLB_LOG_DEST_EMAIL', 'test@example.com'); // The email address destination for log messages. Leave blank to disable
 define('NLB_LOG_DEST_FILE', NLB_SITE_ROOT.'logs/site.log'); // The file destination for log messages. Leave blank to disable
+define('LOG_PAGETIMES', TRUE); // Logs the amount of time it takes to generate each page on the site
 
 // DATABASE
 define('NLB_MYSQL_HOST', 'localhost');

@@ -1,8 +1,8 @@
 <?php
 
-require_once(NLB_LIB_ROOT.'DatabaseService.class.php');
-require_once(NLB_LIB_ROOT.'User.class.php');
-require_once(NLB_LIB_ROOT.'UserRight.class.php');
+class_exists('DatabaseService') || require(NLB_LIB_ROOT.'DatabaseService.class.php');
+class_exists('User') || require(NLB_LIB_ROOT.'User.class.php');
+class_exists('UserRight') || require(NLB_LIB_ROOT.'UserRight.class.php');
 
 /**
  * The UserService is a service layer class that provides useful methods for dealing with User objects

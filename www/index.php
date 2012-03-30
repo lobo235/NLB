@@ -1,9 +1,9 @@
 <?php
 
-require_once(realpath(dirname(__FILE__).'/../includes/header.php'));
+require(realpath(dirname(__FILE__).'/../includes/header.php'));
 
-require_once(NLB_LIB_ROOT.'RequestRouterService.class.php');
-require_once(NLB_LIB_ROOT.'UserService.class.php');
+class_exists('RequestRouterService') || require(NLB_LIB_ROOT.'RequestRouterService.class.php');
+class_exists('UserService') || require(NLB_LIB_ROOT.'UserService.class.php');
 
 $user = UserService::getInstance()->getUser();
 
@@ -39,4 +39,4 @@ $UI->registerAsset('js/nlb.js');
 
 print $UI->renderTemplate('page.tpl', $pageVars);
 
-require_once(NLB_SITE_ROOT.'includes/footer.php');
+require(NLB_SITE_ROOT.'includes/footer.php');

@@ -33,5 +33,14 @@ CREATE TABLE IF NOT EXISTS `user_rights` (
   KEY `uid` (`uid`,`right`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/* this one should fail */
-POO;
+/* pagetimes table */
+CREATE TABLE IF NOT EXISTS `pagetimes` (
+  `ptid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `path` text NOT NULL,
+  `gentime` double NOT NULL,
+  `referrer` text NOT NULL,
+  `user_agent` text NOT NULL,
+  `datetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`ptid`),
+  KEY `path` (`path`(255),`datetime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

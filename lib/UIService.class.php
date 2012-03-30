@@ -1,6 +1,6 @@
 <?php
 
-require_once(NLB_SMARTY_CLASS_LOC);
+class_exists('Smarty') || require(NLB_SMARTY_CLASS_LOC);
 
 /**
  * The UIService class is a service class that handles UI related tasks

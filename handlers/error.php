@@ -1,6 +1,6 @@
 <?php
 
-require_once(NLB_LIB_ROOT.'AssetCombiner.class.php');
+class_exists('AssetCombiner') || require(NLB_LIB_ROOT.'AssetCombiner.class.php');
 
 if($_GET['t'] == 'combine')
 {

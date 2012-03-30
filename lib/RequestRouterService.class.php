@@ -1,6 +1,6 @@
 <?php
 
-require_once(NLB_LIB_ROOT.'LogService.class.php');
+class_exists('LogService') || require(NLB_LIB_ROOT.'LogService.class.php');
 
 /**
  * The RequestRouterService is used for routing incoming requests to the correct location
@@ -13,8 +13,8 @@ class RequestRouterService {
 	private function __construct()
 	{
 		$this->Log = LogService::getInstance();
-		require_once(NLB_SITE_ROOT.'config/nlb_routes.inc.php');
-		require_once(NLB_SITE_ROOT.'config/routes.inc.php');
+		require(NLB_SITE_ROOT.'config/nlb_routes.inc.php');
+		require(NLB_SITE_ROOT.'config/routes.inc.php');
 		$this->routes = array_merge($nlb_routes, $routes);
 	}
 	

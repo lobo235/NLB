@@ -1,9 +1,9 @@
 <?php
 // Load our config file
-require_once(realpath(dirname(__FILE__).'/../config/config.inc.php'));
+require(realpath(dirname(__FILE__).'/../config/config.inc.php'));
 
 // Load and start our PageTimerService
-require_once(NLB_LIB_ROOT.'PageTimerService.class.php');
+class_exists('PageTimerService') || require(NLB_LIB_ROOT.'PageTimerService.class.php');
 $PageTimer = new PageTimerService();
 $PageTimer->start();
 
@@ -20,25 +20,14 @@ else
 }
 
 // Load classes that will be needed on almost every page
-require_once(NLB_LIB_ROOT.'DatabaseService.class.php');
-require_once(NLB_LIB_ROOT.'UIService.class.php');
-require_once(NLB_LIB_ROOT.'User.class.php');
-require_once(NLB_LIB_ROOT.'LogService.class.php');
-require_once(NLB_LIB_ROOT.'StringUtils.class.php');
+class_exists('DatabaseService') || require(NLB_LIB_ROOT.'DatabaseService.class.php');
+class_exists('UIService') || require(NLB_LIB_ROOT.'UIService.class.php');
+class_exists('User') || require(NLB_LIB_ROOT.'User.class.php');
+class_exists('LogService') || require(NLB_LIB_ROOT.'LogService.class.php');
+class_exists('StringUtils') || require(NLB_LIB_ROOT.'StringUtils.class.php');
 
 // get an instance of the DatabaseService to communicate/use the database
-try
-{
-	$DB = DatabaseService::getInstance();
-}
-catch(DatabaseServiceException $e)
-{
-	if($_SERVER['REQUEST_URI'] != '/error.php?t=db')
-	{
-		header('Location: /error.php?t=db');
-		exit();
-	}
-}
+$DB = DatabaseService::getInstance();
 
 // get an instance of the UIService to be able to render UI components
 $UI = UIService::getInstance();

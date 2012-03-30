@@ -1,8 +1,8 @@
 <?php
 
-require_once(NLB_LIB_ROOT.'DatabaseTable.class.php');
-require_once(NLB_LIB_ROOT.'DatabaseColumn.class.php');
-require_once(NLB_LIB_ROOT.'Entity.class.php');
+class_exists('DatabaseTable') || require(NLB_LIB_ROOT.'DatabaseTable.class.php');
+class_exists('DatabaseColumn') || require(NLB_LIB_ROOT.'DatabaseColumn.class.php');
+class_exists('Entity') || require(NLB_LIB_ROOT.'Entity.class.php');
 
 /**
  * The User class represents a user of the system
