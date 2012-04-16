@@ -2,10 +2,13 @@
 // Load our config file
 require(realpath(dirname(__FILE__).'/../config/config.inc.php'));
 
-// Load and start our PageTimerService
-class_exists('PageTimerService') || require(NLB_LIB_ROOT.'PageTimerService.class.php');
-$PageTimer = new PageTimerService();
-$PageTimer->start();
+if(LOG_PAGETIMES || DEBUG)
+{
+	// Load and start our PageTimerService
+	class_exists('PageTimerService') || require(NLB_LIB_ROOT.'PageTimerService.class.php');
+	$PageTimer = new PageTimerService();
+	$PageTimer->start();
+}
 
 // Turn error reporting on/off
 if(SHOW_ERRORS)

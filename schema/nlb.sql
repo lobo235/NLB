@@ -37,10 +37,11 @@ CREATE TABLE IF NOT EXISTS `user_rights` (
 CREATE TABLE IF NOT EXISTS `page_stats` (
   `ptid` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `path` text NOT NULL,
-  `gentime` double NOT NULL,
+  `gentime` double DEFAULT NULL,
   `referrer` text NOT NULL,
   `user_agent` text NOT NULL,
+  `peak_mem_usage` int(11) unsigned DEFAULT NULL,
   `datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`ptid`),
   KEY `path` (`path`(255),`datetime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
