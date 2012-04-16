@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>NLB Handbook</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</head>
+	<body>
+		<h1>NLB Handbook</h1>
+		<p>Welcome to NLB</p>
+		<h2>Routes</h2>
+		<p>In NLB, routes are used to create a mapping between a particular path and a controller that should handle that path. Access
+		restrictions can also be added to a route preventing certain users from accessing certain areas of your application. NLB has a list
+		of it's own routes in the config/nlb_routes.inc.php file. To define your own routes you must use the config/routes.inc.php file.
+		Below is a simple routes.inc.php file defining some routes that would be used for a simple blog:</p>
+		<pre>
+			<code>
+&lt;?php
+$routes = array(
+	'blog' => array(
+		'handler' => 'custom/blog.php?action=list',
+		'access' => array('anonymous user'),
+	),
+	'blog/%post_id' => array(
+		'handler' => 'custom/blog.php?action=viewpost&amp;id=%post_id',
+		'access' => array('anonymous user'),
+	),
+);
+			</code>
+		</pre>
+	</body>
+</html>
