@@ -7,7 +7,7 @@ echo "\n<!-- generated in $mainGenTime seconds -->\n";
 if(LOG_PAGETIMES)
 {
 	$PageTimer->start();
-	$query = "INSERT INTO `pagetimes` (`path`,`gentime`,`referrer`,`user_agent`,`datetime`) VALUES (?,?,?,?,UTC_TIMESTAMP())";
+	$query = "INSERT INTO `page_stats` (`path`,`gentime`,`referrer`,`user_agent`,`datetime`) VALUES (?,?,?,?,UTC_TIMESTAMP())";
 	$params = array(
 		$_SERVER['REQUEST_URI'],
 		$mainGenTime,
