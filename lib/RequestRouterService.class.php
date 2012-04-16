@@ -51,7 +51,7 @@ class RequestRouterService {
 		$route = $this->findRoute($request);
 		if($route !== FALSE)
 		{
-			if(strpos($route['path'], '%') !== FALSE)
+			if(strpos($route['path'], '%') !== FALSE || strpos($route['info']['handler'], '?') !== FALSE)
 			{
 				$this->populateHandlerVars($request, $route['path'], $route['info']['handler']);
 				$route['info']['handler'] = parse_url($route['info']['handler'], PHP_URL_PATH);
@@ -123,7 +123,7 @@ class RequestRouterService {
 	 *
 	 * @param type $request
 	 * @param type $route
-	 * @param type $handler 
+	 * @param type $handler
 	 */
 	private function populateHandlerVars($request, $route, $handler)
 	{
