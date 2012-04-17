@@ -24,6 +24,14 @@
 			<li>Edit the new <code>config.inc.php</code> file to have the necessary settings for your application.</li>
 			<li>Visit <code>http://&lt;yoursite.com&gt;/install.php</code> changing <code>&lt;yoursite.com&gt;</code> to your actual domain name.</li>
 			<li>Follow the on-screen instructions to install NLB.</li>
+			<li>Make sure the following directories exist (relative to the NLB root folder) and that they are writable by apache:
+				<ul>
+					<li><code>logs</code></li>
+					<li><code>www/combined-assets</code></li>
+					<li><code>smarty/templates_c</code></li>
+					<li><code>smarty/cache</code></li>
+				</ul>
+			</li>
 		</ul>
 		<h2>Routes</h2>
 		<p>In NLB, routes are used to create a mapping between a particular path and a controller that should handle that path. Access
