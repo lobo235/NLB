@@ -9,10 +9,6 @@ $nlb_routes = array(
 		'handler' => 'nlb/error.php?t=%type',
 		'access' => array('anonymous user'),
 	),
-	'install' => array(
-		'handler' => 'nlb/install.php',
-		'access' => array('admin user'),
-	),
 	'phpinfo' => array(
 		'handler' => 'nlb/phpinfo.php',
 		'access' => array('admin user'),
