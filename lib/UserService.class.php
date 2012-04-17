@@ -37,6 +37,15 @@ class UserService {
 		return self::$instance;
 	}
 	
+	/**
+	 * Returns a new/empty User object
+	 * @return User
+	 */
+	public function newUser()
+	{
+		return new User();
+	}
+	
 	public function getUser()
 	{
 		// DEBUG
@@ -134,5 +143,14 @@ class UserService {
 		{
 			return FALSE;
 		}
+	}
+	
+	/**
+	 * Hashes the password for the given User. This is generally called right before saving a new User object
+	 * @param User $user
+	 */
+	public function hashUserPassword(User $user)
+	{
+		$user->setPassword(md5(PASSWORD_HASH_SALT.$user->getPassword()));
 	}
 }
