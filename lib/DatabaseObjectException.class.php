@@ -1,15 +1,11 @@
 <?php
 
 /**
- * The DatabaseServiceException class extends the Exception class and is used by the DB class to throw errors
+ * The DatabaseObjectException class extends the Exception class and is used by the DB class to throw errors
  */
-class DatabaseServiceException extends Exception
+class DatabaseObjectException extends Exception
 {
-	const SERVER_ERROR = 1;
-	const QUERY_ERROR = 2;
-	const USER_ERROR = 3;
-	const DB_ERROR = 4;
-	const QUERY_ERROR_UNIQUE = 5;
+	const UNIQUE_ERROR = 1;
 	const UNSPECIFIED_ERROR = 99;
 
 	protected $message = 'Unknown Database Exception';
@@ -18,7 +14,7 @@ class DatabaseServiceException extends Exception
 	protected $params = NULL;
 
 	/**
-	 * The constructor for the DatabaseServiceException class
+	 * The constructor for the DatabaseObjectException class
 	 * @param string $message the exception message
 	 * @param int $code the exception code
 	 * @param string $query the query related to this exception if applicable
@@ -28,7 +24,7 @@ class DatabaseServiceException extends Exception
 	{
 		if(!$message)
 		{
-			throw new DatabaseServiceException($this->message);
+			throw new DatabaseObjectException($this->message);
 		}
 		parent::__construct($message, $code);
 	}

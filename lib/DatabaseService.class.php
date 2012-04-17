@@ -147,8 +147,19 @@ class DatabaseService
 		}
 		catch(PDOException $e)
 		{
-			$this->Log->error('DatabaseService executePreparedQuery()', $e->getMessage());
-			throw new DatabaseServiceException('Could not prepare query', DatabaseServiceException::QUERY_ERROR, $query, $params);
+			$this->Log->error('DatabaseService executePreparedQuery()', $e->getCode().' : '.$e->getMessage());
+			$matches = array();
+			preg_match('/SQLSTATE\[(\w+)\]:? (.*)/', $e->getMessage(), $matches);
+            $code = $matches[1];
+            $message = $matches[2];
+			if($code == '23000')
+			{
+				throw new DatabaseServiceException('Unique constraint violated: '.$message, DatabaseServiceException::QUERY_ERROR_UNIQUE, $query, $params);
+			}
+			else
+			{
+				throw new DatabaseServiceException('Could not prepare query', DatabaseServiceException::QUERY_ERROR, $query, $params);
+			}
 		}
 		return FALSE;
 	}
@@ -161,16 +172,68 @@ class DatabaseService
 	{
 		if($this->connection === NULL)
 		{
-			try
+			$this->forceNewConnection();
+		}
+	}
+	
+	/**
+	 * This method forces a new connection to be made to the database
+	 * @return void
+	 */
+	public function forceNewConnection()
+	{
+		try
+		{
+			$this->connection = new PDO('mysql:host='.NLB_MYSQL_HOST.';dbname='.NLB_MYSQL_DB, NLB_MYSQL_USER, NLB_MYSQL_PASS);
+			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		}
+		catch(PDOException $e)
+		{
+			//echo "PDOException: code: ".$e->getCode()." message: ".$e->getMessage()."<br />\n";
+			$this->Log->error('DatabaseService forceNewConnection()', $e->getMessage());
+			if($e->getCode() == 2005)
 			{
-				$this->connection = new PDO('mysql:host='.NLB_MYSQL_HOST.';dbname='.NLB_MYSQL_DB, NLB_MYSQL_USER, NLB_MYSQL_PASS);
-				$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				throw new DatabaseServiceException('Unable to connect to the database server', DatabaseServiceException::SERVER_ERROR);
 			}
-			catch(PDOException $e)
+			elseif($e->getCode() == 1045)
 			{
-				$this->Log->error('DatabaseService __construct()', $e->getMessage());
-				throw new DatabaseServiceException('Unable to connect to the Database', 1);
+				throw new DatabaseServiceException('Access Denied while trying to connect to the database server', DatabaseServiceException::USER_ERROR);
+			}
+			elseif($e->getCode() == 1044)
+			{
+				throw new DatabaseServiceException('Access Denied while trying to access the configured database', DatabaseServiceException::DB_ERROR);
+			}
+			else
+			{
+				throw new DatabaseServiceException('An unspecified error occurred while trying to connect to the Database', DatabaseServiceException::UNSPECIFIED_ERROR);
 			}
 		}
+	}
+	
+	/**
+	 * This is a wrapper for the PDO::beginTransaction function
+	 * @return bool
+	 */
+	public function beginTransaction()
+	{
+		return $this->connection->beginTransaction();
+	}
+	
+	/**
+	 * This is a wrapper for the PDO::rollBack function
+	 * @return bool
+	 */
+	public function rollBack()
+	{
+		return $this->connection->rollBack();
+	}
+	
+	/**
+	 * This is a wrapper for the PDO::commit function
+	 * @return bool
+	 */
+	public function commit()
+	{
+		return $this->connection->commit();
 	}
 }
