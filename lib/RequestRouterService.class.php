@@ -69,12 +69,12 @@ class RequestRouterService {
 			}
 			else
 			{
-				return '403.php';
+				return 'nlb/403.php';
 			}
 		}
 		else
 		{
-			return '404.php';
+			return 'nlb/404.php';
 		}
 	}
 	
@@ -103,9 +103,13 @@ class RequestRouterService {
 		{
 			$routeParts = explode('/', $key);
 			$routeMatches = TRUE;
-			foreach($routeParts as $routeIndex => $routePart)
+			/*foreach($routeParts as $routeIndex => $routePart)
 			{
 				$routeMatches = $routeMatches && ($pathParts[$routeIndex] == $routePart || strpos($routePart, '%') === 0);
+			}*/
+			foreach($pathParts as $pathIndex => $pathPart)
+			{
+				$routeMatches = $routeMatches && isset($routeParts[$pathIndex]) && ($routeParts[$pathIndex] == $pathPart || strpos($routeParts[$pathIndex], '%') === 0);
 			}
 			
 			if($routeMatches)
