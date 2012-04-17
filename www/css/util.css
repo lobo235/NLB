@@ -1,0 +1,6 @@
+.clear {
+	clear: both;
+	height: 0px;
+	line-height: 0px;
+	overflow: hidden;
+}

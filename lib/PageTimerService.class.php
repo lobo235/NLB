@@ -12,7 +12,7 @@ class PageTimerService
 	/**
 	 * This function starts the timer
 	 */
-	function start()
+	public function start()
 	{
 		$microstart = explode(' ', microtime());
 		$this->_start_time = $microstart[0] + $microstart[1];
@@ -21,7 +21,7 @@ class PageTimerService
 	/**
 	 * This function stops the timer
 	 */
-	function stop()
+	public function stop()
 	{
 		$microstop = explode(' ', microtime());
 		$this->_stop_time = $microstop[0] + $microstop[1];
@@ -31,7 +31,7 @@ class PageTimerService
 	 * This function must be called after both the start() and stop() functions have been called. It returns the elapsed time
 	 * @return float the rounded page generation time
 	 */
-	function getGenTime()
+	public function getGenTime()
 	{
 		$this->_gen_time = round($this->_stop_time - $this->_start_time, $this->round_to);
 		return $this->_gen_time;

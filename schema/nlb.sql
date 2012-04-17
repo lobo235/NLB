@@ -17,12 +17,31 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
   `first_name` varchar(32) NOT NULL,
-  `last_name` int(32) NOT NULL,
+  `last_name` varchar(32) NOT NULL,
   `last_login_date` datetime DEFAULT NULL,
   `email` varchar(64) NOT NULL,
   PRIMARY KEY (`uid`),
   KEY `eid` (`eid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/* this one should fail */
-POO;
+/* user_rights table */
+CREATE TABLE IF NOT EXISTS `user_rights` (
+  `rid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) unsigned NOT NULL,
+  `right` varchar(64) NOT NULL,
+  PRIMARY KEY (`rid`),
+  KEY `uid` (`uid`,`right`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* page_stats table */
+CREATE TABLE IF NOT EXISTS `page_stats` (
+  `ptid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `path` text NOT NULL,
+  `gentime` double DEFAULT NULL,
+  `referrer` text NOT NULL,
+  `user_agent` text NOT NULL,
+  `peak_mem_usage` int(11) unsigned DEFAULT NULL,
+  `datetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`ptid`),
+  KEY `path` (`path`(255),`datetime`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

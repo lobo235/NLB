@@ -1,82 +1,100 @@
 <?php
 
+class_exists('DatabaseTable') || require(NLB_LIB_ROOT.'DatabaseTable.class.php');
+class_exists('DatabaseColumn') || require(NLB_LIB_ROOT.'DatabaseColumn.class.php');
+class_exists('DatabaseObject') || require(NLB_LIB_ROOT.'DatabaseObject.class.php');
+
 /**
  * The Entity class serves as a base class for all of the custom objects that will make up the web site/application
  */
-class Entity
+class Entity extends DatabaseObject
 {
-	protected $eid;
-	protected $createdDate;
-	protected $modifiedDate;
-	protected $uid;
-	protected $type;
-	protected $status;
 
 	/**
 	 * The constructor for the Entity class
 	 */
-	public function __construct()
+	public function __construct($eid = NULL)
 	{
-		$this->eid = NULL;
-		$this->createdDate = NULL;
-		$this->modifiedDate = NULL;
-		$this->uid = NULL;
-		$this->type = NULL;
-		$this->status = NULL;
+		parent::__construct();
+		$this->primaryIdColumn = 'eid';
+		
+		$table = new DatabaseTable('entities', 'eid');
+		$table->addColumn(new DatabaseColumn('eid', 'hidden,primary,id'));
+		$table->addColumn(new DatabaseColumn('created_date', 'hidden,datetime,created'));
+		$table->addColumn(new DatabaseColumn('modified_date', 'hidden,datetime,modified'));
+		$table->addColumn(new DatabaseColumn('uid', 'hidden,id'));
+		$table->addColumn(new DatabaseColumn('type', 'hidden,string', 32));
+		$table->addColumn(new DatabaseColumn('status', 'hidden,boolean', NULL, 'radio|1:Published|0:Unpublished'));
+		$this->addTable($table);
+		
+		if($eid !== NULL)
+		{
+			$this->setField('eid', $eid);
+			$this->lookup();
+		}
+		else
+		{
+			$this->setEid(NULL);
+			$this->setCreatedDate(NULL);
+			$this->setModifiedDate(NULL);
+			$this->setStatus(0);
+			$this->setType(NULL);
+			$this->setUid(0);
+		}
 	}
 
 	/**
 	 * Set the eid for this Entity
 	 * @param int $eid the entity id 
 	 */
-	public function setEid(int $eid)
+	public function setEid($eid)
 	{
-		$this->eid = $eid;
+		$this->setField('eid', $eid);
 	}
 
 	/**
 	 * Set the createdDate for this Entity
 	 * @param DateTime $createdDate the date this entity was created
 	 */
-	public function setCreatedDate(DateTime $createdDate)
+	public function setCreatedDate($createdDate)
 	{
-		$this->createdDate = $createdDate;
+		$this->setField('created_date', $createdDate);
 	}
 
 	/**
 	 * Set the modifiedDate for this Entity
 	 * @param DateTime $modifiedDate the date this entity was last modified
 	 */
-	public function setModifiedDate(DateTime $modifiedDate)
+	public function setModifiedDate($modifiedDate)
 	{
-		$this->modifiedDate = $modifiedDate;
+		$this->setField('modified_date', $modifiedDate);
 	}
 
 	/**
 	 * Set the uid for this Entity
 	 * @param int $uid the uid of the user who created this entity
 	 */
-	public function setUid(int $uid)
+	public function setUid($uid)
 	{
-		$this->uid = $uid;
+		$this->setField('uid', $uid);
 	}
 
 	/**
 	 * Set the type for this Entity
 	 * @param string $type the type of this entity
 	 */
-	public function setType(string $type)
+	public function setType($type)
 	{
-		$this->type = $type;
+		$this->setField('type', $type);
 	}
 
 	/**
 	 * Set the status for this Entity
 	 * @param int $status the status of this entity
 	 */
-	public function setStatus(int $status)
+	public function setStatus($status)
 	{
-		$this->status = $status;
+		$this->setField('status', $status);
 	}
 
 	/**
@@ -85,7 +103,7 @@ class Entity
 	 */
 	public function getEid()
 	{
-		return $this->eid;
+		return $this->getField('eid');
 	}
 
 	/**
@@ -94,7 +112,7 @@ class Entity
 	 */
 	public function getCreatedDate()
 	{
-		return $this->createdDate;
+		return $this->getField('createdDate');
 	}
 
 	/**
@@ -103,7 +121,7 @@ class Entity
 	 */
 	public function getModifiedDate()
 	{
-		return $this->modifiedDate;
+		return $this->getField('modifiedDate');
 	}
 
 	/**
@@ -112,7 +130,7 @@ class Entity
 	 */
 	public function getUid()
 	{
-		return $this->uid;
+		return $this->getField('uid');
 	}
 
 	/**
@@ -121,7 +139,7 @@ class Entity
 	 */
 	public function getType()
 	{
-		return $this->type;
+		return $this->getField('type');
 	}
 
 	/**
@@ -130,6 +148,6 @@ class Entity
 	 */
 	public function getStatus()
 	{
-		return $this->status;
+		return $this->getField('status');
 	}
 }
