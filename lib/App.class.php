@@ -35,6 +35,10 @@ class App
 		return self::$instance;
 	}
 	
+	/**
+	 * Returns the urlRoot of this App
+	 * @return string
+	 */
 	public function urlRoot()
 	{
 		if(NLB_URL_ROOT != '')

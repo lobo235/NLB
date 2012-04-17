@@ -31,11 +31,21 @@ class StringUtils {
 		return self::$instance;
 	}
 	
+	/**
+	 * This function takes text from a path component of a URL and makes it pretty
+	 * @param string $str
+	 * @return string
+	 */
 	public function prettyFromUrl($str)
 	{
 		return ucwords(trim(preg_replace('/\s+/', ' ', preg_replace('/[\-_]/', ' ', $str))));
 	}
 	
+	/**
+	 * This function takes pretty text and prepares it for use as a path component in a URL
+	 * @param string $str
+	 * @return string
+	 */
 	public function prettyToUrl($str)
 	{
 		return preg_replace('/[_]|\s+/', '-', preg_replace('/[^A-Za-z0-9_\s\s+]/', '', trim($str)));
