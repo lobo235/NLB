@@ -8,7 +8,7 @@ class StringUtils {
 
 	/**
 	 * The constructor for the StringUtils class
-	 * @return DatabaseService
+	 * @return StringUtils
 	 */
 	private function __construct() { }
 
@@ -19,7 +19,7 @@ class StringUtils {
 
 	/**
 	 * Returns an instance of the StringUtils class
-	 * @return StringUtils 
+	 * @return StringUtils
 	 */
 	public static function getInstance()
 	{
