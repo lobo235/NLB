@@ -11,9 +11,11 @@
  */
 
 class_exists('AssetCombiner') || require(NLB_LIB_ROOT.'AssetCombiner.class.php');
+class_exists('App') || require(NLB_LIB_ROOT.'App.class.php');
 
 function smarty_function_asset_combine(array $params, Smarty_Internal_Template $template)
 {
+	$app = App::getInstance();
 	if(!DEBUG)
 	{
 		$combine = new AssetCombiner();
@@ -25,8 +27,8 @@ function smarty_function_asset_combine(array $params, Smarty_Internal_Template $
 		$combine->setMinify(TRUE);
 		$combine->combine();
 
-		$output = '<link rel="stylesheet" href="/'.str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedCSSFile()).'" />';
-		$output .= "\n\t\t".'<script type="text/javascript" src="/'.str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedJSFile()).'"></script>'."\n";
+		$output = '<link rel="stylesheet" href="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedCSSFile()).'" />';
+		$output .= "\n\t\t".'<script type="text/javascript" src="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedJSFile()).'"></script>'."\n";
 		return $output;
 	}
 	else
@@ -38,11 +40,11 @@ function smarty_function_asset_combine(array $params, Smarty_Internal_Template $
 			$ext = pathinfo($file, PATHINFO_EXTENSION);
 			if($ext == 'css')
 			{
-				$cssoutput .= '<link rel="stylesheet" href="/'.$file.'" />'."\n";
+				$cssoutput .= '<link rel="stylesheet" href="'.$app->urlRoot().$file.'" />'."\n";
 			}
 			elseif($ext == 'js')
 			{
-				$jsoutput .= '<script type="text/javascript" src="/'.$file.'"></script>'."\n";
+				$jsoutput .= '<script type="text/javascript" src="'.$app->urlRoot().$file.'"></script>'."\n";
 			}
 		}
 		return $cssoutput.$jsoutput;

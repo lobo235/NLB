@@ -28,6 +28,7 @@ class_exists('UIService') || require(NLB_LIB_ROOT.'UIService.class.php');
 class_exists('User') || require(NLB_LIB_ROOT.'User.class.php');
 class_exists('LogService') || require(NLB_LIB_ROOT.'LogService.class.php');
 class_exists('StringUtils') || require(NLB_LIB_ROOT.'StringUtils.class.php');
+class_exists('App') || require(NLB_LIB_ROOT.'App.class.php');
 
 // get an instance of the DatabaseService to communicate/use the database
 $DB = DatabaseService::getInstance();
@@ -39,3 +40,4 @@ $UI = UIService::getInstance();
 $Log = LogService::getInstance();
 
 $su = StringUtils::getInstance();
+$app = App::getInstance();

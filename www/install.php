@@ -21,6 +21,9 @@ if($_POST['do'] == 'Install')
 
 	// Load classes that will be needed during install
 	class_exists('DatabaseService') || require(NLB_LIB_ROOT.'DatabaseService.class.php');
+	class_exists('App') || require(NLB_LIB_ROOT.'App.class.php');
+	
+	$app = App::getInstance();
 
 	// get an instance of the DatabaseService to communicate/use the database
 	$DB = DatabaseService::getInstance();
@@ -118,6 +121,8 @@ if($_POST['do'] == 'Install')
 	$PageTimer->stop();
 	$mainGenTime = $PageTimer->getGenTime();
 	echo "Install completed in ".$mainGenTime." seconds...<br />\n";
+	
+	echo '<a href="'.$app->urlRoot().'">Visit the home page</a><br />'."\n";
 }
 else
 {
@@ -129,7 +134,7 @@ else
 	<body>
 		<h1>NLB Install</h1>
 		<p>Use the form below to create an admin user that you can use to administer the site</p>
-		<form method="post" action="/install.php">
+		<form method="post" action="install.php">
 			<label for="firstname">First Name:<br />
 				<input type="text" name="firstname" id="firstname" />
 			</label><br />
