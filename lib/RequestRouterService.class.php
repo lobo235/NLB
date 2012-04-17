@@ -103,13 +103,31 @@ class RequestRouterService {
 		{
 			$routeParts = explode('/', $key);
 			$routeMatches = TRUE;
-			/*foreach($routeParts as $routeIndex => $routePart)
-			{
-				$routeMatches = $routeMatches && ($pathParts[$routeIndex] == $routePart || strpos($routePart, '%') === 0);
-			}*/
 			foreach($pathParts as $pathIndex => $pathPart)
 			{
-				$routeMatches = $routeMatches && isset($routeParts[$pathIndex]) && ($routeParts[$pathIndex] == $pathPart || strpos($routeParts[$pathIndex], '%') === 0);
+				if(isset($routeParts[$pathIndex]) && strpos($routeParts[$pathIndex], '%') !== FALSE)
+				{
+					/*$wildcards = array();
+					preg_match_all('/%[a-zA-Z_]+/', $routeParts[$pathIndex], $wildcards); 
+					$wildcards = $wildcards[0];
+					$newRegex = $routeParts[$pathIndex];
+					foreach($wildcards as $wildcard)
+					{
+						$newRegex = str_replace($wildcard, '(.+)', $newRegex);
+					}*/
+
+					$regex = '/^'.preg_replace('/%[a-zA-Z_]+/', '.+', $routeParts[$pathIndex]).'$/';
+					$routeMatches = $routeMatches && preg_match($regex, $pathPart) == 1;
+				}
+				else
+				{
+					$routeMatches = $routeMatches && isset($routeParts[$pathIndex]) && $routeParts[$pathIndex] == $pathPart;
+				}
+				
+				if(!$routeMatches)
+				{
+					break;
+				}
 			}
 			
 			if($routeMatches)
@@ -137,12 +155,29 @@ class RequestRouterService {
 		
 		foreach($routeParts as $key => $routePart)
 		{
-			if(strpos($routePart, '%') === 0)
+			if(strpos($routePart, '%') !== FALSE)
 			{
-				$queryString = str_replace($routePart, $requestParts[$key], $queryString);
+				$replacements = array();
+				$regex = '/^'.preg_replace('/%[a-zA-Z_]+/', '(.+)', $routePart).'$/';
+				preg_match_all($regex, $requestParts[$key], $replacements, PREG_SET_ORDER);
+				//$queryString = str_replace($routePart, $requestParts[$key], $queryString);
+				$replacements = $replacements[0];
+				array_shift($replacements);
+				
+				$wildcards = array();
+				preg_match_all('/%[a-zA-Z_]+/', $routePart, $wildcards); 
+				$wildcards = $wildcards[0];
+				
+				foreach($wildcards as $wildcardIndex => $wildcard)
+				{
+					$queryString = preg_replace('/'.$wildcard.'/', $replacements[$wildcardIndex], $queryString, 1);
+				}
 			}
 		}
 		
-		parse_str($queryString, $_GET);
+		$newVars = array();
+		parse_str($queryString, $newVars);
+		$_GET = array_merge($_GET, $newVars);
+		$_REQUEST = array_merge($_REQUEST, $newVars);
 	}
 }
