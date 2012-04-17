@@ -10,22 +10,34 @@
 		<h2>Routes</h2>
 		<p>In NLB, routes are used to create a mapping between a particular path and a controller that should handle that path. Access
 		restrictions can also be added to a route preventing certain users from accessing certain areas of your application. NLB has a list
-		of it's own routes in the config/nlb_routes.inc.php file. To define your own routes you must use the config/routes.inc.php file.
-		Below is a simple routes.inc.php file defining some routes that would be used for a simple blog:</p>
-		<pre>
-			<code>
-&lt;?php
+		of it's own routes in the <code>config/nlb_routes.inc.php</code> file. To define your own routes you must use the <code>config/routes.inc.php</code> file.
+		Below is a simple <code>routes.inc.php</code> file defining a route that would be used for a simple blog post listing:</p>
+		<pre><code>&lt;?php
 $routes = array(
 	'blog' => array(
 		'handler' => 'custom/blog.php?action=list',
 		'access' => array('anonymous user'),
 	),
-	'blog/%post_id' => array(
+);</code></pre>
+		<p>Given that defined route, NLB will route requests to <code>/blog</code> to the <code>custom/blog.php</code> controller and will
+		set <code>$_GET['action']</code> to <code>'list'</code>. It's important to note that any query string parameters in your handler
+		definition will be automatically merged with the <code>$_GET</code> array, overwriting any existing keys in the <code>$_GET</code>
+		array. Also, in keeping with PHP's standards, the query string parameters in your handler definition will also be automatically
+		merged with the <code>$_REQUEST</code> array for consistency.</p>
+		<h3>Dynamic Routes</h3>
+		<p>When defining a route, it is possible to use a wildcard in your path definition. Using a wildcard allows you to map multiple
+		similar paths to a single controller. The value of the wildcard can then be passed to the controller. <strong>Wildcards can be alphanumeric
+		and may also contain underscores</strong>. There can be multiple wildcards in a path definition. Take a look at this route
+		definition which would be used for viewing specific blog posts:</p>
+		<pre><code>&lt;?php
+$routes = array(
+	'blog/view-%post_id' => array(
 		'handler' => 'custom/blog.php?action=viewpost&amp;id=%post_id',
 		'access' => array('anonymous user'),
 	),
-);
-			</code>
-		</pre>
+);</code></pre>
+		<p>Using this defined route, NLB will route requests to paths like <code>/blog/view-3</code> and <code>/blog/view-7</code> to the
+		<code>custom/blog.php</code> controller and will set <code>$_GET['action']</code> to <code>'viewpost'</code> and <code>$_GET['id']</code>
+		to <code>'3'</code> or <code>'7'</code> respectively.
 	</body>
 </html>
