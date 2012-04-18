@@ -98,4 +98,14 @@ class UIService
 			return implode("\n", $output);
 		}
 	}
+	
+	public function assignVar($name, $var)
+	{
+		$this->smarty->assign($name, $var);
+	}
+	
+	public function assignVarByRef($name, &$var)
+	{
+		$this->smarty->assignByRef($name, $var);
+	}
 }

@@ -33,6 +33,9 @@ class_exists('App') || require(NLB_LIB_ROOT.'App.class.php');
 // get an instance of the DatabaseService to communicate/use the database
 $DB = DatabaseService::getInstance();
 
+// get an instance of the App class to be able to get info about this App
+$app = App::getInstance();
+
 // get an instance of the UIService to be able to render UI components
 $UI = UIService::getInstance();
 
@@ -40,4 +43,3 @@ $UI = UIService::getInstance();
 $Log = LogService::getInstance();
 
 $su = StringUtils::getInstance();
-$app = App::getInstance();
