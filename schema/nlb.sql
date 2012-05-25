@@ -26,12 +26,12 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 /* user_rights table */
 CREATE TABLE IF NOT EXISTS `user_rights` (
-  `rid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `urid` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(11) unsigned NOT NULL,
-  `right` varchar(64) NOT NULL,
-  PRIMARY KEY (`rid`),
-  KEY `uid` (`uid`,`right`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `rid` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`urid`),
+  UNIQUE KEY `uid_rid_unique` (`uid`,`rid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 /* page_stats table */
 CREATE TABLE IF NOT EXISTS `page_stats` (
@@ -44,4 +44,12 @@ CREATE TABLE IF NOT EXISTS `page_stats` (
   `datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`ptid`),
   KEY `path` (`path`(255),`datetime`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+/* rights table */
+CREATE TABLE IF NOT EXISTS `rights` (
+  `rid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `right_name` varchar(32) NOT NULL,
+  PRIMARY KEY (`rid`),
+  UNIQUE KEY `right_name_unique` (`right_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

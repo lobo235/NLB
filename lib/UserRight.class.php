@@ -6,53 +6,79 @@ class_exists('DatabaseObject') || require(NLB_LIB_ROOT.'DatabaseObject.class.php
  * The UserRight class is a domain level object that holds all the user rights for a particular User
  */
 class UserRight extends DatabaseObject {
-	public function __construct($rid = NULL) {
+	public function __construct($urid = NULL) {
 		parent::__construct();
-		$this->primaryIdColumn = 'rid';
-		$table = new DatabaseTable('user_rights', 'rid');
-		$table->addColumn(new DatabaseColumn('rid', 'hidden,primary,id'));
+		$this->primaryIdColumn = 'urid';
+		$table = new DatabaseTable('user_rights', 'urid');
+		$table->addColumn(new DatabaseColumn('urid', 'hidden,primary,id'));
 		$table->addColumn(new DatabaseColumn('uid', 'hidden,id'));
-		$table->addColumn(new DatabaseColumn('right', 'hidden,string', 64));
+		$table->addColumn(new DatabaseColumn('rid', 'hidden,id'));
 		$this->addTable($table);
 		
-		if($rid !== NULL)
+		if($urid !== NULL)
 		{
-			$this->setField('rid', $rid);
+			$this->setField('urid', $urid);
 			$this->lookup();
 		}
 		else
 		{
-			$this->setRid(NULL);
-			$this->setRight(NULL);
+			$this->setUrid(NULL);
 			$this->setUid(NULL);
+			$this->setRid(NULL);
 		}
 	}
 	
-	public function setRid($rid)
+	/**
+	 * This method sets the urid for this UserRight object
+	 * @param int $urid The urid for this UserRight object
+	 */
+	public function setUrid($urid)
 	{
-		$this->setField('rid', $rid);
+		$this->setField('urid', $urid);
 	}
 	
+	/**
+	 * This method sets the uid for this UserRight object
+	 * @param int $uid The uid for this UserRight object
+	 */
 	public function setUid($uid)
 	{
 		$this->setField('uid', $uid);
 	}
 	
 	/**
-	 * This method sets the right for this UserRight object
-	 * @param string $right The right for this this UserRight object
+	 * This method sets the rid for this UserRight object
+	 * @param int $rid The rid for this UserRight object
 	 */
-	public function setRight($right)
+	public function setRid($rid)
 	{
-		$this->setField('right', $right);
+		$this->setField('rid', $rid);
 	}
 	
 	/**
-	 * This method returns the right for this UserRight object
-	 * @return string the right contained in this UserRight object
+	 * This method gets the urid for this UserRight object
+	 * @return int the urid of this UserRight
 	 */
-	public function getRight()
+	public function getUrid()
 	{
-		return $this->getField('right');
+		return $this->getField('urid');
+	}
+	
+	/**
+	 * This method gets the uid for this UserRight object
+	 * @return int the uid of this UserRight
+	 */
+	public function getUid()
+	{
+		return $this->getField('uid');
+	}
+	
+	/**
+	 * This method returns the rid for this UserRight object
+	 * @return int the rid contained in this UserRight object
+	 */
+	public function getRid()
+	{
+		return $this->getField('rid');
 	}
 }

@@ -28,6 +28,8 @@ $path = isset($_GET['q']) ? $_GET['q'] : 'index';
 
 $pageVars = array();
 
+$pageVars['app'] = $app;
+
 $handler = $RequestRouter->routeRequest($path, $user);
 
 include(NLB_SITE_ROOT.'handlers/'.$handler);

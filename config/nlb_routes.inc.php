@@ -21,6 +21,10 @@ $nlb_routes = array(
 		'handler' => 'nlb/login.php',
 		'access' => array('anonymous user'),
 	),
+	'logout' => array(
+		'handler' => 'nlb/logout.php',
+		'access' => array('authenticated user'),
+	),
 	'entity/%action/%eid' => array(
 		'handler' => 'nlb/entity.php?action=%action&eid=%eid',
 		'access' => array('anonymous user'),

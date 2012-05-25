@@ -2,6 +2,7 @@
 
 class_exists('DatabaseService') || require(NLB_LIB_ROOT.'DatabaseService.class.php');
 class_exists('User') || require(NLB_LIB_ROOT.'User.class.php');
+class_exists('Right') || require(NLB_LIB_ROOT.'Right.class.php');
 class_exists('UserRight') || require(NLB_LIB_ROOT.'UserRight.class.php');
 
 /**
@@ -48,16 +49,13 @@ class UserService {
 	
 	public function getUser()
 	{
-		// DEBUG
-		//return new User(2);
-		
 		$anonymousUser = FALSE;
 		
 		// non-invasive session checking. Will not set a session cookie for users who don't already have one.
-		$session_cookie_name = session_name( );
+		$session_cookie_name = session_name();
 		if(isset($_COOKIE[$session_cookie_name]) && $_COOKIE[$session_cookie_name] != '')
 		{
-			session_start( );
+			session_start();
 			if(isset($_SESSION['nlb_user_uid']) && is_numeric($_SESSION['nlb_user_uid']))
 			{
 				return new User($_SESSION['nlb_user_uid']);
@@ -67,7 +65,8 @@ class UserService {
 				$anonymousUser = TRUE;
 			}
 		}
-		else {
+		else
+		{
 			$anonymousUser = TRUE;
 		}
 		
@@ -78,16 +77,25 @@ class UserService {
 			$user->setFirstName('Anonymous');
 			$user->setLastName('User');
 			$user->setUsername('anonymous');
-			$userRight = new UserRight();
-			$userRight->setRight('anonymous user');
+			$userRight = new UserRight(1);
 			$user->setUserRights(array($userRight));
 			return $user;
 		}
 	}
 	
-	public function userHasRight(User $user, $right)
+	/**
+	 * Checks to see if the given user has the given right
+	 * @param User $user
+	 * @param type $right_name
+	 * @return boolean TRUE if the user has the right, otherwise, FALSE
+	 */
+	public function userHasRight(User $user, $right_name)
 	{
-		if($right == 'anonymous user')
+		if($right_name == 'anonymous user')
+		{
+			return TRUE;
+		}
+		elseif($right_name == 'authenticated user' && $user->getUid() != 0)
 		{
 			return TRUE;
 		}
@@ -99,7 +107,8 @@ class UserService {
 		$hasRight = FALSE;
 		foreach($user->getUserRights() as $rightObj)
 		{
-			if($rightObj->getRight() == $right)
+			$right = new Right($rightObj->getRid());
+			if($right_name == $right->getRightName())
 			{
 				$hasRight = TRUE;
 				break;
@@ -108,26 +117,39 @@ class UserService {
 		return $hasRight;
 	}
 	
+	/**
+	 * Loads the UserRights for the given user
+	 * @param User $user the user to load rights for
+	 * @return void
+	 */
 	private function loadUserRights(User $user)
 	{
+		$rights = array();
 		$query = "SELECT * FROM `user_rights` WHERE `uid` = ?";
 		$res = $this->DB->getSelectArray($query, $user->getUid());
-		$rights = array();
 		if(is_array($res) && count($res) > 0)
 		{
 			foreach($res as $row)
 			{
 				$right = new UserRight();
-				$right->setRid($row['rid']);
+				$right->setUrid($row['urid']);
 				$right->setUid($row['uid']);
-				$right->setRight($row['right']);
+				$right->setRid($row['rid']);
 				
 				$rights[] = $right;
 			}
 		}
+		
 		$user->setUserRights($rights);
 	}
 	
+	/**
+	 * Given a username and password, this method will try to log a user into the system by starting their session after validating that the
+	 * user exists in the DB and the password is correct
+	 * @param string $username
+	 * @param string $password
+	 * @return boolean
+	 */
 	public function loginUser($username, $password)
 	{
 		$query = "SELECT `uid` FROM `users` WHERE (`username` = ? OR `email` = ?) AND `password` = ?";
@@ -146,8 +168,19 @@ class UserService {
 	}
 	
 	/**
+	 * Destroys the session for the current user which effectively logs them out of the system
+	 * @return void
+	 */
+	public function logoutUser()
+	{
+		unset($_SESSION['nlb_user_uid']);
+		session_destroy();
+	}
+	
+	/**
 	 * Hashes the password for the given User. This is generally called right before saving a new User object
 	 * @param User $user
+	 * @return void
 	 */
 	public function hashUserPassword(User $user)
 	{

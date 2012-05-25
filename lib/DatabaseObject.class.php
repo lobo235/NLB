@@ -29,12 +29,13 @@ class DatabaseObject
 		{
 			$q = "SELECT * FROM `".$table->getTableName()."` WHERE `".$table->getPrimaryKeyColumn()."` = ?";
 			$res = $this->DB->getSelectArray($q, $this->fields[$table->getPrimaryKeyColumn()]);
-			if(count($res) > 0)
+			if($res && count($res) > 0)
 			{
 				if(isset($res[0][$this->primaryIdColumn]))
 				{
 					unset($res[0][$this->primaryIdColumn]);
 				}
+
 				$this->fields = array_merge($this->fields, $res[0]);
 			}
 		}
