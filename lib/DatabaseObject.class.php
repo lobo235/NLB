@@ -168,7 +168,10 @@ class DatabaseObject
 
 	public function getField($name)
 	{
-		return $this->fields[$name];
+		if(isset($this->fields[$name]))
+			return $this->fields[$name];
+		else
+			return NULL;
 	}
 
 	public function setField($name, $value)
