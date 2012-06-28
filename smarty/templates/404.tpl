@@ -1,1 +1,1 @@
-<p>The page or resource you requested was not found.</p>
+<p>The requested page or resource was not found.</p>
