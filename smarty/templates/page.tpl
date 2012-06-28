@@ -4,6 +4,7 @@
 		{if $assets}{asset_combine files=$assets}{/if}
 	</head>
 	<body>
+		<a class="site-logo" href="{$app->urlRoot()}"><h2>{$smarty.const.SITE_NAME|escape}</h2></a>
 		<div id="container">
 			<div id="left">
 				<div id="main-content">

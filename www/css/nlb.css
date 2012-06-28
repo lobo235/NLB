@@ -3,6 +3,18 @@ body {
 	background-color: #CCCCCC;
 }
 
+a.site-logo {
+	width: 960px;
+	margin: 10 auto;
+	display: block;
+	color: #000;
+	text-decoration: none;
+}
+
+a.site-logo:hover {
+	text-decoration: underline;
+}
+
 .center {
 	text-align: center;
 }
