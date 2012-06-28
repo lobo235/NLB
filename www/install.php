@@ -97,6 +97,7 @@ if($_POST['do'] == 'Install')
 	echo "Creating admin user...<br >\n";
 	
 	class_exists('UserService') || require(NLB_LIB_ROOT.'UserService.class.php');
+	class_exists('RightService') || require(NLB_LIB_ROOT.'RightService.class.php');
 	
 	$userService = UserService::getInstance();
 	$user = $userService->newUser();
@@ -105,8 +106,9 @@ if($_POST['do'] == 'Install')
 	$user->setEmail($_POST['email']);
 	$user->setUsername($_POST['username']);
 	$user->setPassword($_POST['password']);
-	$userRight = new UserRight();
-	$userRight->setRight('admin user');
+	$rightService = RightService::getInstance();
+	$right = $rightService->getRightByName("admin user");
+	$userRight->setRid($right->getRid());
 	$user->setUserRights(array($userRight));
 	$userService->hashUserPassword($user);
 	try
