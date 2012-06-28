@@ -187,9 +187,12 @@ class User extends Entity {
 	public function lookup()
 	{
 		parent::lookup();
-		$userRightService = UserRightService::getInstance();
-		$userRights = $userRightService->getUserRightsForUid($this->getUid());
-		$this->setUserRights($userRights);
+		if(!$this->userRightsLoaded)
+		{
+			$userRightService = UserRightService::getInstance();
+			$userRights = $userRightService->getUserRightsForUid($this->getUid());
+			$this->setUserRights($userRights);
+		}
 	}
 	
 	/**
