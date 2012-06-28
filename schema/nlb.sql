@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `rights` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 /* rights table default contents */
-INSERT INTO `rights` (`rid`, `right_name`) VALUES
+REPLACE INTO `rights` (`rid`, `right_name`) VALUES
 (1, 'anonymous user'),
 (2, 'authenticated user'),
 (3, 'admin user');
