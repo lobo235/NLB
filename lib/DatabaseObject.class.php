@@ -41,6 +41,10 @@ class DatabaseObject
 		}
 	}
 
+	/**
+	 * This method saves the DatabaseObject to the Database
+	 * @throws DatabaseObjectException if there was a problem saving this DatabaseObject to the Database
+	 */
 	public function save()
 	{
 		$insertId = FALSE;
@@ -147,6 +151,49 @@ class DatabaseObject
 			}
 		}
 		$this->lookup();
+	}
+	
+	/**
+	 * Deletes the current DatabaseObject from the Database
+	 * @throws DatabaseObjectException 
+	 */
+	public function delete()
+	{
+		if($this->fields[$this->primaryIdColumn] != NULL) // We can only delete an object that has a primaryId set
+		{
+			if(count($this->tables) > 1)
+			{
+				$this->DB->beginTransaction();
+			}
+			
+			$success = TRUE;
+			
+			foreach($this->tables as $table)
+			{
+				$q = "DELETE FROM `".$table->getTableName()."` WHERE `".$table->getPrimaryKeyColumn()."` = ?";
+				try
+				{
+					$this->DB->execUpdate($q, $this->fields[$table->getPrimaryKeyColumn()]);
+				}
+				catch(DatabaseServiceException $e)
+				{
+					$success = FALSE;
+					throw new DatabaseObjectException('Unspecified error', DatabaseObjectException::UNSPECIFIED_ERROR);
+				}
+			}
+			
+			if(count($this->tables) > 1)
+			{
+				if($success)
+				{
+					$this->DB->commit();
+				}
+				else
+				{
+					$this->DB->rollBack();
+				}
+			}
+		}
 	}
 
 	public function setPrimaryId($id)
