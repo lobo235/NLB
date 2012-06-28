@@ -2,5 +2,5 @@
 
 header('HTTP/1.0 403 Forbidden');
 
-?>
-Access Denied
+$pageVars['title'] = 'Access Denied';
+$pageVars['content'] = $UI->renderTemplate('403.tpl', null, 3);
