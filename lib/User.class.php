@@ -3,6 +3,7 @@
 class_exists('DatabaseTable') || require(NLB_LIB_ROOT.'DatabaseTable.class.php');
 class_exists('DatabaseColumn') || require(NLB_LIB_ROOT.'DatabaseColumn.class.php');
 class_exists('Entity') || require(NLB_LIB_ROOT.'Entity.class.php');
+class_exists('UserRightService') || require(NLB_LIB_ROOT.'UserRightService.class.php');
 
 /**
  * The User class represents a user of the system
@@ -100,7 +101,7 @@ class User extends Entity {
 	
 	/**
 	 * Sets the user rights for this User
-	 * @param array $userRights an array of UserRight objects for this User
+	 * @param UserRight[] $userRights an array of UserRight objects for this User
 	 */
 	public function setUserRights(array $userRights)
 	{
@@ -164,7 +165,7 @@ class User extends Entity {
 	
 	/**
 	 * Returns the user rights for this User
-	 * @return array the array of UserRight objects for this User
+	 * @return UserRight[] the array of UserRight objects for this User
 	 */
 	public function getUserRights()
 	{
@@ -178,5 +179,50 @@ class User extends Entity {
 	public function userRightsLoaded()
 	{
 		return $this->userRightsLoaded;
+	}
+	
+	/**
+	 * This method overrides the DatabaseObject::lookup() method to allow the user's rights to be loaded
+	 */
+	public function lookup()
+	{
+		parent::lookup();
+		$userRightService = UserRightService::getInstance();
+		$userRights = $userRightService->getUserRightsForUid($this->getUid());
+		$this->setUserRights($userRights);
+	}
+	
+	/**
+	 * This method overrides the DatabaseObject::save() method to allow the user's rights to be saved
+	 */
+	public function save()
+	{
+		parent::save();
+		foreach($this->userRights as $userRight)
+		{
+			if($userRight->getUrid() == NULL)
+			{
+				if($userRight->getUid() == NULL)
+				{
+					$userRight->setUid($this->getUid());
+				}
+				$userRight->save();
+			}
+		}
+	}
+	
+	/**
+	 * This method overrides the DatabaseObject::delete() method to allow the user's rights to be deleted
+	 */
+	public function delete()
+	{
+		parent::delete();
+		foreach($this->userRights as $userRight)
+		{
+			if($userRight->getUrid() != NULL)
+			{
+				$userRight->delete();
+			}
+		}
 	}
 }
