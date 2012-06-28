@@ -108,6 +108,7 @@ if($_POST['do'] == 'Install')
 	$user->setPassword($_POST['password']);
 	$rightService = RightService::getInstance();
 	$right = $rightService->getRightByName("admin user");
+	$userRight = new UserRight();
 	$userRight->setRid($right->getRid());
 	$user->setUserRights(array($userRight));
 	$userService->hashUserPassword($user);
