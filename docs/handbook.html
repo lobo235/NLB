@@ -64,6 +64,11 @@ $routes = array(
 );</code></pre>
 		<p>Using this defined route, NLB will route requests to paths like <code>/blog/view-3</code> and <code>/blog/view-7</code> to the
 			<code>custom/blog.php</code> controller and will set <code>$_GET['action']</code> to <code>'viewpost'</code> and <code>$_GET['id']</code>
-			to <code>'3'</code> or <code>'7'</code> respectively.
+			to <code>'3'</code> or <code>'7'</code> respectively.</p>
+		<h2>Templates</h2>
+		<p>When rendering templates, NLB has been configured to first search for templates in the <code>smarty/templates</code> directory.
+			If the template does not exist there, the <code>smarty/nlb_templates</code> directory is searched. With this configuration, you
+			can override any default template that comes with NLB by providing your own version of the template. Just make sure the file has
+			the exact same name as the NLB default template.</p>
 	</body>
 </html>

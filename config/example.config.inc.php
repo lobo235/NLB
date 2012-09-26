@@ -22,7 +22,7 @@ define('NLB_MYSQL_DB', 'nlb');
 
 // SMARTY
 define('NLB_SMARTY_CLASS_LOC', NLB_LIB_ROOT.'Smarty-3.1.8/libs/Smarty.class.php');
-define('NLB_SMARTY_DIR', NLB_SITE_ROOT.'smarty/'); // The directory that holds the smarty configs, templates, templates_c, plugins, and cache directories
+define('NLB_SMARTY_DIR', NLB_SITE_ROOT.'smarty/'); // The directory that holds the smarty cache, configs, nlb_templates, plugins, templates, and templates_c directories
 
 // TESTING & DEBUGGING
 define('SHOW_ERRORS', FALSE); // makes sure php errors are show on the screen

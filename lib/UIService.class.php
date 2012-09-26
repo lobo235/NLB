@@ -20,6 +20,7 @@ class UIService
 		$this->smarty = new Smarty();
 		$this->smarty->setConfigDir(NLB_SMARTY_DIR.'configs');
 		$this->smarty->setTemplateDir(NLB_SMARTY_DIR.'templates');
+		$this->smarty->addTemplateDir(NLB_SMARTY_DIR.'nlb_templates', 'nlb');
 		$this->smarty->setCompileDir(NLB_SMARTY_DIR.'templates_c');
 		$this->smarty->setCacheDir(NLB_SMARTY_DIR.'cache');
 		$this->smarty->addPluginsDir(NLB_SMARTY_DIR.'plugins');
