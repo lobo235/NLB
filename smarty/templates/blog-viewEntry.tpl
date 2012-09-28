@@ -1,2 +1,2 @@
-<h1>{$node->title|escape}</h1>
-{$node->body}
+<span class="author">by <em>{$user->getFirstName()} {$user->getLastName()}</em></span>
+{$node->getBody()}

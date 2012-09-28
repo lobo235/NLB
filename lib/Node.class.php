@@ -30,4 +30,58 @@ class Node extends Entity {
 			$this->lookup();
 		}
 	}
+
+	/**
+	 * Set the nid for this Node
+	 * @param int $nid the node nid
+	 */
+	public function setNid($nid)
+	{
+		$this->setField('nid', $nid);
+	}
+
+	/**
+	 * Set the title for this Node
+	 * @param string $title the title of this node
+	 */
+	public function setTitle($title)
+	{
+		$this->setField('title', $title);
+	}
+
+	/**
+	 * Set the body for this Node
+	 * @param string $body the body of this node
+	 */
+	public function setBody($body)
+	{
+		$this->setField('body', $body);
+	}
+
+	/**
+	 * Returns the nid of this Node
+	 * @return int the nid for this Node
+	 */
+	public function getNid()
+	{
+		return $this->getField('nid');
+	}
+
+	/**
+	 * Returns the title of this Node
+	 * @return string the title of this Node
+	 */
+	public function getTitle()
+	{
+		return $this->getField('title');
+	}
+
+	/**
+	 * Returns the body of this Node
+	 * @return string the body of this Node
+	 */
+	public function getBody()
+	{
+		return $this->getField('body');
+	}
 }
