@@ -15,7 +15,7 @@
 			<textarea name="{$column->getName()}"{if $column->getMaxLength() > 0} maxlength="{$column->getMaxLength()}"{/if}{if $extras.rows} rows="{$extras.rows}"{/if}{if $extras.cols} cols="{$extras.cols}"{/if}>{if $entity->getField($column->getName()) != NULL}{$entity->getField($column->getName())|escape}{/if}</textarea>
 {elseif $column->isType('radio')}
 {foreach from=$extras.radio item=radio_opt_name key=radio_opt_id}
-			<input id="{$column->getName()}{$radio_opt_id}" type="radio" name="{$column->getName()}" value="{$radio_opt_id}"{if $entity->getField($column->getName()) == $radio_opt_id} selected="selected"{/if} /><label for="{$column->getName()}{$radio_opt_id}"> {$radio_opt_name|escape}</label><br />
+			<input id="{$column->getName()}{$radio_opt_id}" type="radio" name="{$column->getName()}" value="{$radio_opt_id}"{if $entity->getField($column->getName()) == $radio_opt_id} checked="checked"{/if} /><label for="{$column->getName()}{$radio_opt_id}"> {$radio_opt_name|escape}</label><br />
 {/foreach}
 {/if}
 		<td>

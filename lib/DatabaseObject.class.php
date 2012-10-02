@@ -21,14 +21,14 @@ class DatabaseObject
 
 	public function lookup()
 	{
-		if($this->fields[$this->primaryIdColumn] == NULL)
+		if($this->getField($this->primaryIdColumn) == NULL)
 		{
 			$this->Log->error('DatabaseObject->lookup()', 'Method was called when primaryId not set');
 		}
 		foreach(array_reverse($this->tables) as $table)
 		{
 			$q = "SELECT * FROM `".$table->getTableName()."` WHERE `".$table->getPrimaryKeyColumn()."` = ?";
-			$res = $this->DB->getSelectArray($q, $this->fields[$table->getPrimaryKeyColumn()]);
+			$res = $this->DB->getSelectArray($q, $this->getField($table->getPrimaryKeyColumn()));
 			if($res && count($res) > 0)
 			{
 				if(isset($res[0][$this->primaryIdColumn]))
@@ -52,7 +52,7 @@ class DatabaseObject
 
 		$currentDateTime = date('Y-m-d H:i:s');
 
-		if($this->fields[$this->primaryIdColumn] == NULL) // We will insert new data into the DB
+		if($this->getField($this->primaryIdColumn) == NULL) // We will insert new data into the DB
 		{
 			$success = TRUE;
 			if(count($this->tables) > 1)
@@ -74,7 +74,7 @@ class DatabaseObject
 					}
 					else
 					{
-						$columnValues[] = $this->fields[$columnName];
+						$columnValues[] = $this->getField($columnName);
 					}
 				}
 
@@ -104,7 +104,7 @@ class DatabaseObject
 
 				$lastPrimaryKeyColumn = $table->getPrimaryKeyColumn();
 
-				$this->fields[$table->getPrimaryKeyColumn()] = $insertId;
+				$this->setField($table->getPrimaryKeyColumn(), $insertId);
 			}
 			
 			if(count($this->tables) > 1)
@@ -138,13 +138,13 @@ class DatabaseObject
 						}
 						else
 						{
-							$columnValues[] = $this->fields[$columnName];
+							$columnValues[] = $this->getField($columnName);
 						}
 						$columnUpdateClauses[] = "`$columnName` = ?";
 					}
 				}
 
-				$columnValues[] = $this->fields[$table->getPrimaryKeyColumn()];
+				$columnValues[] = $this->getField($table->getPrimaryKeyColumn());
 
 				$q = "UPDATE `".$table->getTableName()."` SET ".implode(', ', $columnUpdateClauses)." WHERE `".$table->getPrimaryKeyColumn()."` = ?";
 				$this->DB->execUpdate($q, $columnValues);
@@ -159,7 +159,7 @@ class DatabaseObject
 	 */
 	public function delete()
 	{
-		if($this->fields[$this->primaryIdColumn] != NULL) // We can only delete an object that has a primaryId set
+		if($this->getField($this->primaryIdColumn) != NULL) // We can only delete an object that has a primaryId set
 		{
 			if(count($this->tables) > 1)
 			{
@@ -173,7 +173,7 @@ class DatabaseObject
 				$q = "DELETE FROM `".$table->getTableName()."` WHERE `".$table->getPrimaryKeyColumn()."` = ?";
 				try
 				{
-					$this->DB->execUpdate($q, $this->fields[$table->getPrimaryKeyColumn()]);
+					$this->DB->execUpdate($q, $this->getField($table->getPrimaryKeyColumn()));
 				}
 				catch(DatabaseServiceException $e)
 				{
@@ -198,7 +198,7 @@ class DatabaseObject
 
 	public function setPrimaryId($id)
 	{
-		$this->fields[$this->primaryIdColumn] = $id;
+		$this->setField($this->primaryIdColumn, $id);
 		if($id != NULL)
 			$this->lookup();
 	}
@@ -226,7 +226,8 @@ class DatabaseObject
 		$this->fields[$name] = $value;
 	}
 	
-	public function getColumns() {
+	public function getColumns()
+	{
 		$allcolumns = array();
 		foreach($this->tables as $table)
 		{
@@ -237,6 +238,38 @@ class DatabaseObject
 			$allcolumns[$table->getTableName()] = $columns;
 		}
 		return $allcolumns;
+	}
+	
+	public function lookupUsingEid($eid = NULL)
+	{
+		if($eid == NULL)
+		{
+			$this->Log->error('DatabaseObject->lookupUsingEid()', 'Method was called with NULL eid');
+		}
+		else
+		{
+			$this->setField('eid', $eid);
+		}
+		$i = 0;
+		foreach($this->tables as $table)
+		{
+			if($i == 0)
+			{
+				$q = "SELECT * FROM `".$table->getTableName()."` WHERE `".$table->getPrimaryKeyColumn()."` = ?";
+				$res = $this->DB->getSelectArray($q, $this->getField($table->getPrimaryKeyColumn()));
+			}
+			else
+			{
+				$q = "SELECT * FROM `".$table->getTableName()."` WHERE `".$this->tables[$i-1]->getPrimaryKeyColumn()."` = ?";
+				$res = $this->DB->getSelectArray($q, $this->getField($this->tables[$i-1]->getPrimaryKeyColumn()));
+			}
+			
+			if($res && count($res) > 0)
+			{
+				$this->fields = array_merge($this->fields, $res[0]);
+			}
+			$i++;
+		}
 	}
 }
 ?>

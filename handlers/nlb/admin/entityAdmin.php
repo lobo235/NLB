@@ -23,6 +23,22 @@ switch($_GET['action'])
 		break;
 	case 'edit':
 		echo 'editing entity '.$_GET['eid'];
+		$e = new Entity($_GET['eid']);
+		$entity_type = $e->getType();
+		class_exists($entity_type) || require(NLB_LIB_ROOT.$entity_type.'.class.php');
+		$e = new $entity_type();
+		$e->lookupUsingEid($_GET['eid']);
+		$allcolumns = $e->getColumns();
+		$vars['entity'] = $e;
+		$vars['columns'] = array();
+		foreach($allcolumns as $table_name => $columns)
+		{
+			foreach($columns as $column)
+			{
+				$vars['columns'][] = $column;
+			}
+		}
+		$pageVars['content'] = $UI->renderTemplate('admin-addEntity.tpl', $vars);
 		break;
 	case 'delete':
 		echo 'deleting entity '.$_GET['eid'];
@@ -31,7 +47,6 @@ switch($_GET['action'])
 		echo 'updating status of entity '.$_GET['eid'].' to '.$_GET['statusid'];
 		break;
 	case 'save':
-		echo 'saving entity';
 		class_exists($_POST['type']) || require(NLB_LIB_ROOT.$_POST['type'].'.class.php');
 		$e = new $_POST['type'];
 		foreach($_POST as $key => $val)
@@ -41,7 +56,14 @@ switch($_GET['action'])
 				$e->setField($key, $val);
 			}
 		}
-		$e->save();
+		try
+		{
+			$e->save();
+		}
+		catch(DatabaseObjectException $e)
+		{
+			echo $e->getTraceAsString();
+		}
 		break;
 	default:
 		echo 'No action specified... Nothing to do!';
