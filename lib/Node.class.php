@@ -18,8 +18,13 @@ class Node extends Entity {
 		
 		$table = new DatabaseTable('nodes', 'nid');
 		$table->addColumn(new DatabaseColumn('nid', 'hidden,primary,id'));
-		$table->addColumn(new DatabaseColumn('title', 'string', 255));
-		$table->addColumn(new DatabaseColumn('body', 'text'));
+		$table->addColumn(new DatabaseColumn('title', 'string', 255, array(
+			'size' => 40,
+		)));
+		$table->addColumn(new DatabaseColumn('body', 'text', 65536, array(
+			'rows' => 6,
+			'cols' => 80,
+		)));
 		$this->addTable($table);
 		
 		$this->setType('node');

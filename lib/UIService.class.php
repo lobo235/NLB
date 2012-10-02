@@ -56,6 +56,17 @@ class UIService
 	{
 		// clear all assigned variables
 		$this->smarty->clearAllAssign();
+		
+		// Set global vars for the current page
+		if(is_array($GLOBALS['pageVars']))
+		{
+			foreach($GLOBALS['pageVars'] as $key => $var)
+			{
+				$this->smarty->assign($key, $var);
+			}
+		}
+		
+		// Set vars specific to this template
 		if(is_array($vars))
 		{
 			foreach($vars as $key => $var)

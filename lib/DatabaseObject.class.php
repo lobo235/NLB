@@ -225,5 +225,18 @@ class DatabaseObject
 	{
 		$this->fields[$name] = $value;
 	}
+	
+	public function getColumns() {
+		$allcolumns = array();
+		foreach($this->tables as $table)
+		{
+			$columns = array();
+			foreach($table->getColumns() as $column)
+				$columns[] = $column;
+			
+			$allcolumns[$table->getTableName()] = $columns;
+		}
+		return $allcolumns;
+	}
 }
 ?>

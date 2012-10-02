@@ -24,7 +24,12 @@ class Entity extends DatabaseObject
 		$table->addColumn(new DatabaseColumn('modified_date', 'hidden,datetime,modified'));
 		$table->addColumn(new DatabaseColumn('uid', 'hidden,id'));
 		$table->addColumn(new DatabaseColumn('type', 'hidden,string', 32));
-		$table->addColumn(new DatabaseColumn('status', 'hidden,boolean', NULL, 'radio|1:Published|0:Unpublished'));
+		$table->addColumn(new DatabaseColumn('status', 'radio', NULL, array(
+			'radio' => array(
+				1 => 'Published',
+				0 => 'Unpublished',
+			)
+		)));
 		$this->addTable($table);
 		
 		if($eid !== NULL)
