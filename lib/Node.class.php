@@ -27,7 +27,7 @@ class Node extends Entity {
 		)));
 		$this->addTable($table);
 		
-		$this->setType('node');
+		$this->setType('Node');
 		
 		if($nid !== NULL)
 		{

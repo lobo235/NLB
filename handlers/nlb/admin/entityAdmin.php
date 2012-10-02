@@ -8,7 +8,7 @@ switch($_GET['action'])
 	case 'create':
 		class_exists($_GET['entity_type']) || require(NLB_LIB_ROOT.$_GET['entity_type'].'.class.php');
 		$e = new $_GET['entity_type'];
-		$e->setType(strtolower($_GET['entity_type']));
+		$e->setType($_GET['entity_type']);
 		$allcolumns = $e->getColumns();
 		$vars['entity'] = $e;
 		$vars['columns'] = array();
@@ -32,6 +32,16 @@ switch($_GET['action'])
 		break;
 	case 'save':
 		echo 'saving entity';
+		class_exists($_POST['type']) || require(NLB_LIB_ROOT.$_POST['type'].'.class.php');
+		$e = new $_POST['type'];
+		foreach($_POST as $key => $val)
+		{
+			if($key != 's')
+			{
+				$e->setField($key, $val);
+			}
+		}
+		$e->save();
 		break;
 	default:
 		echo 'No action specified... Nothing to do!';

@@ -30,7 +30,7 @@ class User extends Entity {
 		$table->addColumn(new DatabaseColumn('email', 'string', 64));
 		$this->addTable($table);
 		
-		$this->setType('user');
+		$this->setType('User');
 		
 		if($uid !== NULL)
 		{

@@ -23,8 +23,8 @@
 {/foreach}
 	<tr class="entity-form-buttons">
 		<td>
-			<input type="reset" name="reset" value="Reset" />
-			<input type="submit" name="submit" value="Save" />
+			<input type="reset" name="r" value="Reset" />
+			<input type="submit" name="s" value="Save" />
 		</td>
 	</tr>	
 </table>
