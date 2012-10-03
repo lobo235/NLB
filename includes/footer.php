@@ -1,6 +1,6 @@
 <?php
 
-if(LOG_MEMORY_USAGE || LOG_PAGETIMES || DEBUG)
+if(NLB_LOG_MEMORY_USAGE || NLB_LOG_PAGETIMES || NLB_DEBUG)
 {
 	$params = array(
 		':path' => $_SERVER['REQUEST_URI'],
@@ -10,33 +10,33 @@ if(LOG_MEMORY_USAGE || LOG_PAGETIMES || DEBUG)
 		':peak_mem_usage' => NULL,
 	);
 	
-	if(LOG_MEMORY_USAGE || DEBUG)
+	if(NLB_LOG_MEMORY_USAGE || NLB_DEBUG)
 	{
 		$params[':peak_mem_usage'] = memory_get_peak_usage();
-		if(DEBUG)
+		if(NLB_DEBUG)
 		{
 			echo "\n<!-- peak memory usage: ".$params[':peak_mem_usage']." bytes -->\n";
 		}
 	}
 
-	if(LOG_PAGETIMES || DEBUG)
+	if(NLB_LOG_PAGETIMES || NLB_DEBUG)
 	{
 		$PageTimer->stop();
 		$mainGenTime = $PageTimer->getGenTime();
 		$params[':gentime'] = $mainGenTime;
-		if(DEBUG)
+		if(NLB_DEBUG)
 		{
 			echo "\n<!-- generated in $mainGenTime seconds -->\n";
 		}
 	}
 	
-	if(DEBUG)
+	if(NLB_DEBUG)
 	{
 		$PageTimer->start();
 	}
 	$query = "INSERT INTO `page_stats` (`path`,`gentime`,`referrer`,`user_agent`,`peak_mem_usage`,`datetime`) VALUES (:path,:gentime,:referrer,:user_agent,:peak_mem_usage,UTC_TIMESTAMP())";
 	$DB->execUpdate($query, $params);
-	if(DEBUG)
+	if(NLB_DEBUG)
 	{
 		$PageTimer->stop();
 		$pagetimeQueryGenTime = $PageTimer->getGenTime();

@@ -16,7 +16,7 @@ class_exists('App') || require(NLB_LIB_ROOT.'util/App.class.php');
 function smarty_function_asset_combine(array $params, Smarty_Internal_Template $template)
 {
 	$app = App::getInstance();
-	if(!DEBUG)
+	if(!NLB_DEBUG)
 	{
 		$combine = new AssetCombiner();
 		$combine->setOutputDir(NLB_SITE_ROOT.'www/combined-assets');

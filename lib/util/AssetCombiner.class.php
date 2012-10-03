@@ -117,14 +117,14 @@ class AssetCombiner
 
 	private function cssCompress($buffer)
 	{
-		$cmd = BASH_PATH . " -c " . escapeshellarg(escapeshellcmd(YUI_COMPRESSOR_PATH) . " --type css <<< " . escapeshellarg($buffer));
+		$cmd = NLB_BASH_PATH . " -c " . escapeshellarg(escapeshellcmd(NLB_YUI_COMPRESSOR_PATH) . " --type css <<< " . escapeshellarg($buffer));
 		$buffer = shell_exec($cmd);
 		return $buffer;
 	}
 
 	private function jsCompress($buffer)
 	{
-		$cmd = BASH_PATH . " -c " . escapeshellarg(escapeshellcmd(YUI_COMPRESSOR_PATH) . " --type js <<< " . escapeshellarg($buffer));
+		$cmd = NLB_BASH_PATH . " -c " . escapeshellarg(escapeshellcmd(NLB_YUI_COMPRESSOR_PATH) . " --type js <<< " . escapeshellarg($buffer));
 		$buffer = shell_exec($cmd);
 		return $buffer;
 	}

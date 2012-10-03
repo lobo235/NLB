@@ -2,7 +2,7 @@
 // Load our config file
 require(realpath(dirname(__FILE__).'/../config/config.inc.php'));
 
-if(LOG_PAGETIMES || DEBUG)
+if(NLB_LOG_PAGETIMES || NLB_DEBUG)
 {
 	// Load and start our PageTimerService
 	class_exists('PageTimerService') || require(NLB_LIB_ROOT.'services/PageTimerService.class.php');
@@ -11,7 +11,7 @@ if(LOG_PAGETIMES || DEBUG)
 }
 
 // Turn error reporting on/off
-if(SHOW_ERRORS)
+if(NLB_SHOW_ERRORS)
 {
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);

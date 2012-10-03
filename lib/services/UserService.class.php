@@ -55,6 +55,7 @@ class UserService {
 		$session_cookie_name = session_name();
 		if(isset($_COOKIE[$session_cookie_name]) && $_COOKIE[$session_cookie_name] != '')
 		{
+			session_set_cookie_params(NLB_SESSION_LENGTH);
 			session_start();
 			if(isset($_SESSION['nlb_user_uid']) && is_numeric($_SESSION['nlb_user_uid']))
 			{
@@ -153,10 +154,11 @@ class UserService {
 	public function loginUser($username, $password)
 	{
 		$query = "SELECT `uid` FROM `users` WHERE (`username` = ? OR `email` = ?) AND `password` = ?";
-		$params = array($username, $username, md5(PASSWORD_HASH_SALT.$password));
+		$params = array($username, $username, md5(NLB_PASSWORD_HASH_SALT.$password));
 		$uid = $this->DB->getSelectFirst($query, $params);
 		if($uid !== FALSE)
 		{
+			session_set_cookie_params(NLB_SESSION_LENGTH);
 			session_start();
 			$_SESSION['nlb_user_uid'] = $uid;
 			return TRUE;
@@ -184,6 +186,6 @@ class UserService {
 	 */
 	public function hashUserPassword(User $user)
 	{
-		$user->setPassword(md5(PASSWORD_HASH_SALT.$user->getPassword()));
+		$user->setPassword(md5(NLB_PASSWORD_HASH_SALT.$user->getPassword()));
 	}
 }

@@ -78,7 +78,7 @@ class UIService
 		// assign our assets
 		$this->smarty->assign('assets', $this->assets);
 		
-		if(DEBUG)
+		if(NLB_DEBUG)
 		{
 			return "\n\n<!-- START $template -->\n".$this->addIndenting($this->smarty->fetch($template), $indentLevel)."\n<!-- END $template -->\n\n";
 		}
