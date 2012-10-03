@@ -22,7 +22,7 @@ class Entity extends DatabaseObject
 		$table->addColumn(new DatabaseColumn('eid', 'hidden,primary,id'));
 		$table->addColumn(new DatabaseColumn('created_date', 'hidden,datetime,created'));
 		$table->addColumn(new DatabaseColumn('modified_date', 'hidden,datetime,modified'));
-		$table->addColumn(new DatabaseColumn('uid', 'hidden,id'));
+		$table->addColumn(new DatabaseColumn('uid', 'hidden,id,uid'));
 		$table->addColumn(new DatabaseColumn('type', 'hidden,string', 32));
 		$table->addColumn(new DatabaseColumn('status', 'radio', NULL, array(
 			'radio' => array(

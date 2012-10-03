@@ -8,7 +8,11 @@
 			<div class="entity-form-label">{$column->getName()|replace:'_':' '|ucwords}:</div>
 {/if}
 {if $column->isType('hidden')}
+{if $column->isType('uid')}
+			<input type="hidden" name="{$column->getName()}" value="{if $entity->getField($column->getName()) != NULL}{$entity->getField($column->getName())|escape}{else}{$smarty.session.nlb_user_uid}{/if}" />
+{else}
 			<input type="hidden" name="{$column->getName()}"{if $entity->getField($column->getName()) != NULL} value="{$entity->getField($column->getName())|escape}"{/if} />
+{/if}
 {elseif $column->isType('string')}
 			<input type="text" name="{$column->getName()}"{if $entity->getField($column->getName()) != NULL} value="{$entity->getField($column->getName())|escape}"{/if}{if $column->getMaxLength() > 0} maxlength="{$column->getMaxLength()}"{/if}{if $extras.size} size="{$extras.size}"{/if} />
 {elseif $column->isType('text')}
