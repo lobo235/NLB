@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `entities` (
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`eid`),
   KEY `uid` (`uid`,`type`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 /* users table */
 CREATE TABLE IF NOT EXISTS `users` (
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(64) NOT NULL,
   PRIMARY KEY (`uid`),
   KEY `eid` (`eid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 /* user_rights table */
 CREATE TABLE IF NOT EXISTS `user_rights` (
@@ -59,3 +59,13 @@ REPLACE INTO `rights` (`rid`, `right_name`) VALUES
 (1, 'anonymous user'),
 (2, 'authenticated user'),
 (3, 'admin user');
+
+/* nodes table */
+CREATE TABLE IF NOT EXISTS `nodes` (
+  `nid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `eid` int(11) unsigned NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  PRIMARY KEY (`nid`),
+  KEY `eid` (`eid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
