@@ -15,13 +15,13 @@ if($_POST['do'] == 'Install')
 	echo "Config file found and loaded...<br />\n";
 
 	// Load and start our PageTimerService
-	class_exists('PageTimerService') || require(NLB_LIB_ROOT.'PageTimerService.class.php');
+	class_exists('PageTimerService') || require(NLB_LIB_ROOT.'services/PageTimerService.class.php');
 	$PageTimer = new PageTimerService();
 	$PageTimer->start();
 
 	// Load classes that will be needed during install
-	class_exists('DatabaseService') || require(NLB_LIB_ROOT.'DatabaseService.class.php');
-	class_exists('App') || require(NLB_LIB_ROOT.'App.class.php');
+	class_exists('DatabaseService') || require(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+	class_exists('App') || require(NLB_LIB_ROOT.'util/App.class.php');
 	
 	$app = App::getInstance();
 
@@ -96,8 +96,8 @@ if($_POST['do'] == 'Install')
 	
 	echo "Creating admin user...<br >\n";
 	
-	class_exists('UserService') || require(NLB_LIB_ROOT.'UserService.class.php');
-	class_exists('RightService') || require(NLB_LIB_ROOT.'RightService.class.php');
+	class_exists('UserService') || require(NLB_LIB_ROOT.'services/UserService.class.php');
+	class_exists('RightService') || require(NLB_LIB_ROOT.'services/RightService.class.php');
 	
 	$userService = UserService::getInstance();
 	$user = $userService->newUser();

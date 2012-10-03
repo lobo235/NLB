@@ -1,6 +1,6 @@
 <?php
 
-class_exists('Node') || require(NLB_LIB_ROOT.'Node.class.php');
+class_exists('Node') || require(NLB_LIB_ROOT.'dom/Node.class.php');
 
 if($_GET['action'] == 'viewpost' && isset($_GET['id']))
 {

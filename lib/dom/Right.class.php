@@ -1,6 +1,6 @@
 <?php
 
-class_exists('DatabaseObject') || require(NLB_LIB_ROOT.'DatabaseObject.class.php');
+class_exists('DatabaseObject') || require(NLB_LIB_ROOT.'dao/DatabaseObject.class.php');
 
 /**
  * The Right class is a domain level object that represents a single Right

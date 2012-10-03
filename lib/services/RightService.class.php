@@ -1,7 +1,7 @@
 <?php
 
-class_exists('DatabaseService') || require(NLB_LIB_ROOT.'DatabaseService.class.php');
-class_exists('Right') || require(NLB_LIB_ROOT.'Right.class.php');
+class_exists('DatabaseService') || require(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+class_exists('Right') || require(NLB_LIB_ROOT.'dom/Right.class.php');
 
 /**
  * The RightService is a service layer class that provides useful methods for dealing with Right objects

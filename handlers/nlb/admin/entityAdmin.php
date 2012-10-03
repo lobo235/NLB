@@ -6,7 +6,7 @@ switch($_GET['action'])
 		echo 'listing entities';
 		break;
 	case 'create':
-		class_exists($_GET['entity_type']) || require(NLB_LIB_ROOT.$_GET['entity_type'].'.class.php');
+		class_exists($_GET['entity_type']) || require(NLB_LIB_ROOT.'dom/'.$_GET['entity_type'].'.class.php');
 		$e = new $_GET['entity_type'];
 		$e->setType($_GET['entity_type']);
 		$allcolumns = $e->getColumns();
@@ -22,10 +22,9 @@ switch($_GET['action'])
 		$pageVars['content'] = $UI->renderTemplate('admin-addEntity.tpl', $vars);
 		break;
 	case 'edit':
-		echo 'editing entity '.$_GET['eid'];
 		$e = new Entity($_GET['eid']);
 		$entity_type = $e->getType();
-		class_exists($entity_type) || require(NLB_LIB_ROOT.$entity_type.'.class.php');
+		class_exists($entity_type) || require(NLB_LIB_ROOT.'dom/'.$entity_type.'.class.php');
 		$e = new $entity_type();
 		$e->lookupUsingEid($_GET['eid']);
 		$allcolumns = $e->getColumns();
@@ -47,7 +46,7 @@ switch($_GET['action'])
 		echo 'updating status of entity '.$_GET['eid'].' to '.$_GET['statusid'];
 		break;
 	case 'save':
-		class_exists($_POST['type']) || require(NLB_LIB_ROOT.$_POST['type'].'.class.php');
+		class_exists($_POST['type']) || require(NLB_LIB_ROOT.'dom/'.$_POST['type'].'.class.php');
 		$e = new $_POST['type'];
 		foreach($_POST as $key => $val)
 		{
@@ -59,6 +58,8 @@ switch($_GET['action'])
 		try
 		{
 			$e->save();
+            header('Location: '.$_SERVER['HTTP_REFERER']);
+            exit();
 		}
 		catch(DatabaseObjectException $e)
 		{

@@ -1,9 +1,9 @@
 <?php
 
-class_exists('DatabaseService') || require(NLB_LIB_ROOT.'DatabaseService.class.php');
-class_exists('User') || require(NLB_LIB_ROOT.'User.class.php');
-class_exists('Right') || require(NLB_LIB_ROOT.'Right.class.php');
-class_exists('UserRight') || require(NLB_LIB_ROOT.'UserRight.class.php');
+class_exists('DatabaseService') || require(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+class_exists('User') || require(NLB_LIB_ROOT.'dom/User.class.php');
+class_exists('Right') || require(NLB_LIB_ROOT.'dom/Right.class.php');
+class_exists('UserRight') || require(NLB_LIB_ROOT.'dom/UserRight.class.php');
 
 /**
  * The UserService is a service layer class that provides useful methods for dealing with User objects

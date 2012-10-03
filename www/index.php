@@ -2,8 +2,8 @@
 
 require(realpath(dirname(__FILE__).'/../includes/header.php'));
 
-class_exists('RequestRouterService') || require(NLB_LIB_ROOT.'RequestRouterService.class.php');
-class_exists('UserService') || require(NLB_LIB_ROOT.'UserService.class.php');
+class_exists('RequestRouterService') || require(NLB_LIB_ROOT.'services/RequestRouterService.class.php');
+class_exists('UserService') || require(NLB_LIB_ROOT.'services/UserService.class.php');
 
 $user = UserService::getInstance()->getUser();
 

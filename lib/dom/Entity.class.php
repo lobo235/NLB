@@ -1,8 +1,8 @@
 <?php
 
-class_exists('DatabaseTable') || require(NLB_LIB_ROOT.'DatabaseTable.class.php');
-class_exists('DatabaseColumn') || require(NLB_LIB_ROOT.'DatabaseColumn.class.php');
-class_exists('DatabaseObject') || require(NLB_LIB_ROOT.'DatabaseObject.class.php');
+class_exists('DatabaseTable') || require(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
+class_exists('DatabaseColumn') || require(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
+class_exists('DatabaseObject') || require(NLB_LIB_ROOT.'dao/DatabaseObject.class.php');
 
 /**
  * The Entity class serves as a base class for all of the custom objects that will make up the web site/application
