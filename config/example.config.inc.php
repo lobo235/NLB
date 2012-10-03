@@ -21,6 +21,7 @@ define('NLB_MYSQL_PASS', 'password');
 define('NLB_MYSQL_DB', 'nlb');
 
 // SMARTY
+define('NLB_THEME', 'nlb_default'); // This is where you change the theme for your site
 define('NLB_SMARTY_CLASS_LOC', NLB_LIB_ROOT.'Smarty-3.1.8/libs/Smarty.class.php');
 define('NLB_SMARTY_DIR', NLB_SITE_ROOT.'smarty/'); // The directory that holds the smarty cache, configs, nlb_templates, plugins, templates, and templates_c directories
 
@@ -28,10 +29,8 @@ define('NLB_SMARTY_DIR', NLB_SITE_ROOT.'smarty/'); // The directory that holds t
 define('NLB_SHOW_ERRORS', FALSE); // makes sure php errors are show on the screen
 define('NLB_DEBUG', FALSE); // Turns debugging mode on (Enables NLB_LOG_PAGETIMES, NLB_LOG_MEMORY_USAGE, and shows some HTML comments with debug info in the page source)
 
-// PASSWORD HASH SALT
+// USERS & SESSIONS
 define('NLB_PASSWORD_HASH_SALT', 'exampleSaltString');
-
-// SESSIONS
 define('NLB_SESSION_LENGTH', 43200); // The length of sessions in seconds. Each time the user visits a page their session will be extended by this amount as well. Default is 43200 (12 hours).
 
 // PATHS TO 3RD PARTY TOOLS/PROGRAMS
