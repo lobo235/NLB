@@ -1,26 +1,26 @@
 <?php
 
 // Determine which folder in 'sites' to use for this request
-$siteFolder = 'default';
+$siteDirectory = 'default';
 if(is_dir(realpath(dirname(__FILE__).'/../sites/'.$_SERVER['HTTP_HOST'])))
 {
-	$siteFolder = $_SERVER['HTTP_HOST'];
+	$siteDirectory = $_SERVER['HTTP_HOST'];
 }
-elseif(is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/^[^\.]*?\./', '', $_SERVER['HTTP_HOST']))))
+elseif(substr_count($_SERVER['HTTP_HOST'], '.') > 0 && is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/^[^\.]*?\./', '', $_SERVER['HTTP_HOST']))))
 {
-	$siteFolder = preg_replace('/^.*?\./', '', $_SERVER['HTTP_HOST']);
+	$siteDirectory = preg_replace('/^.*?\./', '', $_SERVER['HTTP_HOST']);
 }
-elseif(is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/\.[^\.]*?$/', '', $_SERVER['HTTP_HOST']))))
+elseif(substr_count($_SERVER['HTTP_HOST'], '.') > 0 && is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/\.[^\.]*?$/', '', $_SERVER['HTTP_HOST']))))
 {
-	$siteFolder = preg_replace('/\.[^\.]*?$/', '', $_SERVER['HTTP_HOST']);
+	$siteDirectory = preg_replace('/\.[^\.]*?$/', '', $_SERVER['HTTP_HOST']);
 }
-elseif(is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/\.[^\.]*?$|^[^.]*?\./', '', $_SERVER['HTTP_HOST']))))
+elseif(substr_count($_SERVER['HTTP_HOST'], '.') > 1 && is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/\.[^\.]*?$|^[^.]*?\./', '', $_SERVER['HTTP_HOST']))))
 {
-	$siteFolder = preg_replace('/\.[^\.]*?$|^[^.]*?\./', '', $_SERVER['HTTP_HOST']);
+	$siteDirectory = preg_replace('/\.[^\.]*?$|^[^.]*?\./', '', $_SERVER['HTTP_HOST']);
 }
 
 // Load our config file
-require(realpath(dirname(__FILE__).'/../sites/'.$siteFolder.'/config/config.inc.php'));
+require(realpath(dirname(__FILE__).'/../sites/'.$siteDirectory.'/config/config.inc.php'));
 
 if(NLB_LOG_PAGETIMES || NLB_DEBUG)
 {

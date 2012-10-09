@@ -17,7 +17,7 @@ class App
 	 */
 	private function __construct()
 	{
-		$this->siteFolder = $GLOBALS['siteFolder'];
+		$this->siteFolder = $GLOBALS['siteDirectory'];
 	}
 
 	/**
