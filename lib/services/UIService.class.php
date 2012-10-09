@@ -83,7 +83,15 @@ class UIService
 		
 		if(NLB_DEBUG)
 		{
-			return "\n\n<!-- START $template -->\n".$this->addIndenting($this->smarty->fetch($template), $indentLevel)."\n<!-- END $template -->\n\n";
+			if(file_exists(NLB_SITE_ROOT.'sites/'.$this->App->siteFolder().'/themes/'.NLB_THEME.'/'.$template))
+			{
+				$template_dir = NLB_SITE_ROOT.'sites/'.$this->App->siteFolder().'/themes/'.NLB_THEME.'/';
+			}
+			else
+			{
+				$template_dir = 'smarty/nlb_templates/';
+			}
+			return "\n\n<!-- START $template_dir$template -->\n".$this->addIndenting($this->smarty->fetch($template), $indentLevel)."\n<!-- END $template_dir$template -->\n\n";
 		}
 		else
 		{
