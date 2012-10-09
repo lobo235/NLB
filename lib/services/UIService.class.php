@@ -1,6 +1,7 @@
 <?php
 
 class_exists('Smarty') || require(NLB_SMARTY_CLASS_LOC);
+class_exists('App') || require(NLB_LIB_ROOT.'util/App.class.php');
 
 /**
  * The UIService class is a service class that handles UI related tasks
@@ -10,6 +11,7 @@ class UIService
 	private static $instance;
 	private $smarty;
 	private $assets;
+	private $App;
 
 	/**
 	 * The constructor for the UI class
@@ -17,9 +19,10 @@ class UIService
 	 */
 	private function __construct()
 	{
+		$this->App = App::getInstance();
 		$this->smarty = new Smarty();
 		$this->smarty->setConfigDir(NLB_SMARTY_DIR.'configs');
-		$this->smarty->setTemplateDir(NLB_SMARTY_DIR.'themes/'.NLB_THEME);
+		$this->smarty->setTemplateDir(NLB_SITE_ROOT.'sites/'.$this->App->siteFolder().'/themes/'.NLB_THEME);
 		$this->smarty->addTemplateDir(NLB_SMARTY_DIR.'nlb_templates', 'nlb');
 		$this->smarty->setCompileDir(NLB_SMARTY_DIR.'templates_c');
 		$this->smarty->setCacheDir(NLB_SMARTY_DIR.'cache');

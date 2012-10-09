@@ -9,12 +9,16 @@
 class App
 {
 	private static $instance;
+	private $siteFolder;
 
 	/**
 	 * The constructor for the App class
 	 * @return App
 	 */
-	private function __construct() { }
+	private function __construct()
+	{
+		$this->siteFolder = $GLOBALS['siteFolder'];
+	}
 
 	/**
 	 * This declaration of a private __clone method helps enforce the singleton pattern
@@ -48,6 +52,22 @@ class App
 		else
 		{
 			return '/';
+		}
+	}
+	
+	/**
+	 * Returns the siteFolder of this App
+	 * @return string 
+	 */
+	public function siteFolder()
+	{
+		if($this->siteFolder)
+		{
+			return $this->siteFolder;
+		}
+		else
+		{
+			return 'default';
 		}
 	}
 }
