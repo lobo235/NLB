@@ -6,6 +6,18 @@ if(is_dir(realpath(dirname(__FILE__).'/../sites/'.$_SERVER['HTTP_HOST'])))
 {
 	$siteFolder = $_SERVER['HTTP_HOST'];
 }
+elseif(is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/^[^\.]*?\./', '', $_SERVER['HTTP_HOST']))))
+{
+	$siteFolder = preg_replace('/^.*?\./', '', $_SERVER['HTTP_HOST']);
+}
+elseif(is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/\.[^\.]*?$/', '', $_SERVER['HTTP_HOST']))))
+{
+	$siteFolder = preg_replace('/\.[^\.]*?$/', '', $_SERVER['HTTP_HOST']);
+}
+elseif(is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/\.[^\.]*?$|^[^.]*?\./', '', $_SERVER['HTTP_HOST']))))
+{
+	$siteFolder = preg_replace('/\.[^\.]*?$|^[^.]*?\./', '', $_SERVER['HTTP_HOST']);
+}
 
 // Load our config file
 require(realpath(dirname(__FILE__).'/../sites/'.$siteFolder.'/config/config.inc.php'));
