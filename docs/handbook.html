@@ -87,10 +87,11 @@ $routes = array(
 			<code>sites/default</code> directory to <code>sites/&lt;your_site&gt;</code> where &lt;your_site&gt; is the hostname for the
 			site you are configuring as a multi-site. NLB will try to match the hostname in the request to the name of one of the directories
 			in the <code>sites</code> directory. If a match is found, the config file for that directory will be used instead of the one in the
-			<code>sites/default/config</code> directory. If no match is found, NLB defaults to using the <code>sites/default</code> directory.
-			NLB will also try to do partial matches against the hostname to try and find a matching multi-site directory. Following are some
+			<code>sites/default/config</code> directory. Also, the themes and request handlers in that directory will be used instead of the
+			ones in <code>sites/default</code>. If no match is found, NLB defaults to using the <code>sites/default</code> directory.
+			NLB will also try to do partial matches against the hostname to try and find a matching multi-site directory. Below are some
 			examples of how NLB matches hostnames to directories in <code>sites</code>. Given the hostname
-			<code>www.example.com</code> NLB will look for the following directories in <code>sites</code> (in this order):
+			<code>www.example.com</code>, NLB will look for the following directories in <code>sites</code> (in this order):
 		</p>
 		<ul>
 			<li>www.example.com</li>
@@ -100,7 +101,7 @@ $routes = array(
 			<li>default</li>
 		</ul>
 		<p>
-			Given the hostname <code>example.com</code> NLB will look for the following directories in <code>sites</code> (in this order):
+			Given the hostname <code>example.com</code>, NLB will look for the following directories in <code>sites</code> (in this order):
 		</p>
 		<ul>
 			<li>example.com</li>
