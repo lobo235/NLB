@@ -1,7 +1,7 @@
 NLB Handbook
 ============
 
-NLB is a PHP application framework that follows the MVC pattern and is built from the ground up for performance. This is the NLB Handbook which will guide you in your quest to become a master of all things NLB.
+NLB is a PHP web application framework that follows the MVC pattern and is built from the ground up for performance. This is the NLB Handbook which will guide you in your quest to become a master of all things NLB.
 
 Installation
 ------------
