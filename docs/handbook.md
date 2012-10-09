@@ -17,16 +17,12 @@ Installation
 Installing NLB is not too difficult. Here are the steps to install:
 
 -   Download the NLB code and put it on your server somewhere.
--   Create a new VirtualHost that points to the `www` folder.
--   Copy the `sites/default/config/example.config.inc.php` file to
-    `sites/default/config/config.inc.php`.
--   Edit the new `config.inc.php` file to have the necessary settings
-    for your application.
--   Visit `http://<yoursite.com>/install.php` changing `<yoursite.com>`
-    to your actual domain name.
+-   Create a new VirtualHost that points to the `www` directory.
+-   Copy the `sites/default/config/example.config.inc.php` file to `sites/default/config/config.inc.php`.
+-   Edit the new `config.inc.php` file to have the necessary settings for your application.
+-   Visit `http://<yoursite.com>/install.php` changing `<yoursite.com>` to your actual domain name.
 -   Follow the on-screen instructions to install NLB.
--   Make sure the following directories exist (relative to the NLB root
-    folder) and that they are writable by apache:
+-   Make sure the following directories exist (relative to the NLB root directory) and that they are writable by apache:
     -   `logs`
     -   `www/combined-assets`
     -   `smarty/templates_c`
