@@ -1,8 +1,8 @@
 sites/*
 !sites/default/
 sites/default/config/config.inc.php
-smarty/templates_c
-smarty/cache
+smarty/templates_c/
+smarty/cache/
 logs/*.log
 /.git-rewrite/
 www/combined-assets/*
