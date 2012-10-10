@@ -99,9 +99,12 @@ class UIService
 		}
 	}
 	
-	public function registerAsset($filename)
+	public function registerAsset($filename, $minify = TRUE)
 	{
-		$this->assets[] = $filename;
+		$this->assets[] = array(
+			'filename' => $filename,
+			'minify' => $minify,
+		);
 	}
 	
 	private function addIndenting($str, $level, $indentString = "\t")

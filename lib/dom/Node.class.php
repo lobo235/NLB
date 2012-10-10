@@ -21,7 +21,7 @@ class Node extends Entity {
 		$table->addColumn(new DatabaseColumn('title', 'string', 255, array(
 			'size' => 40,
 		)));
-		$table->addColumn(new DatabaseColumn('body', 'text', 65536, array(
+		$table->addColumn(new DatabaseColumn('body', 'text,wysiwyg', 65536, array(
 			'rows' => 6,
 			'cols' => 80,
 		)));

@@ -30,6 +30,11 @@ $pageVars = array();
 
 $pageVars['app'] = $app;
 
+$UI->registerAsset('css/nlb.css');
+$UI->registerAsset('css/util.css');
+$UI->registerAsset('js/jquery-1.7.2.min.js');
+$UI->registerAsset('js/nlb.js');
+
 $handler = $RequestRouter->routeRequest($path, $user);
 
 if(file_exists(NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/handlers/'.$handler))
@@ -40,11 +45,6 @@ else
 {
 	include(NLB_SITE_ROOT.'handlers/'.$handler);
 }
-
-$UI->registerAsset('css/nlb.css');
-$UI->registerAsset('css/util.css');
-$UI->registerAsset('js/jquery-1.7.2.min.js');
-$UI->registerAsset('js/nlb.js');
 
 print $UI->renderTemplate('page.tpl', $pageVars);
 

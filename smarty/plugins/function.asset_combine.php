@@ -22,9 +22,8 @@ function smarty_function_asset_combine(array $params, Smarty_Internal_Template $
 		$combine->setOutputDir(NLB_SITE_ROOT.'www/combined-assets');
 		foreach($params['files'] as $file)
 		{
-			$combine->addFile(NLB_SITE_ROOT.'www/'.$file);
+			$combine->addFile(NLB_SITE_ROOT.'www/'.$file['filename'], $file['minify']);
 		}
-		$combine->setMinify(TRUE);
 		$combine->combine();
 
 		$output = '<link rel="stylesheet" href="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedCSSFile()).'" />';
@@ -37,14 +36,14 @@ function smarty_function_asset_combine(array $params, Smarty_Internal_Template $
 		$jsoutput = '';
 		foreach($params['files'] as $file)
 		{
-			$ext = pathinfo($file, PATHINFO_EXTENSION);
+			$ext = pathinfo($file['filename'], PATHINFO_EXTENSION);
 			if($ext == 'css')
 			{
-				$cssoutput .= '<link rel="stylesheet" href="'.$app->urlRoot().$file.'" />'."\n";
+				$cssoutput .= '<link rel="stylesheet" href="'.$app->urlRoot().$file['filename'].'" />'."\n";
 			}
 			elseif($ext == 'js')
 			{
-				$jsoutput .= '<script type="text/javascript" src="'.$app->urlRoot().$file.'"></script>'."\n";
+				$jsoutput .= '<script type="text/javascript" src="'.$app->urlRoot().$file['filename'].'"></script>'."\n";
 			}
 		}
 		return $cssoutput.$jsoutput;

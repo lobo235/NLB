@@ -7,7 +7,6 @@ class AssetCombiner
 {
 
 	private $files;
-	private $minify;
 	private $outputDir;
 	private $combinedCSSFile;
 	private $combinedJSFile;
@@ -19,14 +18,12 @@ class AssetCombiner
 		$this->setOutputDir(realpath(dirname(__FILE__) . '/../www/combined-assets'));
 	}
 
-	public function addFile($filename)
+	public function addFile($filename, $minify = TRUE)
 	{
-		$this->files[] = $filename;
-	}
-
-	public function setMinify($boolean)
-	{
-		$this->minify = $boolean;
+		$this->files[] = array(
+			'filename' => $filename,
+			'minify' => $minify,
+		);
 	}
 
 	public function setOutputDir($dir)
@@ -42,30 +39,30 @@ class AssetCombiner
 	{
 		if(!$this->findExisting())
 		{
-			$css = '';
+			$cssFiles = array();
 			$cssModifiedTimes = array();
-			$js = '';
+			$jsFiles = array();
 			$jsModifiedTimes = array();
 			foreach($this->files as $file)
 			{
-				if(file_exists($file))
+				if(file_exists($file['filename']))
 				{
-					$ext = pathinfo($file, PATHINFO_EXTENSION);
+					$ext = pathinfo($file['filename'], PATHINFO_EXTENSION);
 					if($ext == 'css')
 					{
-						$cssModifiedTimes[] = filemtime($file);
-						$css .= "\n" . file_get_contents($file);
+						$cssModifiedTimes[] = filemtime($file['filename']);
+						$cssFiles[] = $file;
 					}
 					elseif($ext == 'js')
 					{
-						$jsModifiedTimes[] = filemtime($file);
-						$js .= "\n" . file_get_contents($file);
+						$jsModifiedTimes[] = filemtime($file['filename']);
+						$jsFiles[] = $file;
 					}
 				}
 			}
 
 			// make our directory if it doesn't exist
-			if($css != '' || $js != '')
+			if(count($cssFiles) > 0 || count($jsFiles) > 0)
 			{
 				if(!is_dir($this->outputDir))
 				{
@@ -74,32 +71,28 @@ class AssetCombiner
 				}
 			}
 
-			if($css != '')
+			if(count($cssFiles) > 0)
 			{
 				rsort($cssModifiedTimes);
 				$this->combinedCSSFile = $this->outputDir . $this->filesHash() . $cssModifiedTimes[0] . '.cached.css';
-				if($this->minify)
+				$fileOutput = array();
+				foreach($cssFiles as $file)
 				{
-					file_put_contents($this->combinedCSSFile, $this->cssCompress($css), LOCK_EX);
+					$fileOutput[] = "/* ".$file['filename']." */\n".($file['minify'] ? $this->cssCompress(file_get_contents($file['filename'])) : file_get_contents($file['filename']));
 				}
-				else
-				{
-					file_put_contents($this->combinedCSSFile, $css, LOCK_EX);
-				}
+				file_put_contents($this->combinedCSSFile, implode("\n\n", $fileOutput), LOCK_EX);
 				chmod($this->combinedCSSFile, 0777);
 			}
-			if($js != '')
+			if(count($jsFiles) > 0)
 			{
 				rsort($jsModifiedTimes);
 				$this->combinedJSFile = $this->outputDir . $this->filesHash() . $jsModifiedTimes[0] . '.cached.js';
-				if($this->minify)
+				$fileOutput = array();
+				foreach($jsFiles as $file)
 				{
-					file_put_contents($this->combinedJSFile, $this->jsCompress($js), LOCK_EX);
+					$fileOutput[] = "/* ".$file['filename']." */\n".($file['minify'] ? $this->jsCompress(file_get_contents($file['filename'])) : file_get_contents($file['filename']));
 				}
-				else
-				{
-					file_put_contents($this->combinedJSFile, $js, LOCK_EX);
-				}
+				file_put_contents($this->combinedJSFile, implode("\n\n", $fileOutput), LOCK_EX);
 				chmod($this->combinedJSFile, 0777);
 			}
 		}
@@ -135,16 +128,16 @@ class AssetCombiner
 		$jsModifiedTimes = array();
 		foreach($this->files as $file)
 		{
-			if(file_exists($file))
+			if(file_exists($file['filename']))
 			{
-				$ext = pathinfo($file, PATHINFO_EXTENSION);
+				$ext = pathinfo($file['filename'], PATHINFO_EXTENSION);
 				if($ext == 'css')
 				{
-					$cssModifiedTimes[] = filemtime($file);
+					$cssModifiedTimes[] = filemtime($file['filename']);
 				}
 				elseif($ext == 'js')
 				{
-					$jsModifiedTimes[] = filemtime($file);
+					$jsModifiedTimes[] = filemtime($file['filename']);
 				}
 			}
 		}
@@ -183,6 +176,9 @@ class AssetCombiner
 	
 	private function filesHash()
 	{
-		return md5(implode('', $this->files)).'_';
+		$filenameString = '';
+		foreach($this->files as $file)
+			$filenameString .= $file['filename'];
+		return md5($filenameString).'_';
 	}
 }
