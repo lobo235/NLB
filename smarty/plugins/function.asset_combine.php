@@ -20,14 +20,35 @@ function smarty_function_asset_combine(array $params, Smarty_Internal_Template $
 	{
 		$combine = new AssetCombiner();
 		$combine->setOutputDir(NLB_SITE_ROOT.'www/combined-assets');
+		$notPackagedCSS = array();
+		$notPackagedJS = array();
 		foreach($params['files'] as $file)
 		{
-			$combine->addFile(NLB_SITE_ROOT.'www/'.$file['filename'], $file['minify']);
+			if($file['package'])
+			{
+				$combine->addFile(NLB_SITE_ROOT.'www/'.$file['filename'], $file['minify']);
+			}
+			else
+			{
+				$ext = pathinfo($file['filename'], PATHINFO_EXTENSION);
+				if($ext == 'css')
+					$notPackagedCSS[] = $file;
+				elseif($ext =='js')
+					$notPackagedJS[] = $file;
+			}
 		}
 		$combine->combine();
 
-		$output = '<link rel="stylesheet" href="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedCSSFile()).'" />';
-		$output .= "\n\t\t".'<script type="text/javascript" src="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedJSFile()).'"></script>'."\n";
+		$output = '<link rel="stylesheet" href="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedCSSFile()).'" />'."\n";
+		foreach($notPackagedCSS as $file)
+		{
+			$output .= "\t\t".'<link rel="stylesheet" href="'.$app->urlRoot().$file['filename'].'" />\n';
+		}
+		$output .= "\t\t".'<script type="text/javascript" src="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedJSFile()).'"></script>'."\n";
+		foreach($notPackagedJS as $file)
+		{
+			$output .= "\t\t".'<script type="text/javascript" src="'.$app->urlRoot().$file['filename'].'"></script>'."\n";
+		}
 		return $output;
 	}
 	else

@@ -99,11 +99,12 @@ class UIService
 		}
 	}
 	
-	public function registerAsset($filename, $minify = TRUE)
+	public function registerAsset($filename, $minify = TRUE, $package = TRUE)
 	{
 		$this->assets[] = array(
 			'filename' => $filename,
 			'minify' => $minify,
+			'package' => $package,
 		);
 	}
 	

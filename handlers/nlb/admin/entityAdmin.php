@@ -24,7 +24,7 @@ switch($_GET['action'])
 		}
 		if($useWysiwyg)
 		{
-			$UI->registerAsset('js/ckeditor/ckeditor.js', FALSE);
+			$UI->registerAsset('js/ckeditor/ckeditor.js', FALSE, FALSE);
 		}
 		$pageVars['content'] = $UI->renderTemplate('admin-entityForm.tpl', $vars, 5);
 		break;
@@ -37,12 +37,19 @@ switch($_GET['action'])
 		$allcolumns = $e->getColumns();
 		$vars['entity'] = $e;
 		$vars['columns'] = array();
+		$useWysiwyg = false;
 		foreach($allcolumns as $table_name => $columns)
 		{
 			foreach($columns as $column)
 			{
+				if($column->isType('wysiwyg'))
+					$useWysiwyg = true;
 				$vars['columns'][] = $column;
 			}
+		}
+		if($useWysiwyg)
+		{
+			$UI->registerAsset('js/ckeditor/ckeditor.js', FALSE, FALSE);
 		}
 		$pageVars['content'] = $UI->renderTemplate('admin-entityForm.tpl', $vars, 5);
 		break;

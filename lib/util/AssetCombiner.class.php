@@ -78,7 +78,12 @@ class AssetCombiner
 				$fileOutput = array();
 				foreach($cssFiles as $file)
 				{
-					$fileOutput[] = "/* ".$file['filename']." */\n".($file['minify'] ? $this->cssCompress(file_get_contents($file['filename'])) : file_get_contents($file['filename']));
+					$fileContents = file_get_contents($file['filename']);
+					$bom = pack("CCC", 0xef, 0xbb, 0xbf);
+					if(0 == strncmp($fileContents, $bom, 3)) {
+						$fileContents = substr($fileContents, 3);
+					}
+					$fileOutput[] = "/* ".$file['filename']." */\n".($file['minify'] ? $this->cssCompress($fileContents) : $fileContents);
 				}
 				file_put_contents($this->combinedCSSFile, implode("\n\n", $fileOutput), LOCK_EX);
 				chmod($this->combinedCSSFile, 0777);
@@ -90,7 +95,12 @@ class AssetCombiner
 				$fileOutput = array();
 				foreach($jsFiles as $file)
 				{
-					$fileOutput[] = "/* ".$file['filename']." */\n".($file['minify'] ? $this->jsCompress(file_get_contents($file['filename'])) : file_get_contents($file['filename']));
+					$fileContents = file_get_contents($file['filename']);
+					$bom = pack("CCC", 0xef, 0xbb, 0xbf);
+					if(0 == strncmp($fileContents, $bom, 3)) {
+						$fileContents = substr($fileContents, 3);
+					}
+					$fileOutput[] = "/* ".$file['filename']." */\n".($file['minify'] ? $this->jsCompress($fileContents) : $fileContents);
 				}
 				file_put_contents($this->combinedJSFile, implode("\n\n", $fileOutput), LOCK_EX);
 				chmod($this->combinedJSFile, 0777);
