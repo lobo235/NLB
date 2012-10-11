@@ -29,6 +29,7 @@ $path = isset($_GET['q']) ? $_GET['q'] : 'index';
 $pageVars = array();
 
 $pageVars['app'] = $app;
+$pageVars['user'] = $user;
 
 $UI->registerAsset('css/nlb.css');
 $UI->registerAsset('css/util.css');
