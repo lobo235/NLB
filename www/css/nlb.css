@@ -5,7 +5,7 @@ body {
 
 a.site-logo {
 	width: 960px;
-	margin: 10 auto;
+	margin: 10px auto;
 	display: block;
 	color: #000;
 	text-decoration: none;
@@ -58,8 +58,7 @@ a.site-logo:hover {
 }
 
 #main-content h1 {
-	text-shadow: .5px .5px 0px #ffffcc;
-	filter: dropshadow(color=#ffffcc, offx=.5, offy=.5);
+	text-shadow: 2px 1px 0px rgba(255, 255, 255, 1);
 }
 
 #footer {
