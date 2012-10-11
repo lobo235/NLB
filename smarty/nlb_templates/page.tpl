@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<title>{if isset($title)}{$title|escape}{else}{$smarty.const.NLB_SITE_NAME}{/if}</title>
 		{if $assets}{asset_combine files=$assets}{/if}
 	</head>
