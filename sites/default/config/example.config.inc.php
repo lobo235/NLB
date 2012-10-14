@@ -4,9 +4,9 @@
 define('NLB_SITE_NAME', 'NLB Site');
 
 // FILE SYSTEM
-define('NLB_SITE_ROOT', realpath(dirname(__FILE__).'/../../..').'/');
-define('NLB_LIB_ROOT', NLB_SITE_ROOT.'lib/');
-define('NLB_URL_ROOT', ''); // Only set this value if your app doesn't reside at the domain root. If set, a leading and trailing slash are required.
+define('NLB_SITE_ROOT', realpath(dirname(__FILE__).'/../../..').'/'); // You shouldn't need to change this.
+define('NLB_LIB_ROOT', NLB_SITE_ROOT.'lib/'); // You shouldn't need to change this.
+define('NLB_URL_ROOT', ''); // Only set this value if your app doesn't reside at the domain root. If set, a leading and trailing slash are required (example: /nlb-site/).
 
 // LOGGING
 define('NLB_LOG_DEST_EMAIL', 'test@example.com'); // The email address destination for log messages. Leave blank to disable
