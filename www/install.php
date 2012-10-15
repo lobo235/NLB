@@ -2,7 +2,7 @@
 
 require_once(realpath(dirname(__FILE__).'/../includes/load_config.php'));
 
-if($_POST['do'] == 'Install')
+if(isset($_POST['do']) && $_POST['do'] == 'Install')
 {
 	echo "Starting Install...<br />\n";
 	// Check for loaded config file
