@@ -108,6 +108,34 @@ class UIService
 		);
 	}
 	
+	public function registerThemeAssets()
+	{
+		$cssFiles = array();
+		$jsFiles = array();
+		$cssDir = NLB_SITE_ROOT.'sites/'.$this->App->siteFolder().'/themes/'.NLB_THEME.'/css';
+		$jsDir = NLB_SITE_ROOT.'sites/'.$this->App->siteFolder().'/themes/'.NLB_THEME.'/js';
+		if(is_dir($cssDir))
+		{
+			$cssFiles = scandir($cssDir);
+		}
+		if(is_dir($jsDir))
+		{
+			$jsFiles = scandir($jsDir);
+		}
+		foreach($cssFiles as $file) {
+			if($file != '.' && $file != '..')
+			{
+				$this->registerAsset($cssDir.'/'.$file);
+			}
+		}
+		foreach($jsFiles as $file) {
+			if($file != '.' && $file != '..')
+			{
+				$this->registerAsset($jsDir.'/'.$file);
+			}
+		}
+	}
+	
 	private function addIndenting($str, $level, $indentString = "\t")
 	{
 		if($level == 0)

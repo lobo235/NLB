@@ -50,3 +50,8 @@ else
 	error_reporting(0);
 	ini_set('display_errors', 0);
 }
+
+class_exists('App') || require(NLB_LIB_ROOT.'util/App.class.php');
+
+// get an instance of the App class to be able to get info about this App
+$app = App::getInstance();

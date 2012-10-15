@@ -1,8 +1,5 @@
 <?php
 
-/*
- */
-
 /**
  * The App class provides information about the Application itself such as settings, paths, etc.
  */

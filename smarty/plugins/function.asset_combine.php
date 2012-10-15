@@ -57,14 +57,19 @@ function smarty_function_asset_combine(array $params, Smarty_Internal_Template $
 		$jsoutput = '';
 		foreach($params['files'] as $file)
 		{
+			if(file_exists(NLB_SITE_ROOT.'www/'.$file['filename']))
+				$resource = $app->urlRoot().$file['filename'];
+			else
+				$resource = $app->urlRoot().'theme_asset.php?theme='.NLB_THEME.'&f='.str_replace(NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/themes/'.NLB_THEME.'/', '', $file['filename']);
+			
 			$ext = pathinfo($file['filename'], PATHINFO_EXTENSION);
 			if($ext == 'css')
 			{
-				$cssoutput .= '<link rel="stylesheet" href="'.$app->urlRoot().$file['filename'].'" />'."\n";
+				$cssoutput .= '<link rel="stylesheet" href="'.$resource.'" />'."\n";
 			}
 			elseif($ext == 'js')
 			{
-				$jsoutput .= '<script type="text/javascript" src="'.$app->urlRoot().$file['filename'].'"></script>'."\n";
+				$jsoutput .= '<script type="text/javascript" src="'.$resource.'"></script>'."\n";
 			}
 		}
 		return $cssoutput.$jsoutput;
