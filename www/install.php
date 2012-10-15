@@ -1,18 +1,19 @@
 <?php
 
+require_once(realpath(dirname(__FILE__).'/../includes/load_config.php'));
+
 if($_POST['do'] == 'Install')
 {
 	echo "Starting Install...<br />\n";
-	// Try to load our config file
-	if(file_exists(realpath(dirname(__FILE__).'/../config/config.inc.php')))
-	{
-		require(realpath(dirname(__FILE__).'/../config/config.inc.php'));
-	}
-	else
+	// Check for loaded config file
+	if($noConfig)
 	{
 		die("config.inc.php file was not found. Did you follow the instructions in the handbook.html document in the docs directory?");
 	}
-	echo "Config file found and loaded...<br />\n";
+	else
+	{
+		echo "Config file found and loaded...<br />\n";
+	}
 
 	// Load and start our PageTimerService
 	class_exists('PageTimerService') || require(NLB_LIB_ROOT.'services/PageTimerService.class.php');
