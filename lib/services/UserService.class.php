@@ -188,4 +188,23 @@ class UserService {
 	{
 		$user->setPassword(md5(NLB_PASSWORD_HASH_SALT.$user->getPassword()));
 	}
+	
+	/**
+	 * Gets a list of the Users for this site
+	 * @return User[]
+	 */
+	public function getUsers()
+	{
+		$users = array();
+		$query = "SELECT `uid` FROM `users`";
+		$res = $this->DB->getSelectArray($query);
+		if(is_array($res) && count($res) > 0)
+		{
+			foreach($res as $row)
+			{
+				$users[] = new User($row['uid']);
+			}
+		}
+		return $users;
+	}
 }

@@ -29,8 +29,12 @@ $nlb_routes = array(
 		'handler' => 'nlb/entity.php?action=%action&eid=%eid',
 		'access' => array('anonymous user'),
 	),
-	'admin/entity' => array(
+	'admin/entities' => array(
 		'handler' => 'nlb/admin/entityAdmin.php?action=list',
+		'access' => array('admin user'),
+	),
+	'admin/entities/%type' => array(
+		'handler' => 'nlb/admin/entityAdmin.php?action=list&type=%type',
 		'access' => array('admin user'),
 	),
 	'admin/entity/create/%entity_type' => array(

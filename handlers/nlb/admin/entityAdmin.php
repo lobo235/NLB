@@ -3,7 +3,17 @@
 switch($_GET['action'])
 {
 	case 'list':
-		echo 'listing entities';
+		class_exists('EntityService') || require(NLB_LIB_ROOT.'services/EntityService.class.php');
+		$entityService = EntityService::getInstance();
+		if(isset($_GET['type']) && $_GET['type'] != '')
+		{
+			$vars['entities'] = $entityService->getEntities($_GET['type']);
+		}
+		else
+		{
+			$vars['entities'] = $entityService->getEntities();
+		}
+		$pageVars['content'] = $UI->renderTemplate('admin-entityList.tpl', $vars, 5);
 		break;
 	case 'create':
 		class_exists($_GET['entity_type']) || require(NLB_LIB_ROOT.'dom/'.$_GET['entity_type'].'.class.php');
