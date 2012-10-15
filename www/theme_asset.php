@@ -9,7 +9,7 @@ if(isset($_GET['theme']) && $_GET['theme'] != '' && strpos($_GET['theme'], '..')
 		'js' => 'application/javascript',
 		'jpg' => 'image/jpeg',
 		'gif' => 'image/gif',
-		'png' => 'image/x-png',
+		'png' => 'image/png',
 	);
 	$file = NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/themes/'.NLB_THEME.'/'.$_GET['f'];
 	$ext = pathinfo($file, PATHINFO_EXTENSION);

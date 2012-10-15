@@ -26,7 +26,11 @@ function smarty_function_asset_combine(array $params, Smarty_Internal_Template $
 		{
 			if($file['package'])
 			{
-				$combine->addFile(NLB_SITE_ROOT.'www/'.$file['filename'], $file['minify']);
+				if(file_exists(NLB_SITE_ROOT.'www/'.$file['filename']))
+					$resource = NLB_SITE_ROOT.'www/'.$file['filename'];
+				elseif(file_exists($file['filename']))
+					$resource = $file['filename'];
+				$combine->addFile($resource, $file['minify']);
 			}
 			else
 			{
