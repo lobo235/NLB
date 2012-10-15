@@ -56,5 +56,9 @@ $nlb_routes = array(
 	'admin/entity/save' => array(
 		'handler' => 'nlb/admin/entityAdmin.php?action=save',
 		'access' => array('admin user'),
-	)
+	),
+	'node/%nid' => array(
+		'handler' => 'nlb/node.php?nid=%nid',
+		'access' => array('anonymous user'),
+	),
 );
