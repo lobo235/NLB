@@ -108,6 +108,7 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	$user->setEmail('anonymous@example.com');
 	$user->setUsername('anonymous');
 	$user->setPassword('');
+	$user->setStatus(1);
 
 	$right = $rightService->getRightByName('anonymous user');
 	$userRight = new UserRight();
@@ -130,6 +131,7 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	$user->setEmail($_POST['email']);
 	$user->setUsername($_POST['username']);
 	$user->setPassword($_POST['password']);
+	$user->setStatus(1);
 
 	$right = $rightService->getRightByName("admin user");
 	$userRight = new UserRight();
