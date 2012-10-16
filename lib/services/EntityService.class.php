@@ -53,7 +53,7 @@ class EntityService
 	public function getEntities($type = NULL)
 	{
 		$entities = array();
-		if($type == NULL)
+		if($type === NULL)
 		{
 			$query = "SELECT `eid`,`type` FROM `entities`";
 			$res = $this->DB->getSelectArray($query);

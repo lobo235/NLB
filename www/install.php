@@ -95,19 +95,42 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 		echo "All SQL statements ran successfully...<br />\n";
 	}
 	
-	echo "Creating admin user...<br >\n";
-	
 	class_exists('UserService') || require(NLB_LIB_ROOT.'services/UserService.class.php');
 	class_exists('RightService') || require(NLB_LIB_ROOT.'services/RightService.class.php');
-	
 	$userService = UserService::getInstance();
+	$rightService = RightService::getInstance();
+	
+	echo "Creating anonymous user...<br />\n";
+	
+	$user = $userService->newUser();
+	$user->setFirstName('Anonymous');
+	$user->setLastName('User');
+	$user->setEmail('anonymous@example.com');
+	$user->setUsername('anonymous');
+	$user->setPassword('');
+
+	$right = $rightService->getRightByName('anonymous user');
+	$userRight = new UserRight();
+	$userRight->setRid($right->getRid());
+	$user->setUserRights(array($userRight));
+	try
+	{
+		$user->save();
+	}
+	catch(DatabaseObjectException $e)
+	{
+		die("Could not create anonymous user. ".$e->getMessage());
+	}
+
+	echo "Creating admin user...<br >\n";
+
 	$user = $userService->newUser();
 	$user->setFirstName($_POST['firstname']);
 	$user->setLastName($_POST['lastname']);
 	$user->setEmail($_POST['email']);
 	$user->setUsername($_POST['username']);
 	$user->setPassword($_POST['password']);
-	$rightService = RightService::getInstance();
+
 	$right = $rightService->getRightByName("admin user");
 	$userRight = new UserRight();
 	$userRight->setRid($right->getRid());

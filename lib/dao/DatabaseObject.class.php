@@ -21,14 +21,22 @@ class DatabaseObject
 
 	public function lookup()
 	{
-		if($this->getField($this->primaryIdColumn) == NULL)
+		if($this->getField($this->primaryIdColumn) === NULL)
 		{
 			$this->Log->error('DatabaseObject->lookup()', 'Method was called when primaryId not set');
 		}
 		foreach(array_reverse($this->tables) as $table)
 		{
 			$q = "SELECT * FROM `".$table->getTableName()."` WHERE `".$table->getPrimaryKeyColumn()."` = ?";
-			$res = $this->DB->getSelectArray($q, $this->getField($table->getPrimaryKeyColumn()));
+			$res = NULL;
+			try
+			{
+				$res = $this->DB->getSelectArray($q, $this->getField($table->getPrimaryKeyColumn()));
+			}
+			catch(DatabaseServiceException $e)
+			{
+				$this->Log->error('DatabaseObject->lookup()', $e->getCode().' : '.$e->getMessage()."\nQuery: $q\nParam: ".$this->getField($table->getPrimaryKeyColumn()));
+			}
 			if($res && count($res) > 0)
 			{
 				if(isset($res[0][$this->primaryIdColumn]))
@@ -47,28 +55,111 @@ class DatabaseObject
 	 */
 	public function save()
 	{
+		if($this->getField($this->primaryIdColumn) === NULL) // We will insert new data into the DB
+		{
+			$this->insert();
+		}
+		else // We have a primary key so update the existing data in the DB if it exists, otherwise, do an insert
+		{
+			if($this->exists())
+			{
+				$this->update();
+			}
+			else
+			{
+				$this->insert();
+			}
+		}
+		$this->lookup();
+	}
+	
+	private function insert()
+	{
 		$insertId = FALSE;
 		$lastPrimaryKeyColumn = NULL;
 
 		$currentDateTime = date('Y-m-d H:i:s');
-
-		if($this->getField($this->primaryIdColumn) == NULL) // We will insert new data into the DB
+		
+		$success = TRUE;
+		if(count($this->tables) > 1)
 		{
-			$success = TRUE;
-			if(count($this->tables) > 1)
+			$this->DB->beginTransaction();
+		}
+
+		foreach($this->tables as $tableKey => $table)
+		{
+			$columnNames = $table->getColumnNames();
+			$columnValues = array();
+			foreach($columnNames as $key => $columnName)
 			{
-				$this->DB->beginTransaction();
-			}
-			
-			foreach($this->tables as $tableKey => $table)
-			{
-				$columnNames = $table->getColumnNames();
-				$columnValues = array();
-				foreach($columnNames as $key => $columnName)
+				$column = $table->getColumn($columnName);
+				$columnNames[$key] = "`$columnName`";
+				if($column->isType('created') || $column->isType('modified'))
 				{
-					$column = $table->getColumn($columnName);
-					$columnNames[$key] = "`$columnName`";
-					if($column->isType('created') || $column->isType('modified'))
+					$columnValues[] = $currentDateTime;
+				}
+				else
+				{
+					$columnValues[] = $this->getField($columnName);
+				}
+			}
+
+			if($insertId !== FALSE) // We have a foreign key from a parent table to use in this table
+			{
+				$columnNames[] = "`$lastPrimaryKeyColumn`";
+				$columnValues[] = $insertId;
+			}
+
+			$q = "INSERT INTO `".$table->getTableName()."` (".implode(', ', $columnNames).") VALUES (".trim(str_repeat('?,', count($columnValues)), ',').")";
+			try
+			{
+				$insertId = $this->DB->execUpdate($q, $columnValues);
+			}
+			catch(DatabaseServiceException $e)
+			{
+				$success = FALSE;
+				if($e->getCode() == DatabaseServiceException::QUERY_ERROR_UNIQUE)
+				{
+					throw new DatabaseObjectException('Unique Key Violation', DatabaseObjectException::UNIQUE_ERROR);
+				}
+				else
+				{
+					throw new DatabaseObjectException('Unspecified error', DatabaseObjectException::UNSPECIFIED_ERROR);
+				}
+			}
+
+			$lastPrimaryKeyColumn = $table->getPrimaryKeyColumn();
+
+			$this->setField($table->getPrimaryKeyColumn(), $insertId);
+		}
+
+		if(count($this->tables) > 1)
+		{
+			if($success)
+			{
+				$this->DB->commit();
+			}
+			else
+			{
+				$this->DB->rollBack();
+			}
+		}
+	}
+	
+	private function update()
+	{
+		$currentDateTime = date('Y-m-d H:i:s');
+
+		foreach($this->tables as $table)
+		{
+			$columnValues = array();
+			$columnUpdateClauses = array();
+			foreach($table->getColumnNames() as $key => $columnName)
+			{
+				$column = $table->getColumn($columnName);
+				if(!$column->isType('primary'))
+				{
+					if($column->isType('modified'))
 					{
 						$columnValues[] = $currentDateTime;
 					}
@@ -76,81 +167,27 @@ class DatabaseObject
 					{
 						$columnValues[] = $this->getField($columnName);
 					}
-				}
-
-				if($insertId !== FALSE) // We have a foreign key from a parent table to use in this table
-				{
-					$columnNames[] = "`$lastPrimaryKeyColumn`";
-					$columnValues[] = $insertId;
-				}
-
-				$q = "INSERT INTO `".$table->getTableName()."` (".implode(', ', $columnNames).") VALUES (".trim(str_repeat('?,', count($columnValues)), ',').")";
-				try
-				{
-					$insertId = $this->DB->execUpdate($q, $columnValues);
-				}
-				catch(DatabaseServiceException $e)
-				{
-					$success = FALSE;
-					if($e->getCode() == DatabaseServiceException::QUERY_ERROR_UNIQUE)
-					{
-						throw new DatabaseObjectException('Unique Key Violation', DatabaseObjectException::UNIQUE_ERROR);
-					}
-					else
-					{
-						throw new DatabaseObjectException('Unspecified error', DatabaseObjectException::UNSPECIFIED_ERROR);
-					}
-				}
-
-				$lastPrimaryKeyColumn = $table->getPrimaryKeyColumn();
-
-				$this->setField($table->getPrimaryKeyColumn(), $insertId);
-			}
-			
-			if(count($this->tables) > 1)
-			{
-				if($success)
-				{
-					$this->DB->commit();
-				}
-				else
-				{
-					$this->DB->rollBack();
+					$columnUpdateClauses[] = "`$columnName` = ?";
 				}
 			}
+
+			$columnValues[] = $this->getField($table->getPrimaryKeyColumn());
+
+			$q = "UPDATE `".$table->getTableName()."` SET ".implode(', ', $columnUpdateClauses)." WHERE `".$table->getPrimaryKeyColumn()."` = ?";
+			$this->DB->execUpdate($q, $columnValues);
 		}
-		else // We have a primary key so update the existing data in the DB
-		{
-			$currentDateTime = date('Y-m-d H:i:s');
-
-			foreach($this->tables as $table)
-			{
-				$columnValues = array();
-				$columnUpdateClauses = array();
-				foreach($table->getColumnNames() as $key => $columnName)
-				{
-					$column = $table->getColumn($columnName);
-					if(!$column->isType('primary'))
-					{
-						if($column->isType('modified'))
-						{
-							$columnValues[] = $currentDateTime;
-						}
-						else
-						{
-							$columnValues[] = $this->getField($columnName);
-						}
-						$columnUpdateClauses[] = "`$columnName` = ?";
-					}
-				}
-
-				$columnValues[] = $this->getField($table->getPrimaryKeyColumn());
-
-				$q = "UPDATE `".$table->getTableName()."` SET ".implode(', ', $columnUpdateClauses)." WHERE `".$table->getPrimaryKeyColumn()."` = ?";
-				$this->DB->execUpdate($q, $columnValues);
-			}
-		}
-		$this->lookup();
+	}
+	
+	private function exists()
+	{
+		$primaryIdColumn = end($this->tables)->getPrimaryKeyColumn();
+		$tableName = end($this->tables)->getTableName();
+		$query = "SELECT `".$primaryIdColumn."` FROM `".$tableName."` WHERE `".$primaryIdColumn."` = ?";
+		$res = $this->DB->getSelectFirst($query, $this->getField($primaryIdColumn));
+		if($res === $this->getField($primaryIdColumn))
+			return TRUE;
+		else
+			return FALSE;
 	}
 	
 	/**
@@ -242,7 +279,7 @@ class DatabaseObject
 	
 	public function lookupUsingEid($eid = NULL)
 	{
-		if($eid == NULL)
+		if($eid === NULL)
 		{
 			$this->Log->error('DatabaseObject->lookupUsingEid()', 'Method was called with NULL eid');
 		}

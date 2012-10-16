@@ -203,9 +203,9 @@ class User extends Entity {
 		parent::save();
 		foreach($this->userRights as $userRight)
 		{
-			if($userRight->getUrid() == NULL)
+			if($userRight->getUrid() === NULL)
 			{
-				if($userRight->getUid() == NULL)
+				if($userRight->getUid() === NULL)
 				{
 					$userRight->setUid($this->getUid());
 				}
