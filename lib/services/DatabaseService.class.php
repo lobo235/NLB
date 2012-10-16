@@ -147,7 +147,7 @@ class DatabaseService
 		}
 		catch(PDOException $e)
 		{
-			$this->Log->error('DatabaseService executePreparedQuery()', $e->getCode().' : '.$e->getMessage());
+			$this->Log->error('DatabaseService executePreparedQuery()', $e->getCode().' : '.$e->getMessage()."\nQuery: $query\nParams: ".print_r($params, TRUE));
 			$matches = array();
 			preg_match('/SQLSTATE\[(\w+)\]:? (.*)/', $e->getMessage(), $matches);
             $code = $matches[1];
