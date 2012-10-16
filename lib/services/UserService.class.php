@@ -73,13 +73,7 @@ class UserService {
 		
 		if($anonymousUser === TRUE)
 		{
-			$user = new User();
-			$user->setUid(0); // Anonymous user uid is 0
-			$user->setFirstName('Anonymous');
-			$user->setLastName('User');
-			$user->setUsername('anonymous');
-			$userRight = new UserRight(1);
-			$user->setUserRights(array($userRight));
+			$user = new User(1);
 			return $user;
 		}
 	}
@@ -153,7 +147,7 @@ class UserService {
 	 */
 	public function loginUser($username, $password)
 	{
-		$query = "SELECT `uid` FROM `users` WHERE (`username` = ? OR `email` = ?) AND `password` = ?";
+		$query = "SELECT u.`uid` FROM `users` u, `entities` e WHERE u.`eid` = e.`eid` AND e.`status` = 1 AND (u.`username` = ? OR u.`email` = ?) AND u.`password` = ?";
 		$params = array($username, $username, md5(NLB_PASSWORD_HASH_SALT.$password));
 		$uid = $this->DB->getSelectFirst($query, $params);
 		if($uid !== FALSE)

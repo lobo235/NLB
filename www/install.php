@@ -103,8 +103,8 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	echo "Creating anonymous user...<br />\n";
 	
 	$user = $userService->newUser();
-	$user->setFirstName('Anonymous');
-	$user->setLastName('User');
+	$user->setFirstName('Anonymous User');
+	$user->setLastName('');
 	$user->setEmail('anonymous@example.com');
 	$user->setUsername('anonymous');
 	$user->setPassword('');
