@@ -6,7 +6,7 @@ if(NLB_LOG_MEMORY_USAGE || NLB_LOG_PAGETIMES || NLB_DEBUG)
 		':path' => $_SERVER['REQUEST_URI'],
 		':gentime' => NULL,
 		':referrer' => (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''),
-		':user_agent' => $_SERVER['HTTP_USER_AGENT'],
+		':user_agent' => (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''),
 		':peak_mem_usage' => NULL,
 	);
 	
