@@ -7,14 +7,16 @@ class_exists('DatabaseObjectException') || require(NLB_LIB_ROOT.'exceptions/Data
 
 class DatabaseObject
 {
-	protected $tables = array();
-	protected $fields = array();
+	protected $tables;
+	protected $fields;
 	protected $primaryIdColumn = NULL;
 	protected $Log;
 	protected $DB;
 
 	public function __construct()
 	{
+		$this->tables = array();
+		$this->fields = array();
 		$this->Log = LogService::getInstance();
 		$this->DB = DatabaseService::getInstance();
 	}

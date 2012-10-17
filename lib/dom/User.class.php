@@ -18,6 +18,18 @@ class User extends Entity {
 	public function __construct($uid = NULL)
 	{
 		parent::__construct();
+		
+		// Change the labels for Published/Unpublished
+		$statusColumn = $this->tables[0]->getColumn('status');
+		$statusColumn->setExtras(array(
+				'radio' => array(
+					1 => 'Active',
+					0 => 'Blocked',
+				)
+			)
+		);
+		$this->tables[0]->addColumn($statusColumn);
+		
 		$this->primaryIdColumn = 'uid';
 		
 		$table = new DatabaseTable('users', 'uid');

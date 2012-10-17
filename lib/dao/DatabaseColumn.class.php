@@ -37,6 +37,26 @@ class DatabaseColumn {
 		return $this->extras;
 	}
 	
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+	
+	public function setType($type)
+	{
+		$this->type = $type;
+	}
+	
+	public function setMaxLength($maxlength)
+	{
+		$this->maxlength = $maxlength;
+	}
+	
+	public function setExtras($extras)
+	{
+		$this->extras = $extras;
+	}
+	
 	public function isType($type)
 	{
 		return(strpos(','.$this->type.',', ','.$type.',') !== FALSE);
