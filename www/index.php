@@ -32,6 +32,7 @@ $pageVars['app'] = $app;
 $pageVars['user'] = $user;
 $pageVars['is_front'] = FALSE;
 
+$UI->registerAsset('css/nlb.css');
 $UI->registerAsset('js/jquery-1.7.2.min.js');
 $UI->registerAsset('js/nlb.js');
 $UI->registerThemeAssets();
