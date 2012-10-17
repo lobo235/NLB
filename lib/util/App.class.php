@@ -1,5 +1,7 @@
 <?php
 
+class_exists('UrlAliasService') || require(NLB_LIB_ROOT.'services/UrlAliasService.class.php');
+
 /**
  * The App class provides information about the Application itself such as settings, paths, etc.
  */
@@ -7,6 +9,7 @@ class App
 {
 	private static $instance;
 	private $siteFolder;
+	private $UrlAliasService;
 
 	/**
 	 * The constructor for the App class
@@ -15,6 +18,7 @@ class App
 	private function __construct()
 	{
 		$this->siteFolder = $GLOBALS['siteDirectory'];
+		$this->UrlAliasService = UrlAliasService::getInstance();
 	}
 
 	/**
@@ -50,6 +54,16 @@ class App
 		{
 			return '/';
 		}
+	}
+	
+	/**
+	 * Creates a link that uses the correct urlRoot and URL alias
+	 */
+	public function l($path)
+	{
+		$link = $this->urlRoot();
+		$link .= $this->UrlAliasService->getAlias($path);
+		return $link;
 	}
 	
 	/**

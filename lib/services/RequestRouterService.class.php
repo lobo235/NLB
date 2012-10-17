@@ -2,6 +2,7 @@
 
 class_exists('LogService') || require(NLB_LIB_ROOT.'services/LogService.class.php');
 class_exists('App') || require(NLB_LIB_ROOT.'util/App.class.php');
+class_exists('UrlAliasService') || require(NLB_LIB_ROOT.'services/UrlAliasService.class.php');
 
 /**
  * The RequestRouterService is used for routing incoming requests to the correct location
@@ -11,11 +12,13 @@ class RequestRouterService {
 	private $routes;
 	private $Log;
 	private $App;
+	private $UrlAliasService;
 	
 	private function __construct()
 	{
 		$this->Log = LogService::getInstance();
 		$this->App = App::getInstance();
+		$this->UrlAliasService = UrlAliasService::getInstance();
 		require(NLB_SITE_ROOT.'config/nlb_routes.inc.php');
 		require(NLB_SITE_ROOT.'sites/'.$this->App->siteFolder().'/config/routes.inc.php');
 		$this->routes = array_merge($nlb_routes, $routes);
@@ -77,6 +80,14 @@ class RequestRouterService {
 		}
 		else
 		{
+			// Search for a URL Alias that might match
+			$aliasedPath = $this->UrlAliasService->getPath($request);
+			if($aliasedPath != $request)
+			{
+				return $this->handleRequest($aliasedPath, $user);
+			}
+			
+			// No route or URL Alias found so 404
 			return 'nlb/404.php';
 		}
 	}

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `entities` (
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`eid`),
   KEY `uid` (`uid`,`type`,`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* users table */
 CREATE TABLE IF NOT EXISTS `users` (
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(64) NOT NULL,
   PRIMARY KEY (`uid`),
   KEY `eid` (`eid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* user_rights table */
 CREATE TABLE IF NOT EXISTS `user_rights` (
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `user_rights` (
   `rid` int(11) unsigned NOT NULL,
   PRIMARY KEY (`urid`),
   UNIQUE KEY `uid_rid_unique` (`uid`,`rid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* page_stats table */
 CREATE TABLE IF NOT EXISTS `page_stats` (
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `page_stats` (
   `datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`ptid`),
   KEY `path` (`path`(255),`datetime`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* rights table */
 CREATE TABLE IF NOT EXISTS `rights` (
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `rights` (
   `right_name` varchar(32) NOT NULL,
   PRIMARY KEY (`rid`),
   UNIQUE KEY `right_name_unique` (`right_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* rights table default contents */
 REPLACE INTO `rights` (`rid`, `right_name`) VALUES
@@ -68,4 +68,11 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `body` text NOT NULL,
   PRIMARY KEY (`nid`),
   KEY `eid` (`eid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* url_aliases table */
+CREATE TABLE IF NOT EXISTS `url_aliases` (
+  `path` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  KEY `path` (`path`,`alias`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
