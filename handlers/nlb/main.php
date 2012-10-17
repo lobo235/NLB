@@ -5,5 +5,5 @@ $vars = array(
 );
 
 $pageVars['is_front'] = TRUE;
-$pageVars['title'] = 'Site Index';
+$pageVars['title'] = NLB_SITE_NAME;
 $pageVars['content'] = $UI->renderTemplate('index.tpl', $vars, 3);
