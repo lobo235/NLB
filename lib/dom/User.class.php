@@ -43,6 +43,7 @@ class User extends Entity {
 		}
 		
 		$this->userRightsLoaded = FALSE;
+		$this->setIdentifierField('username');
 	}
 	
 	/**

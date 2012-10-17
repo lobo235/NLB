@@ -101,6 +101,15 @@ class Entity extends DatabaseObject
 	{
 		$this->setField('status', $status);
 	}
+	
+	/**
+	 * Set the field that identifies this Entity
+	 * @param string $field the name of the field that identifies this entity
+	 */
+	public function setIdentifierField($field)
+	{
+		$this->setField('nlb_identifier', $field);
+	}
 
 	/**
 	 * Returns the eid of this Entity
@@ -154,5 +163,14 @@ class Entity extends DatabaseObject
 	public function getStatus()
 	{
 		return $this->getField('status');
+	}
+	
+	/**
+	 * Returns the value of the field that is set as the identifier for this Entity
+	 * @return mixed the identifier for this entity
+	 */
+	public function getIdentifier()
+	{
+		return $this->getField($this->getField('nlb_identifier'));
 	}
 }

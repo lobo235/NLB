@@ -27,6 +27,7 @@
 {/foreach}
 		<tr class="entity-form-buttons">
 			<td>
+				<input type="hidden" name="nlb_referrer" value="{$smarty.server.HTTP_REFERER}" />
 				<input type="reset" name="r" value="Reset" />
 				<input type="submit" name="s" value="Save" />
 			</td>

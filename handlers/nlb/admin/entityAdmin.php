@@ -8,11 +8,14 @@ switch($_GET['action'])
 		if(isset($_GET['type']) && $_GET['type'] != '')
 		{
 			$vars['entities'] = $entityService->getEntities($_GET['type']);
+			$pageVars['title'] = $_GET['type'].' List';
 		}
 		else
 		{
 			$vars['entities'] = $entityService->getEntities();
+			$pageVars['title'] = 'Entity List';
 		}
+		$pageVars['sidebar1_content'] = $UI->renderTemplate('admin-entityMenu.tpl', NULL, 5);
 		$pageVars['content'] = $UI->renderTemplate('admin-entityList.tpl', $vars, 5);
 		break;
 	case 'create':
@@ -36,6 +39,8 @@ switch($_GET['action'])
 		{
 			$UI->registerAsset('js/ckeditor/ckeditor.js', FALSE, FALSE);
 		}
+		$pageVars['title'] = 'Create '.$_GET['entity_type'];
+		$pageVars['sidebar1_content'] = $UI->renderTemplate('admin-entityMenu.tpl', NULL, 5);
 		$pageVars['content'] = $UI->renderTemplate('admin-entityForm.tpl', $vars, 5);
 		break;
 	case 'edit':
@@ -61,6 +66,8 @@ switch($_GET['action'])
 		{
 			$UI->registerAsset('js/ckeditor/ckeditor.js', FALSE, FALSE);
 		}
+		$pageVars['title'] = 'Edit '.$entity_type.' '.$_GET['eid'];
+		$pageVars['sidebar1_content'] = $UI->renderTemplate('admin-entityMenu.tpl', NULL, 5);
 		$pageVars['content'] = $UI->renderTemplate('admin-entityForm.tpl', $vars, 5);
 		break;
 	case 'delete':
@@ -82,7 +89,7 @@ switch($_GET['action'])
 		try
 		{
 			$e->save();
-            header('Location: '.$_SERVER['HTTP_REFERER']);
+            header('Location: '.$_POST['nlb_referrer']);
             exit();
 		}
 		catch(DatabaseObjectException $e)

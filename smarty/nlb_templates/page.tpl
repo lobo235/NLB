@@ -9,17 +9,19 @@
 		<div id="outer-container">
 			<a class="site-logo" href="{$app->urlRoot()}"><h2>{$smarty.const.NLB_SITE_NAME|escape}</h2></a>
 			<div id="container">
-				<div id="left">
+				<div id="left" class="{if !isset($sidebar1_content)}expand{/if}">
 					<div id="main-content">
 						<h1>{if isset($pageTitle)}{$pageTitle|escape}{elseif isset($title)}{$title|escape}{else}{$smarty.const.NLB_SITE_NAME}{/if}</h1>
 {if isset($content)}{$content}{/if}
 					</div>
 				</div>
+{if isset($sidebar1_content)}
 				<div id="right">
 					<div id="right-content">
-						This is the right
+						{$sidebar1_content}
 					</div>
 				</div>
+{/if}
 				<div class="clear">&nbsp;</div>
 			</div>
 			<div id="footer" class="center">

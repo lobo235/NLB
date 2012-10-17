@@ -34,6 +34,7 @@ class Node extends Entity {
 			$this->setField('nid', $nid);
 			$this->lookup();
 		}
+		$this->setIdentifierField('title');
 	}
 
 	/**

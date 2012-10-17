@@ -39,6 +39,10 @@ a.site-logo:hover {
 	float: left;
 }
 
+#left.expand {
+	width: 950px;
+}
+
 #right {
 	width: 240px;
 	float: left;
