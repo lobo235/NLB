@@ -71,7 +71,21 @@ switch($_GET['action'])
 		$pageVars['content'] = $UI->renderTemplate('admin-entityForm.tpl', $vars, 5);
 		break;
 	case 'delete':
-		echo 'deleting entity '.$_GET['eid'];
+		$e = new Entity($_GET['eid']);
+		$entity_type = $e->getType();
+		class_exists($entity_type) || require_once(NLB_LIB_ROOT.'dom/'.$entity_type.'.class.php');
+		$e = new $entity_type();
+		$e->lookupUsingEid($_GET['eid']);
+		$e->delete();
+		if(isset($_SERVER['HTTP_REFERER']))
+		{
+			header('Location: '.$_SERVER['HTTP_REFERER']);
+		}
+		else
+		{
+			header('Location: '.$app->l('admin/entities'));
+		}
+		exit();
 		break;
 	case 'setstatus':
 		echo 'updating status of entity '.$_GET['eid'].' to '.$_GET['statusid'];
@@ -81,7 +95,7 @@ switch($_GET['action'])
 		$e = new $_POST['type'];
 		foreach($_POST as $key => $val)
 		{
-			if($key != 's')
+			if($key != 's' && $key != 'nlb_referrer')
 			{
 				$e->setField($key, $val);
 			}
@@ -89,8 +103,15 @@ switch($_GET['action'])
 		try
 		{
 			$e->save();
-            header('Location: '.$_POST['nlb_referrer']);
-            exit();
+			if(isset($_POST['nlb_referrer']))
+			{
+				header('Location: '.$_POST['nlb_referrer']);
+			}
+			else
+			{
+				header('Location: '.$app->l('admin/entities'));
+			}
+			exit();
 		}
 		catch(DatabaseObjectException $e)
 		{

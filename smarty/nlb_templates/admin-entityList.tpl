@@ -12,7 +12,7 @@
 		<td>{$e->getIdentifier()|escape}</td>
 		<td class="actions-column">
 			[<a href="{$app->l("admin/entity/edit/`$e->getEid()`")}">edit</a>]
-			[<a href="{$app->l("admin/entity/delete/`$e->getEid()`")}">delete</a>]
+			[<a href="{$app->l("admin/entity/delete/`$e->getEid()`")}" class="delete-confirm">delete</a>]
 		</td>
 	</tr>
 {/foreach}
