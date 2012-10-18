@@ -1,9 +1,9 @@
 <?php
 
-class_exists('DatabaseTable') || require(NLB_LIB_ROOT.'dao/DatabaseTable.class.php' );
-class_exists('LogService') || require(NLB_LIB_ROOT.'services/LogService.class.php');
-class_exists('DatabaseService') || require(NLB_LIB_ROOT.'services/DatabaseService.class.php');
-class_exists('DatabaseObjectException') || require(NLB_LIB_ROOT.'exceptions/DatabaseObjectException.class.php');
+class_exists('DatabaseTable') || require_once(NLB_LIB_ROOT.'dao/DatabaseTable.class.php' );
+class_exists('LogService') || require_once(NLB_LIB_ROOT.'services/LogService.class.php');
+class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+class_exists('DatabaseObjectException') || require_once(NLB_LIB_ROOT.'exceptions/DatabaseObjectException.class.php');
 
 class DatabaseObject
 {

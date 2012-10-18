@@ -1,9 +1,9 @@
 <?php
 
-class_exists('DatabaseService') || require(NLB_LIB_ROOT.'services/DatabaseService.class.php');
-class_exists('User') || require(NLB_LIB_ROOT.'dom/User.class.php');
-class_exists('Right') || require(NLB_LIB_ROOT.'dom/Right.class.php');
-class_exists('UserRight') || require(NLB_LIB_ROOT.'dom/UserRight.class.php');
+class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+class_exists('User') || require_once(NLB_LIB_ROOT.'dom/User.class.php');
+class_exists('Right') || require_once(NLB_LIB_ROOT.'dom/Right.class.php');
+class_exists('UserRight') || require_once(NLB_LIB_ROOT.'dom/UserRight.class.php');
 
 /**
  * The UserService is a service layer class that provides useful methods for dealing with User objects
@@ -169,7 +169,15 @@ class UserService {
 	 */
 	public function logoutUser()
 	{
-		unset($_SESSION['nlb_user_uid']);
+		if(isset($_SESSION))
+		{
+			unset($_SESSION['nlb_user_uid']);
+		}
+		$params = session_get_cookie_params();
+		setcookie(session_name(), '', time() - 42000,
+			$params["path"], $params["domain"],
+			$params["secure"], $params["httponly"]
+		);
 		session_destroy();
 	}
 	

@@ -1,6 +1,6 @@
 <?php
 
-class_exists('DatabaseObject') || require(NLB_LIB_ROOT.'dao/DatabaseObject.class.php');
+class_exists('DatabaseObject') || require_once(NLB_LIB_ROOT.'dao/DatabaseObject.class.php');
 
 /**
  * The UserRight class is a domain level object that holds all the user rights for a particular User

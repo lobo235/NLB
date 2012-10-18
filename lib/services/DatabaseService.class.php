@@ -1,7 +1,7 @@
 <?php
 
-class_exists('LogService') || require(NLB_LIB_ROOT.'services/LogService.class.php');
-class_exists('DatabaseServiceException') || require(NLB_LIB_ROOT.'exceptions/DatabaseServiceException.class.php');
+class_exists('LogService') || require_once(NLB_LIB_ROOT.'services/LogService.class.php');
+class_exists('DatabaseServiceException') || require_once(NLB_LIB_ROOT.'exceptions/DatabaseServiceException.class.php');
 
 /**
  * The DatabaseService class is a service layer class that provides an API for interacting with the database

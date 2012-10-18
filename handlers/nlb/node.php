@@ -1,6 +1,6 @@
 <?php
 
-class_exists('Node') || require(NLB_LIB_ROOT.'dom/Node.class.php');
+class_exists('Node') || require_once(NLB_LIB_ROOT.'dom/Node.class.php');
 
 if(isset($_GET['nid']) && is_numeric(trim($_GET['nid'])))
 {

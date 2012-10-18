@@ -1,6 +1,6 @@
 <?php
 
-class_exists('DatabaseService') || require(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
 
 /**
  * The UrlAliasService class provides useful methods for storing, retrieving, and using URL Aliases

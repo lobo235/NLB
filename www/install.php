@@ -16,13 +16,13 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	}
 
 	// Load and start our PageTimerService
-	class_exists('PageTimerService') || require(NLB_LIB_ROOT.'services/PageTimerService.class.php');
+	class_exists('PageTimerService') || require_once(NLB_LIB_ROOT.'services/PageTimerService.class.php');
 	$PageTimer = new PageTimerService();
 	$PageTimer->start();
 
 	// Load classes that will be needed during install
-	class_exists('DatabaseService') || require(NLB_LIB_ROOT.'services/DatabaseService.class.php');
-	class_exists('App') || require(NLB_LIB_ROOT.'util/App.class.php');
+	class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+	class_exists('App') || require_once(NLB_LIB_ROOT.'util/App.class.php');
 	
 	$app = App::getInstance();
 
@@ -95,8 +95,8 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 		echo "All SQL statements ran successfully...<br />\n";
 	}
 	
-	class_exists('UserService') || require(NLB_LIB_ROOT.'services/UserService.class.php');
-	class_exists('RightService') || require(NLB_LIB_ROOT.'services/RightService.class.php');
+	class_exists('UserService') || require_once(NLB_LIB_ROOT.'services/UserService.class.php');
+	class_exists('RightService') || require_once(NLB_LIB_ROOT.'services/RightService.class.php');
 	$userService = UserService::getInstance();
 	$rightService = RightService::getInstance();
 	
@@ -137,7 +137,6 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	$userRight = new UserRight();
 	$userRight->setRid($right->getRid());
 	$user->setUserRights(array($userRight));
-	$userService->hashUserPassword($user);
 	try
 	{
 		$user->save();

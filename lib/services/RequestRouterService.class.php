@@ -1,8 +1,8 @@
 <?php
 
-class_exists('LogService') || require(NLB_LIB_ROOT.'services/LogService.class.php');
-class_exists('App') || require(NLB_LIB_ROOT.'util/App.class.php');
-class_exists('UrlAliasService') || require(NLB_LIB_ROOT.'services/UrlAliasService.class.php');
+class_exists('LogService') || require_once(NLB_LIB_ROOT.'services/LogService.class.php');
+class_exists('App') || require_once(NLB_LIB_ROOT.'util/App.class.php');
+class_exists('UrlAliasService') || require_once(NLB_LIB_ROOT.'services/UrlAliasService.class.php');
 
 /**
  * The RequestRouterService is used for routing incoming requests to the correct location

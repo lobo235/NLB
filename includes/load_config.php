@@ -34,7 +34,7 @@ else
 if(NLB_LOG_PAGETIMES || NLB_DEBUG)
 {
 	// Load and start our PageTimerService
-	class_exists('PageTimerService') || require(NLB_LIB_ROOT.'services/PageTimerService.class.php');
+	class_exists('PageTimerService') || require_once(NLB_LIB_ROOT.'services/PageTimerService.class.php');
 	$PageTimer = new PageTimerService();
 	$PageTimer->start();
 }
@@ -51,7 +51,7 @@ else
 	ini_set('display_errors', 0);
 }
 
-class_exists('App') || require(NLB_LIB_ROOT.'util/App.class.php');
+class_exists('App') || require_once(NLB_LIB_ROOT.'util/App.class.php');
 
 // get an instance of the App class to be able to get info about this App
 $app = App::getInstance();

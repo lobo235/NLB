@@ -1,8 +1,8 @@
 <?php
 
-class_exists('DatabaseTable') || require(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
-class_exists('DatabaseColumn') || require(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
-class_exists('Entity') || require(NLB_LIB_ROOT.'dom/Entity.class.php');
+class_exists('DatabaseTable') || require_once(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
+class_exists('DatabaseColumn') || require_once(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
+class_exists('Entity') || require_once(NLB_LIB_ROOT.'dom/Entity.class.php');
 
 /**
  * The Node class represents a single Node in the system

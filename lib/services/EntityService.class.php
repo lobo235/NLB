@@ -1,6 +1,6 @@
 <?php
 
-class_exists('DatabaseService') || require(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
 
 /*
  * To change this template, choose Tools | Templates
@@ -68,7 +68,7 @@ class EntityService
 		{
 			foreach($res as $row)
 			{
-				class_exists($row['type']) || require(NLB_LIB_ROOT.'dom/'.$row['type'].'.class.php');
+				class_exists($row['type']) || require_once(NLB_LIB_ROOT.'dom/'.$row['type'].'.class.php');
 				$entity = new $row['type']();
 				$entity->lookupUsingEid($row['eid']);
 				$entities[] = $entity;

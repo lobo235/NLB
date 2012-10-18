@@ -1,6 +1,6 @@
 <?php
 
-class_exists('UrlAliasService') || require(NLB_LIB_ROOT.'services/UrlAliasService.class.php');
+class_exists('UrlAliasService') || require_once(NLB_LIB_ROOT.'services/UrlAliasService.class.php');
 
 /**
  * The App class provides information about the Application itself such as settings, paths, etc.

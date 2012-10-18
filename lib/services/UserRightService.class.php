@@ -1,7 +1,7 @@
 <?php
 
-class_exists('DatabaseService') || require(NLB_LIB_ROOT.'services/DatabaseService.class.php');
-class_exists('UserRight') || require(NLB_LIB_ROOT.'dom/UserRight.class.php');
+class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+class_exists('UserRight') || require_once(NLB_LIB_ROOT.'dom/UserRight.class.php');
 
 /**
  * The UserRightService is a service layer class that provides useful methods for dealing with UserRight objects

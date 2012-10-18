@@ -3,8 +3,8 @@
 // header.php figures out which config.inc.php file to load and loads it. Also instantiates all the services and objects we need to serve a page to the user.
 require(realpath(dirname(__FILE__).'/../includes/header.php'));
 
-class_exists('RequestRouterService') || require(NLB_LIB_ROOT.'services/RequestRouterService.class.php');
-class_exists('UserService') || require(NLB_LIB_ROOT.'services/UserService.class.php');
+class_exists('RequestRouterService') || require_once(NLB_LIB_ROOT.'services/RequestRouterService.class.php');
+class_exists('UserService') || require_once(NLB_LIB_ROOT.'services/UserService.class.php');
 
 // Try to get our logged-in user if there is one in the session, otherwise, we'll end up with the anonymous user (uid 1)
 $user = UserService::getInstance()->getUser();

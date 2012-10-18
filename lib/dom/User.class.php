@@ -1,9 +1,10 @@
 <?php
 
-class_exists('DatabaseTable') || require(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
-class_exists('DatabaseColumn') || require(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
-class_exists('Entity') || require(NLB_LIB_ROOT.'dom/Entity.class.php');
-class_exists('UserRightService') || require(NLB_LIB_ROOT.'services/UserRightService.class.php');
+class_exists('DatabaseTable') || require_once(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
+class_exists('DatabaseColumn') || require_once(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
+class_exists('Entity') || require_once(NLB_LIB_ROOT.'dom/Entity.class.php');
+class_exists('UserRightService') || require_once(NLB_LIB_ROOT.'services/UserRightService.class.php');
+class_exists('UserService') || require_once(NLB_LIB_ROOT.'services/UserService.class.php');
 
 /**
  * The User class represents a user of the system
@@ -11,6 +12,7 @@ class_exists('UserRightService') || require(NLB_LIB_ROOT.'services/UserRightServ
 class User extends Entity {
 	protected $userRights;
 	protected $userRightsLoaded;
+	protected $passwordEncrypted;
 	
 	/**
 	 * The constructor for the User class
@@ -52,9 +54,11 @@ class User extends Entity {
 		else
 		{
 			$this->setLastLoginDate(NULL);
+			$this->passwordEncrypted = FALSE;
 		}
 		
 		$this->userRightsLoaded = FALSE;
+		
 		$this->setIdentifierField('username');
 	}
 	
@@ -206,6 +210,7 @@ class User extends Entity {
 			$userRights = $userRightService->getUserRightsForUid($this->getUid());
 			$this->setUserRights($userRights);
 		}
+		$this->passwordEncrypted = TRUE;
 	}
 	
 	/**
@@ -213,6 +218,11 @@ class User extends Entity {
 	 */
 	public function save()
 	{
+		if(!$this->passwordEncrypted && $this->getPassword() != '')
+		{
+			$userService = UserService::getInstance();
+			$userService->hashUserPassword($this);
+		}
 		parent::save();
 		foreach($this->userRights as $userRight)
 		{

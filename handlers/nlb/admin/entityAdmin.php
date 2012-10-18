@@ -3,7 +3,7 @@
 switch($_GET['action'])
 {
 	case 'list':
-		class_exists('EntityService') || require(NLB_LIB_ROOT.'services/EntityService.class.php');
+		class_exists('EntityService') || require_once(NLB_LIB_ROOT.'services/EntityService.class.php');
 		$entityService = EntityService::getInstance();
 		if(isset($_GET['type']) && $_GET['type'] != '')
 		{
@@ -19,7 +19,7 @@ switch($_GET['action'])
 		$pageVars['content'] = $UI->renderTemplate('admin-entityList.tpl', $vars, 5);
 		break;
 	case 'create':
-		class_exists($_GET['entity_type']) || require(NLB_LIB_ROOT.'dom/'.$_GET['entity_type'].'.class.php');
+		class_exists($_GET['entity_type']) || require_once(NLB_LIB_ROOT.'dom/'.$_GET['entity_type'].'.class.php');
 		$e = new $_GET['entity_type'];
 		$e->setType($_GET['entity_type']);
 		$allcolumns = $e->getColumns();
@@ -46,7 +46,7 @@ switch($_GET['action'])
 	case 'edit':
 		$e = new Entity($_GET['eid']);
 		$entity_type = $e->getType();
-		class_exists($entity_type) || require(NLB_LIB_ROOT.'dom/'.$entity_type.'.class.php');
+		class_exists($entity_type) || require_once(NLB_LIB_ROOT.'dom/'.$entity_type.'.class.php');
 		$e = new $entity_type();
 		$e->lookupUsingEid($_GET['eid']);
 		$allcolumns = $e->getColumns();
@@ -77,7 +77,7 @@ switch($_GET['action'])
 		echo 'updating status of entity '.$_GET['eid'].' to '.$_GET['statusid'];
 		break;
 	case 'save':
-		class_exists($_POST['type']) || require(NLB_LIB_ROOT.'dom/'.$_POST['type'].'.class.php');
+		class_exists($_POST['type']) || require_once(NLB_LIB_ROOT.'dom/'.$_POST['type'].'.class.php');
 		$e = new $_POST['type'];
 		foreach($_POST as $key => $val)
 		{

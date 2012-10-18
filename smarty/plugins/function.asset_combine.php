@@ -10,8 +10,8 @@
  * -------------------------------------------------------------
  */
 
-class_exists('AssetCombiner') || require(NLB_LIB_ROOT.'util/AssetCombiner.class.php');
-class_exists('App') || require(NLB_LIB_ROOT.'util/App.class.php');
+class_exists('AssetCombiner') || require_once(NLB_LIB_ROOT.'util/AssetCombiner.class.php');
+class_exists('App') || require_once(NLB_LIB_ROOT.'util/App.class.php');
 
 function smarty_function_asset_combine(array $params, Smarty_Internal_Template $template)
 {
