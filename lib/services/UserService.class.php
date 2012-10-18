@@ -90,7 +90,7 @@ class UserService {
 		{
 			return TRUE;
 		}
-		elseif($right_name == 'authenticated user' && $user->getUid() != 0)
+		elseif($right_name == 'authenticated user' && $user->getUid() > 1)
 		{
 			return TRUE;
 		}
