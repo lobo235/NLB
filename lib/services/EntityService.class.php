@@ -55,12 +55,12 @@ class EntityService
 		$entities = array();
 		if($type === NULL)
 		{
-			$query = "SELECT `eid`,`type` FROM `entities`";
+			$query = "SELECT `eid`,`type` FROM `entities` ORDER BY `eid`";
 			$res = $this->DB->getSelectArray($query);
 		}
 		else
 		{
-			$query = "SELECT `eid`,`type` FROM `entities` WHERE `type` = ?";
+			$query = "SELECT `eid`,`type` FROM `entities` WHERE `type` = ? ORDER BY `eid`";
 			$res = $this->DB->getSelectArray($query, $type);
 		}
 		

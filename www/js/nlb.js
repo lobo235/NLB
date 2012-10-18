@@ -12,6 +12,11 @@ var windowloaded = function() {
 			e.preventDefault();
 		}
 	});
+	
+	$('body').delegate('a.scroll', 'click', function(e) {		
+		e.preventDefault();
+		$('html,body').animate({ scrollTop: $(this.hash).offset().top }, 500);
+	});
 }
 
 $(function(){

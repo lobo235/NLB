@@ -65,4 +65,8 @@ $nlb_routes = array(
 		'handler' => 'nlb/user_dashboard.php',
 		'access' => array('authenticated user'),
 	),
+	'faq' => array(
+		'handler' => 'nlb/faq.php',
+		'access' => array('anonymous user'),
+	),
 );
