@@ -16,4 +16,5 @@ if(isset($_GET['eid']) && is_numeric(trim($_GET['eid'])))
 else
 {
 	header('Location: /error/entity-not-found');
+	exit();
 }

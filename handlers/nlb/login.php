@@ -1,4 +1,5 @@
 <?php
+// Check to see if user is already logged in. If they are, route them to their dashboard
 if($user->getUid() > 1)
 {
 	header('Location: '.$app->l('user'));

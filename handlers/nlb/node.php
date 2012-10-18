@@ -12,4 +12,5 @@ if(isset($_GET['nid']) && is_numeric(trim($_GET['nid'])))
 else
 {
 	header('Location: /error/node-not-found');
+	exit();
 }
