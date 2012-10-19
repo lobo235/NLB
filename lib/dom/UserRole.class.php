@@ -3,13 +3,13 @@
 class_exists('DatabaseObject') || require_once(NLB_LIB_ROOT.'dao/DatabaseObject.class.php');
 
 /**
- * The UserRight class is a domain level object that holds all the user rights for a particular User
+ * The UserRole class is a domain level object that holds all the user roles for a particular User
  */
-class UserRight extends DatabaseObject {
+class UserRole extends DatabaseObject {
 	public function __construct($urid = NULL) {
 		parent::__construct();
 		$this->primaryIdColumn = 'urid';
-		$table = new DatabaseTable('user_rights', 'urid');
+		$table = new DatabaseTable('user_roles', 'urid');
 		$table->addColumn(new DatabaseColumn('urid', 'hidden,primary,id'));
 		$table->addColumn(new DatabaseColumn('uid', 'hidden,id'));
 		$table->addColumn(new DatabaseColumn('rid', 'hidden,id'));
@@ -29,8 +29,8 @@ class UserRight extends DatabaseObject {
 	}
 	
 	/**
-	 * This method sets the urid for this UserRight object
-	 * @param int $urid The urid for this UserRight object
+	 * This method sets the urid for this UserRole object
+	 * @param int $urid The urid for this UserRole object
 	 */
 	public function setUrid($urid)
 	{
@@ -38,8 +38,8 @@ class UserRight extends DatabaseObject {
 	}
 	
 	/**
-	 * This method sets the uid for this UserRight object
-	 * @param int $uid The uid for this UserRight object
+	 * This method sets the uid for this UserRole object
+	 * @param int $uid The uid for this UserRole object
 	 */
 	public function setUid($uid)
 	{
@@ -47,8 +47,8 @@ class UserRight extends DatabaseObject {
 	}
 	
 	/**
-	 * This method sets the rid for this UserRight object
-	 * @param int $rid The rid for this UserRight object
+	 * This method sets the rid for this UserRole object
+	 * @param int $rid The rid for this UserRole object
 	 */
 	public function setRid($rid)
 	{
@@ -56,8 +56,8 @@ class UserRight extends DatabaseObject {
 	}
 	
 	/**
-	 * This method gets the urid for this UserRight object
-	 * @return int the urid of this UserRight
+	 * This method gets the urid for this UserRole object
+	 * @return int the urid of this UserRole
 	 */
 	public function getUrid()
 	{
@@ -65,8 +65,8 @@ class UserRight extends DatabaseObject {
 	}
 	
 	/**
-	 * This method gets the uid for this UserRight object
-	 * @return int the uid of this UserRight
+	 * This method gets the uid for this UserRole object
+	 * @return int the uid of this UserRole
 	 */
 	public function getUid()
 	{
@@ -74,8 +74,8 @@ class UserRight extends DatabaseObject {
 	}
 	
 	/**
-	 * This method returns the rid for this UserRight object
-	 * @return int the rid contained in this UserRight object
+	 * This method returns the rid for this UserRole object
+	 * @return int the rid contained in this UserRole object
 	 */
 	public function getRid()
 	{

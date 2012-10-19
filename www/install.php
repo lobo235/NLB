@@ -96,9 +96,9 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	}
 	
 	class_exists('UserService') || require_once(NLB_LIB_ROOT.'services/UserService.class.php');
-	class_exists('RightService') || require_once(NLB_LIB_ROOT.'services/RightService.class.php');
+	class_exists('RoleService') || require_once(NLB_LIB_ROOT.'services/RoleService.class.php');
 	$userService = UserService::getInstance();
-	$rightService = RightService::getInstance();
+	$roleService = RoleService::getInstance();
 	
 	echo "Creating anonymous user...<br />\n";
 	
@@ -110,10 +110,10 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	$user->setPassword('');
 	$user->setStatus(1);
 
-	$right = $rightService->getRightByName('anonymous user');
-	$userRight = new UserRight();
-	$userRight->setRid($right->getRid());
-	$user->setUserRights(array($userRight));
+	$right = $roleService->getRoleByName('anonymous user');
+	$userRole = new UserRole();
+	$userRole->setRid($right->getRid());
+	$user->setUserRoles(array($userRole));
 	try
 	{
 		$user->save();
@@ -133,10 +133,10 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	$user->setPassword($_POST['password']);
 	$user->setStatus(1);
 
-	$right = $rightService->getRightByName("admin user");
+	$right = $roleService->getRoleByName("admin user");
 	$userRight = new UserRight();
 	$userRight->setRid($right->getRid());
-	$user->setUserRights(array($userRight));
+	$user->setUserRoles(array($userRight));
 	try
 	{
 		$user->save();

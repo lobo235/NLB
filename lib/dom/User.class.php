@@ -3,15 +3,15 @@
 class_exists('DatabaseTable') || require_once(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
 class_exists('DatabaseColumn') || require_once(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
 class_exists('Entity') || require_once(NLB_LIB_ROOT.'dom/Entity.class.php');
-class_exists('UserRightService') || require_once(NLB_LIB_ROOT.'services/UserRightService.class.php');
+class_exists('UserRoleService') || require_once(NLB_LIB_ROOT.'services/UserRoleService.class.php');
 class_exists('UserService') || require_once(NLB_LIB_ROOT.'services/UserService.class.php');
 
 /**
  * The User class represents a user of the system
  */
 class User extends Entity {
-	protected $userRights;
-	protected $userRightsLoaded;
+	protected $userRoles;
+	protected $userRolesLoaded;
 	protected $passwordEncrypted;
 	
 	/**
@@ -57,7 +57,7 @@ class User extends Entity {
 			$this->passwordEncrypted = FALSE;
 		}
 		
-		$this->userRightsLoaded = FALSE;
+		$this->userRolesLoaded = FALSE;
 		
 		$this->setIdentifierField('username');
 	}
@@ -117,13 +117,13 @@ class User extends Entity {
 	}
 	
 	/**
-	 * Sets the user rights for this User
-	 * @param UserRight[] $userRights an array of UserRight objects for this User
+	 * Sets the user roles for this User
+	 * @param UserRole[] $userRoles an array of UserRole objects for this User
 	 */
-	public function setUserRights(array $userRights)
+	public function setUserRoles(array $userRoles)
 	{
-		$this->userRights = $userRights;
-		$this->userRightsLoaded = TRUE;
+		$this->userRoles = $userRoles;
+		$this->userRolesLoaded = TRUE;
 	}
 	
 	/**
@@ -181,40 +181,40 @@ class User extends Entity {
 	}
 	
 	/**
-	 * Returns the user rights for this User
-	 * @return UserRight[] the array of UserRight objects for this User
+	 * Returns the user roles for this User
+	 * @return UserRole[] the array of UserRole objects for this User
 	 */
-	public function getUserRights()
+	public function getUserRoles()
 	{
-		return $this->userRights;
+		return $this->userRoles;
 	}
 	
 	/**
-	 * Returns TRUE if the user rights have been loaded, otherwise returns FALSE
-	 * @return boolean TRUE if the user rights have been loaded, otherwise FALSE
+	 * Returns TRUE if the user roles have been loaded, otherwise returns FALSE
+	 * @return boolean TRUE if the user roles have been loaded, otherwise FALSE
 	 */
-	public function userRightsLoaded()
+	public function userRolesLoaded()
 	{
-		return $this->userRightsLoaded;
+		return $this->userRolesLoaded;
 	}
 	
 	/**
-	 * This method overrides the DatabaseObject::lookup() method to allow the user's rights to be loaded
+	 * This method overrides the DatabaseObject::lookup() method to allow the user's roles to be loaded
 	 */
 	public function lookup()
 	{
 		parent::lookup();
-		if(!$this->userRightsLoaded)
+		if(!$this->userRolesLoaded)
 		{
-			$userRightService = UserRightService::getInstance();
-			$userRights = $userRightService->getUserRightsForUid($this->getUid());
-			$this->setUserRights($userRights);
+			$userRoleService = UserRoleService::getInstance();
+			$userRoles = $userRoleService->getUserRolesForUid($this->getUid());
+			$this->setUserRoles($userRoles);
 		}
 		$this->passwordEncrypted = TRUE;
 	}
 	
 	/**
-	 * This method overrides the DatabaseObject::save() method to allow the user's rights to be saved
+	 * This method overrides the DatabaseObject::save() method to allow the user's roles to be saved
 	 */
 	public function save()
 	{
@@ -224,30 +224,30 @@ class User extends Entity {
 			$userService->hashUserPassword($this);
 		}
 		parent::save();
-		foreach($this->userRights as $userRight)
+		foreach($this->userRoles as $userRole)
 		{
-			if($userRight->getUrid() === NULL)
+			if($userRole->getUrid() === NULL)
 			{
-				if($userRight->getUid() === NULL)
+				if($userRole->getUid() === NULL)
 				{
-					$userRight->setUid($this->getUid());
+					$userRole->setUid($this->getUid());
 				}
-				$userRight->save();
+				$userRole->save();
 			}
 		}
 	}
 	
 	/**
-	 * This method overrides the DatabaseObject::delete() method to allow the user's rights to be deleted
+	 * This method overrides the DatabaseObject::delete() method to allow the user's roles to be deleted
 	 */
 	public function delete()
 	{
 		parent::delete();
-		foreach($this->userRights as $userRight)
+		foreach($this->userRoles as $userRole)
 		{
-			if($userRight->getUrid() != NULL)
+			if($userRole->getUrid() != NULL)
 			{
-				$userRight->delete();
+				$userRole->delete();
 			}
 		}
 	}

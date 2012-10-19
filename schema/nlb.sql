@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `eid` (`eid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/* user_rights table */
-CREATE TABLE IF NOT EXISTS `user_rights` (
+/* user_roles table */
+CREATE TABLE IF NOT EXISTS `user_roles` (
   `urid` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(11) unsigned NOT NULL,
   `rid` int(11) unsigned NOT NULL,
@@ -46,16 +46,16 @@ CREATE TABLE IF NOT EXISTS `page_stats` (
   KEY `path` (`path`(255),`datetime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/* rights table */
-CREATE TABLE IF NOT EXISTS `rights` (
+/* roles table */
+CREATE TABLE IF NOT EXISTS `roles` (
   `rid` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `right_name` varchar(32) NOT NULL,
+  `role_name` varchar(32) NOT NULL,
   PRIMARY KEY (`rid`),
-  UNIQUE KEY `right_name_unique` (`right_name`)
+  UNIQUE KEY `role_name_unique` (`role_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/* rights table default contents */
-REPLACE INTO `rights` (`rid`, `right_name`) VALUES
+/* roles table default contents */
+REPLACE INTO `roles` (`rid`, `role_name`) VALUES
 (1, 'anonymous user'),
 (2, 'authenticated user'),
 (3, 'admin user');

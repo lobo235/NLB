@@ -63,11 +63,11 @@ class RequestRouterService {
 				$route['info']['handler'] = parse_url($route['info']['handler'], PHP_URL_PATH);
 			}
 			
-			// check user rights to this route before allowing them to access it.
+			// check user role rights to this route before allowing them to access it.
 			$hasRights = TRUE;
-			foreach($route['info']['access'] as $right)
+			foreach($route['info']['access'] as $role)
 			{
-				$hasRights = $hasRights && UserService::getInstance()->userHasRight($user, $right);
+				$hasRights = $hasRights && UserService::getInstance()->userHasRole($user, $role);
 			}
 			if($hasRights)
 			{

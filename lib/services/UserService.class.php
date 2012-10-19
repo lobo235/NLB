@@ -2,8 +2,8 @@
 
 class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
 class_exists('User') || require_once(NLB_LIB_ROOT.'dom/User.class.php');
-class_exists('Right') || require_once(NLB_LIB_ROOT.'dom/Right.class.php');
-class_exists('UserRight') || require_once(NLB_LIB_ROOT.'dom/UserRight.class.php');
+class_exists('Role') || require_once(NLB_LIB_ROOT.'dom/Role.class.php');
+class_exists('UserRole') || require_once(NLB_LIB_ROOT.'dom/UserRole.class.php');
 
 /**
  * The UserService is a service layer class that provides useful methods for dealing with User objects
@@ -79,63 +79,63 @@ class UserService {
 	}
 	
 	/**
-	 * Checks to see if the given user has the given right
+	 * Checks to see if the given user has the given role
 	 * @param User $user
-	 * @param type $right_name
-	 * @return boolean TRUE if the user has the right, otherwise, FALSE
+	 * @param type $role_name
+	 * @return boolean TRUE if the user has the role, otherwise, FALSE
 	 */
-	public function userHasRight(User $user, $right_name)
+	public function userHasRole(User $user, $role_name)
 	{
-		if($right_name == 'anonymous user')
+		if($role_name == 'anonymous user')
 		{
 			return TRUE;
 		}
-		elseif($right_name == 'authenticated user' && $user->getUid() > 1)
+		elseif($role_name == 'authenticated user' && $user->getUid() > 1)
 		{
 			return TRUE;
 		}
 		
-		if(!$user->userRightsLoaded())
+		if(!$user->userRolesLoaded())
 		{
-			$this->loadUserRights($user);
+			$this->loadUserRoles($user);
 		}
-		$hasRight = FALSE;
-		foreach($user->getUserRights() as $rightObj)
+		$hasRole = FALSE;
+		foreach($user->getUserRoles() as $roleObj)
 		{
-			$right = new Right($rightObj->getRid());
-			if($right_name == $right->getRightName())
+			$role = new Role($roleObj->getRid());
+			if($role_name == $role->getRoleName())
 			{
-				$hasRight = TRUE;
+				$hasRole = TRUE;
 				break;
 			}
 		}
-		return $hasRight;
+		return $hasRole;
 	}
 	
 	/**
-	 * Loads the UserRights for the given user
-	 * @param User $user the user to load rights for
+	 * Loads the UserRoles for the given user
+	 * @param User $user the user to load roles for
 	 * @return void
 	 */
-	private function loadUserRights(User $user)
+	private function loadUserRoles(User $user)
 	{
-		$rights = array();
-		$query = "SELECT * FROM `user_rights` WHERE `uid` = ?";
+		$roles = array();
+		$query = "SELECT * FROM `user_roles` WHERE `uid` = ?";
 		$res = $this->DB->getSelectArray($query, $user->getUid());
 		if(is_array($res) && count($res) > 0)
 		{
 			foreach($res as $row)
 			{
-				$right = new UserRight();
-				$right->setUrid($row['urid']);
-				$right->setUid($row['uid']);
-				$right->setRid($row['rid']);
+				$role = new UserRole();
+				$role->setUrid($row['urid']);
+				$role->setUid($row['uid']);
+				$role->setRid($row['rid']);
 				
-				$rights[] = $right;
+				$roles[] = $role;
 			}
 		}
 		
-		$user->setUserRights($rights);
+		$user->setUserRoles($roles);
 	}
 	
 	/**
