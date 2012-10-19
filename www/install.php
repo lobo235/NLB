@@ -110,9 +110,9 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	$user->setPassword('');
 	$user->setStatus(1);
 
-	$right = $roleService->getRoleByName('anonymous user');
+	$role = $roleService->getRoleByName('anonymous user');
 	$userRole = new UserRole();
-	$userRole->setRid($right->getRid());
+	$userRole->setRid($role->getRid());
 	$user->setUserRoles(array($userRole));
 	try
 	{
@@ -133,10 +133,10 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	$user->setPassword($_POST['password']);
 	$user->setStatus(1);
 
-	$right = $roleService->getRoleByName("admin user");
-	$userRight = new UserRight();
-	$userRight->setRid($right->getRid());
-	$user->setUserRoles(array($userRight));
+	$role = $roleService->getRoleByName("admin user");
+	$userRole = new UserRole();
+	$userRole->setRid($role->getRid());
+	$user->setUserRoles(array($userRole));
 	try
 	{
 		$user->save();
