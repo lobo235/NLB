@@ -2,6 +2,12 @@
 
 require_once('load_config.php');
 
+// make sure NLB is installed
+if($app->getVar('installed', 0) === 0)
+{
+	die('NLB has not yet been installed! Please visit the <a href="'.$app->urlRoot().'install.php">Install Page</a>.');
+}
+
 // Load classes that will be needed on almost every page
 class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
 class_exists('UIService') || require_once(NLB_LIB_ROOT.'services/UIService.class.php');

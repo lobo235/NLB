@@ -2,6 +2,11 @@
 
 require_once(realpath(dirname(__FILE__).'/../includes/load_config.php'));
 
+if($app->getVar('installed', 0) === 1)
+{
+	die('NLB has already been installed!');
+}
+
 if(isset($_POST['do']) && $_POST['do'] == 'Install')
 {
 	echo "Starting Install...<br />\n";
@@ -149,6 +154,7 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	$PageTimer->stop();
 	$mainGenTime = $PageTimer->getGenTime();
 	echo "Install completed in ".$mainGenTime." seconds...<br />\n";
+	$app->setVar('installed', 1);
 	
 	echo '<a href="'.$app->urlRoot().'">Visit the home page</a><br />'."\n";
 }

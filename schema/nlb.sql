@@ -76,3 +76,12 @@ CREATE TABLE IF NOT EXISTS `url_aliases` (
   `alias` varchar(255) NOT NULL,
   KEY `path` (`path`,`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* vars table */
+CREATE TABLE IF NOT EXISTS `vars` (
+  `vid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `value` text,
+  PRIMARY KEY (`vid`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
