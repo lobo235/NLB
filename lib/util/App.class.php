@@ -2,6 +2,7 @@
 
 class_exists('UrlAliasService') || require_once(NLB_LIB_ROOT.'services/UrlAliasService.class.php');
 class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+class_exists('StringUtils') || require_once(NLB_LIB_ROOT.'util/StringUtils.class.php');
 
 /**
  * The App class provides information about the Application itself such as settings, paths, etc.
@@ -12,6 +13,7 @@ class App
 	private $siteFolder;
 	private $UrlAliasService;
 	private $DB;
+	private $su;
 
 	/**
 	 * The constructor for the App class
@@ -22,6 +24,7 @@ class App
 		$this->siteFolder = $GLOBALS['siteDirectory'];
 		$this->UrlAliasService = UrlAliasService::getInstance();
 		$this->DB = DatabaseService::getInstance();
+		$this->su = StringUtils::getInstance();
 	}
 
 	/**
@@ -134,5 +137,14 @@ class App
 	{
 		$query = "DELETE FROM `vars` WHERE `name` = ?";
 		$this->DB->exec($query, $name);
+	}
+	
+	/**
+	 * Gets the current path. Accounts for different URL roots that may be configured
+	 * @return the current path (not including the URL root configured in NLB_URL_ROOT
+	 */
+	public function getCurrentPath()
+	{
+		return $this->su->str_replace_once($this->urlRoot(), '', $_SERVER['REQUEST_URI']);
 	}
 }

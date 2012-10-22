@@ -6,8 +6,10 @@ require(realpath(dirname(__FILE__).'/../includes/header.php'));
 class_exists('RequestRouterService') || require_once(NLB_LIB_ROOT.'services/RequestRouterService.class.php');
 class_exists('UserService') || require_once(NLB_LIB_ROOT.'services/UserService.class.php');
 
+$userService = UserService::getInstance();
+
 // Try to get our logged-in user if there is one in the session, otherwise, we'll end up with the anonymous user (uid 1)
-$user = UserService::getInstance()->getUser();
+$user = $userService->getUser();
 
 // Prevent the user from using index.php or index to access pages
 if(strpos($_SERVER['REQUEST_URI'], '/index') === 0)
@@ -31,6 +33,7 @@ $path = isset($_GET['q']) ? $_GET['q'] : 'index';
 $pageVars = array();
 $pageVars['app'] = $app;
 $pageVars['user'] = $user;
+$pageVars['userService'] = $userService;
 $pageVars['is_front'] = FALSE;
 
 // Register the NLB default css and js files

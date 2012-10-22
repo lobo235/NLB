@@ -3,17 +3,17 @@
 /*
  * Smarty plugin
  * -------------------------------------------------------------
- * File:     function.asset_combine.php
+ * File:     function.nlb_user_has_role.php
  * Type:     function
- * Name:     asset_combine
- * Purpose:  Uses the AssetCombiner class to combine/aggregate css/js files
+ * Name:     nlb_user_has_role
+ * Purpose:  Checks the user to determine if they have a specify user role
  * -------------------------------------------------------------
  */
 
 class_exists('AssetCombiner') || require_once(NLB_LIB_ROOT.'util/AssetCombiner.class.php');
 class_exists('App') || require_once(NLB_LIB_ROOT.'util/App.class.php');
 
-function smarty_function_asset_combine(array $params, Smarty_Internal_Template $template)
+function smarty_function_nlb_asset_combine(array $params, Smarty_Internal_Template $template)
 {
 	$app = App::getInstance();
 	if(!NLB_DEBUG)
