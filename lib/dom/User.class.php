@@ -41,8 +41,15 @@ class User extends Entity {
 		$table->addColumn(new DatabaseColumn('first_name', 'string', 32));
 		$table->addColumn(new DatabaseColumn('last_name', 'string', 32));
 		$table->addColumn(new DatabaseColumn('last_login_date', 'hidden,datetime'));
-		$table->addColumn(new DatabaseColumn('email', 'string', 64));
+		$table->addColumn(new DatabaseColumn('email', 'string', 64, array(
+			'size' => 50,
+		)));
 		$this->addTable($table);
+		
+		$this->specialFields[] = new DatabaseColumn('roles', 'select,multiple', NULL, array(
+			'size' => 7,
+			'options' => UserRoleService::getInstance()->getAvailableUserRoles(),
+		));
 		
 		$this->setType('User');
 		
@@ -50,6 +57,7 @@ class User extends Entity {
 		{
 			$this->setField('uid', $uid);
 			$this->lookup();
+			$this->passwordEncrypted = TRUE;
 		}
 		else
 		{
@@ -78,6 +86,7 @@ class User extends Entity {
 	public function setPassword($password)
 	{
 		$this->setField('password', $password);
+		$this->passwordEncrypted = FALSE;
 	}
 	
 	/**
@@ -204,10 +213,16 @@ class User extends Entity {
 	public function lookup()
 	{
 		parent::lookup();
-		if(!$this->userRolesLoaded)
+		if(!$this->userRolesLoaded())
 		{
 			$userRoleService = UserRoleService::getInstance();
 			$userRoles = $userRoleService->getUserRolesForUid($this->getUid());
+			$roles = array();
+			foreach($userRoles as $role)
+			{
+				$roles[] = $role->getRid();
+			}
+			$this->setField('roles', $roles);
 			$this->setUserRoles($userRoles);
 		}
 		$this->passwordEncrypted = TRUE;
@@ -224,15 +239,40 @@ class User extends Entity {
 			$userService->hashUserPassword($this);
 		}
 		parent::save();
+		$roles = $this->getField('roles');
 		foreach($this->userRoles as $userRole)
 		{
-			if($userRole->getUrid() === NULL)
+			if(!in_array($userRole->getRid(), $roles))
 			{
-				if($userRole->getUid() === NULL)
+				UserRoleService::getInstance()->removeRoleFromUser($userRole);
+				break;
+			}
+			else
+			{
+				if($userRole->getUrid() === NULL)
 				{
-					$userRole->setUid($this->getUid());
+					if($userRole->getUid() === NULL)
+					{
+						$userRole->setUid($this->getUid());
+					}
+					$userRole->save();
 				}
-				$userRole->save();
+			}
+		}
+		foreach($roles as $rid)
+		{
+			$hasRole = FALSE;
+			foreach($this->userRoles as $userRole)
+			{
+				if($userRole->getRid() == $rid)
+				{
+					$hasRole = TRUE;
+					break;
+				}
+			}
+			if(!$hasRole)
+			{
+				UserRoleService::getInstance()->addRoleToUser($this->getUid(), $rid);
 			}
 		}
 	}
@@ -249,6 +289,25 @@ class User extends Entity {
 			{
 				$userRole->delete();
 			}
+		}
+	}
+	
+	/**
+	 * This method overrides the DatabaseObject::setField() method to allow the user's password to be saved correctly
+	 */
+	public function setField($name, $value)
+	{
+		if($name == 'password')
+		{
+			if($value != '')
+			{
+				$this->passwordEncrypted = FALSE;
+				$this->fields[$name] = $value;
+			}
+		}
+		else
+		{
+			$this->fields[$name] = $value;
 		}
 	}
 }

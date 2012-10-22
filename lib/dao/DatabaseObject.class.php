@@ -70,9 +70,9 @@ class DatabaseObject
 			else
 			{
 				$this->insert();
+				$this->lookup();
 			}
 		}
-		$this->lookup();
 	}
 	
 	private function insert()
@@ -238,8 +238,6 @@ class DatabaseObject
 	public function setPrimaryId($id)
 	{
 		$this->setField($this->primaryIdColumn, $id);
-		if($id != NULL)
-			$this->lookup();
 	}
 
 	protected function setPrimaryKeyColumn($name)
@@ -278,8 +276,8 @@ class DatabaseObject
 		}
 		return $allcolumns;
 	}
-	
-	public function lookupUsingEid($eid = NULL)
+	/* This was the old way we did it. The new way is below this commented block. Saving this code in case the new method breaks something.
+	public function lookupUsingEidOld($eid = NULL)
 	{
 		if($eid === NULL)
 		{
@@ -308,6 +306,29 @@ class DatabaseObject
 				$this->fields = array_merge($this->fields, $res[0]);
 			}
 			$i++;
+		}
+	}*/
+	
+	public function lookupUsingEid($eid = NULL)
+	{
+		if($eid === NULL)
+		{
+			$this->Log->error('DatabaseObject->lookupUsingEid()', 'Method was called with NULL eid');
+		}
+		else
+		{
+			$this->setField('eid', $eid);
+		}
+		$q = "SELECT `".$this->primaryIdColumn."` FROM `".end($this->tables)->getTableName()."` WHERE `eid` = ?";
+		$res = $this->DB->getSelectFirst($q, $eid);
+		if($res !== FALSE)
+		{
+			$this->setPrimaryId($res);
+			$this->lookup();
+		}
+		else
+		{
+			$this->Log->error('DatabaseObject->lookupUsingEid()', $this->primaryIdColumn.' could not be linked to eid');
 		}
 	}
 }

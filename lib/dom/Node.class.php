@@ -8,6 +8,8 @@ class_exists('Entity') || require_once(NLB_LIB_ROOT.'dom/Entity.class.php');
  * The Node class represents a single Node in the system
  */
 class Node extends Entity {
+	protected $alias;
+	
 	/**
 	 * The constructor for the Node class
 	 */
@@ -26,6 +28,10 @@ class Node extends Entity {
 			'cols' => 80,
 		)));
 		$this->addTable($table);
+		
+		$this->specialFields[] = new DatabaseColumn('alias', 'string', 255, array(
+			'size' => 60,
+		));
 		
 		$this->setType('Node');
 		

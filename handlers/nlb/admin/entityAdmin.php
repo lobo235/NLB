@@ -1,5 +1,24 @@
 <?php
 
+function prepareFields($allColumns, $specialFields, &$useWysiwyg, &$vars)
+{
+	foreach($allColumns as $table_name => $columns)
+	{
+		foreach($columns as $column)
+		{
+			if($column->isType('wysiwyg'))
+				$useWysiwyg = TRUE;
+			$vars['columns'][] = $column;
+		}
+	}
+	foreach($specialFields as $field)
+	{
+		if($column->isType('wysiwyg'))
+			$useWysiwyg = TRUE;
+		$vars['columns'][] = $field;
+	}
+}
+
 switch($_GET['action'])
 {
 	case 'list':
@@ -22,19 +41,19 @@ switch($_GET['action'])
 		class_exists($_GET['entity_type']) || require_once(NLB_LIB_ROOT.'dom/'.$_GET['entity_type'].'.class.php');
 		$e = new $_GET['entity_type'];
 		$e->setType($_GET['entity_type']);
-		$allcolumns = $e->getColumns();
-		$vars['entity'] = $e;
-		$vars['columns'] = array();
-		$useWysiwyg = false;
-		foreach($allcolumns as $table_name => $columns)
+		if(isset($_GET['default_params']) && is_array($_GET['default_params']))
 		{
-			foreach($columns as $column)
+			foreach($_GET['default_params'] as $field => $value)
 			{
-				if($column->isType('wysiwyg'))
-					$useWysiwyg = true;
-				$vars['columns'][] = $column;
+				$e->setField($field, $value);
 			}
 		}
+		$allColumns = $e->getColumns();
+		$specialFields = $e->getSpecialFields();
+		$vars['entity'] = $e;
+		$vars['columns'] = array();
+		$useWysiwyg = FALSE;
+		prepareFields($allColumns, $specialFields, $useWysiwyg, $vars);
 		if($useWysiwyg)
 		{
 			$UI->registerAsset('js/ckeditor/ckeditor.js', FALSE, FALSE);
@@ -49,19 +68,12 @@ switch($_GET['action'])
 		class_exists($entity_type) || require_once(NLB_LIB_ROOT.'dom/'.$entity_type.'.class.php');
 		$e = new $entity_type();
 		$e->lookupUsingEid($_GET['eid']);
-		$allcolumns = $e->getColumns();
+		$allColumns = $e->getColumns();
+		$specialFields = $e->getSpecialFields();
 		$vars['entity'] = $e;
 		$vars['columns'] = array();
-		$useWysiwyg = false;
-		foreach($allcolumns as $table_name => $columns)
-		{
-			foreach($columns as $column)
-			{
-				if($column->isType('wysiwyg'))
-					$useWysiwyg = true;
-				$vars['columns'][] = $column;
-			}
-		}
+		$useWysiwyg = FALSE;
+		prepareFields($allColumns, $specialFields, $useWysiwyg, $vars);
 		if($useWysiwyg)
 		{
 			$UI->registerAsset('js/ckeditor/ckeditor.js', FALSE, FALSE);
@@ -93,6 +105,10 @@ switch($_GET['action'])
 	case 'save':
 		class_exists($_POST['type']) || require_once(NLB_LIB_ROOT.'dom/'.$_POST['type'].'.class.php');
 		$e = new $_POST['type'];
+		if(isset($_POST['eid']) && $_POST['eid'] != '')
+		{
+			$e->lookupUsingEid($_POST['eid']);
+		}
 		foreach($_POST as $key => $val)
 		{
 			if($key != 's' && $key != 'nlb_referrer')
