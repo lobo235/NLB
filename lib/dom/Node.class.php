@@ -3,6 +3,7 @@
 class_exists('DatabaseTable') || require_once(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
 class_exists('DatabaseColumn') || require_once(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
 class_exists('Entity') || require_once(NLB_LIB_ROOT.'dom/Entity.class.php');
+class_exists('UrlAliasService') || require_once(NLB_LIB_ROOT.'services/UrlAliasService.class.php');
 
 /**
  * The Node class represents a single Node in the system
@@ -95,5 +96,31 @@ class Node extends Entity {
 	public function getBody()
 	{
 		return $this->getField('body');
+	}
+	
+	/**
+	 * This function overrides the lookup method in DatabaseObject in order to provide additional functionality
+	 */
+	public function lookup()
+	{
+		parent::lookup();
+		$path = 'node/'.$this->getNid();
+		$alias = UrlAliasService::getInstance()->getAlias($path);
+		if($alias != $path)
+		{
+			$this->setField('alias', $alias);
+		}
+	}
+	
+	/**
+	 * This function overrides the save method in DatabaseObject in order to provide additional functionality
+	 */
+	public function save()
+	{
+		parent::save();
+		if($this->getField('alias') != '')
+			UrlAliasService::getInstance()->setAlias('node/'.$this->getNid(), $this->getField('alias'));
+		else
+			UrlAliasService::getInstance()->deleteAliasForPath('node/'.$this->getNid());
 	}
 }

@@ -105,4 +105,41 @@ class UrlAliasService {
 			return $retval;
 		}
 	}
+	
+	/**
+	 * This function deletes an alias based on the path
+	 * @param $path the path to delete the alias for
+	 * @return bool TRUE if alias was deleted, otherwise, FALSE
+	 */
+	function deleteAliasForPath($path)
+	{
+		if($path != '')
+		{
+			$query = "DELETE FROM `url_aliases` WHERE `path` = ?";
+			return $this->DB->exec($query, $path);
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+	
+	/**
+	 * This function sets the alias associated with a particular path. If the path has already been aliased, this function updates the alias associated with the path
+	 * @param $path the path to set an alias for
+	 * @param $alias the alias to set
+	 * @return bool TRUE if the alias was set successfully, otherwise, FALSE
+	 */
+	function setAlias($path, $alias)
+	{
+		if($path != $alias && $path != '' && $alias != '')
+		{
+			$query = "REPLACE INTO `url_aliases` (`path`,`alias`) VALUES (?,?)";
+			return $this->DB->exec($query, array($path, $alias));
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 }

@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `nodes` (
 CREATE TABLE IF NOT EXISTS `url_aliases` (
   `path` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
+  UNIQUE KEY `unique_path_index` (`path`),
   KEY `path` (`path`,`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
