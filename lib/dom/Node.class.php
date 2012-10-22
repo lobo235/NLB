@@ -123,4 +123,14 @@ class Node extends Entity {
 		else
 			UrlAliasService::getInstance()->deleteAliasForPath('node/'.$this->getNid());
 	}
+	
+	/**
+	 * This function overrides the delete method in DatabaseObject in order to provice additional functionality
+	 */
+	public function delete()
+	{
+		parent::delete();
+		if($this->getField('alias') != '')
+			UrlAliasService::getInstance()->deleteAliasForPath('node/'.$this->getNid());
+	}
 }

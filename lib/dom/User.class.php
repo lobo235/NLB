@@ -240,34 +240,40 @@ class User extends Entity {
 		}
 		parent::save();
 		$roles = $this->getField('roles');
-		foreach($this->userRoles as $userRole)
+		if(is_array($this->userRoles))
 		{
-			if(!in_array($userRole->getRid(), $roles))
+			foreach($this->userRoles as $userRole)
 			{
-				UserRoleService::getInstance()->removeRoleFromUser($userRole);
-				break;
-			}
-			else
-			{
-				if($userRole->getUrid() === NULL)
+				if(!in_array($userRole->getRid(), $roles))
 				{
-					if($userRole->getUid() === NULL)
+					UserRoleService::getInstance()->removeRoleFromUser($userRole);
+					break;
+				}
+				else
+				{
+					if($userRole->getUrid() === NULL)
 					{
-						$userRole->setUid($this->getUid());
+						if($userRole->getUid() === NULL)
+						{
+							$userRole->setUid($this->getUid());
+						}
+						$userRole->save();
 					}
-					$userRole->save();
 				}
 			}
 		}
 		foreach($roles as $rid)
 		{
 			$hasRole = FALSE;
-			foreach($this->userRoles as $userRole)
+			if(is_array($this->userRoles))
 			{
-				if($userRole->getRid() == $rid)
+				foreach($this->userRoles as $userRole)
 				{
-					$hasRole = TRUE;
-					break;
+					if($userRole->getRid() == $rid)
+					{
+						$hasRole = TRUE;
+						break;
+					}
 				}
 			}
 			if(!$hasRole)

@@ -70,7 +70,6 @@ class DatabaseObject
 			else
 			{
 				$this->insert();
-				$this->lookup();
 			}
 		}
 	}

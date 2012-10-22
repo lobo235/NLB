@@ -30,8 +30,7 @@
 				<select name="{$column->getName()}{if $column->isType('multiple')}[]{/if}"{if $column->isType('multiple')} multiple="multiple"{/if}{if $extras.size} size="{$extras.size}"{/if}>
 {foreach from=$extras.options item=option_name key=option_id}
 {$selectedValues=$entity->getField($column->getName())}
-<!-- {$selectedValues|print_r:'TRUE'} -->
-					<option value="{$option_id}"{if in_array($option_id, $selectedValues)} selected="selected"{/if}>{$option_name|escape}</option>
+					<option value="{$option_id}"{if $selectedValues && in_array($option_id, $selectedValues)} selected="selected"{/if}>{$option_name|escape}</option>
 {/foreach}
 				</select>
 {/if}
