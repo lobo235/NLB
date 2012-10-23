@@ -1,4 +1,4 @@
-<ul class="entity-admin-menu">
+<ul class="admin-menu">
 	<li><a href="{$app->l("admin/entities")}">Entity List</a></li>
 	<li><a href="{$app->l("admin/entities/User")}">User List</a></li>
 	<li><a href="{$app->l("admin/entities/Node")}">Node List</a></li>

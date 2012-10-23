@@ -57,6 +57,26 @@ $nlb_routes = array(
 		'handler' => 'nlb/admin/entityAdmin.php?action=save',
 		'access' => array('admin user'),
 	),
+	'admin/db-objects/%type' => array(
+		'handler' => 'nlb/admin/dbObjectAdmin.php?action=list&type=%type',
+		'access' => array('admin user'),
+	),
+	'admin/db-object/create/%type' => array(
+		'handler' => 'nlb/admin/dbObjectAdmin.php?action=create&type=%type',
+		'access' => array('admin user'),
+	),
+	'admin/db-object/edit/%type/%object_id' => array(
+		'handler' => 'nlb/admin/dbObjectAdmin.php?action=edit&type=%type&object_id=%object_id',
+		'access' => array('admin user'),
+	),
+	'admin/db-object/delete/%type/%object_id' => array(
+		'handler' => 'nlb/admin/dbObjectAdmin.php?action=delete&type=%type&object_id=%object_id',
+		'access' => array('admin user'),
+	),
+	'admin/db-object/%type/save' => array(
+		'handler' => 'nlb/admin/dbObjectAdmin.php?action=save&type=%type',
+		'access' => array('admin user'),
+	),
 	'node/%nid' => array(
 		'handler' => 'nlb/node.php?nid=%nid',
 		'access' => array('anonymous user'),

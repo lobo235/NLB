@@ -244,7 +244,7 @@ class DatabaseObject
 		$this->primaryIdColumn = $name;
 	}
 	
-	protected function getPrimaryIdColumn()
+	public function getPrimaryIdColumn()
 	{
 		return $this->primaryIdColumn;
 	}
@@ -334,5 +334,14 @@ class DatabaseObject
 		{
 			$this->Log->error('DatabaseObject->lookupUsingEid()', $this->primaryIdColumn.' could not be linked to eid');
 		}
+	}
+	
+	/**
+	 * This function returns the $this->tables array
+	 * @return array the tables this database object uses
+	 */
+	public function getTables()
+	{
+		return $this->tables;
 	}
 }
