@@ -14,7 +14,7 @@ class Faq extends Entity {
 	public function __construct($faqid = NULL)
 	{
 		parent::__construct();
-		$this->primaryIdColumn = 'faqid';
+		$this->setPrimaryIdColumn('faqid');
 		
 		$table = new DatabaseTable('faqs', 'faqid');
 		$table->addColumn(new DatabaseColumn('faqid', 'hidden,primary,id'));

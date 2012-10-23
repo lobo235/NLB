@@ -23,7 +23,7 @@ class DatabaseObject
 
 	public function lookup()
 	{
-		if($this->getField($this->primaryIdColumn) === NULL)
+		if($this->getField($this->getPrimaryIdColumn()) === NULL)
 		{
 			$this->Log->error('DatabaseObject->lookup()', 'Method was called when primaryId not set');
 		}
@@ -41,9 +41,9 @@ class DatabaseObject
 			}
 			if($res && count($res) > 0)
 			{
-				if(isset($res[0][$this->primaryIdColumn]))
+				if(isset($res[0][$this->getPrimaryIdColumn()]))
 				{
-					unset($res[0][$this->primaryIdColumn]);
+					unset($res[0][$this->getPrimaryIdColumn()]);
 				}
 
 				$this->fields = array_merge($this->fields, $res[0]);
@@ -57,7 +57,7 @@ class DatabaseObject
 	 */
 	public function save()
 	{
-		if($this->getField($this->primaryIdColumn) === NULL) // We will insert new data into the DB
+		if($this->getField($this->getPrimaryIdColumn()) === NULL) // We will insert new data into the DB
 		{
 			$this->insert();
 		}
@@ -197,7 +197,7 @@ class DatabaseObject
 	 */
 	public function delete()
 	{
-		if($this->getField($this->primaryIdColumn) != NULL) // We can only delete an object that has a primaryId set
+		if($this->getField($this->getPrimaryIdColumn()) != NULL) // We can only delete an object that has a primaryId set
 		{
 			if(count($this->tables) > 1)
 			{
@@ -239,9 +239,14 @@ class DatabaseObject
 		$this->setField($this->primaryIdColumn, $id);
 	}
 
-	protected function setPrimaryKeyColumn($name)
+	protected function setPrimaryIdColumn($name)
 	{
-		$this->primaryKeyColumn = $name;
+		$this->primaryIdColumn = $name;
+	}
+	
+	protected function getPrimaryIdColumn()
+	{
+		return $this->primaryIdColumn;
 	}
 
 	protected function addTable(DatabaseTable $databaseTable)

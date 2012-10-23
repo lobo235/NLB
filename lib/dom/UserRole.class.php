@@ -8,7 +8,7 @@ class_exists('DatabaseObject') || require_once(NLB_LIB_ROOT.'dao/DatabaseObject.
 class UserRole extends DatabaseObject {
 	public function __construct($urid = NULL) {
 		parent::__construct();
-		$this->primaryIdColumn = 'urid';
+		$this->setPrimaryIdColumn('urid');
 		$table = new DatabaseTable('user_roles', 'urid');
 		$table->addColumn(new DatabaseColumn('urid', 'hidden,primary,id'));
 		$table->addColumn(new DatabaseColumn('uid', 'hidden,id'));

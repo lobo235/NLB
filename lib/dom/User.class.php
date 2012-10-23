@@ -32,7 +32,7 @@ class User extends Entity {
 		);
 		$this->tables[0]->addColumn($statusColumn);
 		
-		$this->primaryIdColumn = 'uid';
+		$this->setPrimaryIdColumn('uid');
 		
 		$table = new DatabaseTable('users', 'uid');
 		$table->addColumn(new DatabaseColumn('uid', 'hidden,primary,id'));

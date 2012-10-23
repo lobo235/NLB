@@ -16,7 +16,7 @@ class Entity extends DatabaseObject
 	public function __construct($eid = NULL)
 	{
 		parent::__construct();
-		$this->primaryIdColumn = 'eid';
+		$this->setPrimaryIdColumn('eid');
 		
 		$this->specialFields = array();
 		

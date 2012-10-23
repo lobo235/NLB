@@ -17,7 +17,7 @@ class Node extends Entity {
 	public function __construct($nid = NULL)
 	{
 		parent::__construct();
-		$this->primaryIdColumn = 'nid';
+		$this->setPrimaryIdColumn('nid');
 		
 		$table = new DatabaseTable('nodes', 'nid');
 		$table->addColumn(new DatabaseColumn('nid', 'hidden,primary,id'));
