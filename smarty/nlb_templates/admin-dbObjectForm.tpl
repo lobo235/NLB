@@ -6,7 +6,7 @@
 			<td class="admin-form-pair">
 {if !$column->isType('hidden')}
 				<div class="admin-form-label">
-					<strong>{$column->getName()|replace:'_':' '|ucwords|escape}:</strong>
+					<strong>{if isset($extras.label)}{$extras.label|escape}{else}{$column->getName()|replace:'_':' '|ucwords|escape}{/if}:</strong>
 {if $column->isType('select') && $column->isType('multiple')}
 					<em>(Multiple values can be selected by holding down CTRL while clicking)</em>
 {/if}

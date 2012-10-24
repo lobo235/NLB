@@ -86,3 +86,28 @@ CREATE TABLE IF NOT EXISTS `vars` (
   PRIMARY KEY (`vid`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* menus table */
+CREATE TABLE IF NOT EXISTS `menus` (
+  `mid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `menu_name` varchar(128) NOT NULL,
+  PRIMARY KEY (`mid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* menu_items table */
+CREATE TABLE IF NOT EXISTS `menu_items` (
+  `miid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `mid` int(11) unsigned NOT NULL,
+  `menu_item_name` varchar(128) NOT NULL,
+  `menu_item_location` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`miid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+/* menu_item_roles table */
+CREATE TABLE IF NOT EXISTS `menu_item_roles` (
+  `mirid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `miid` int(11) unsigned NOT NULL,
+  `rid` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`mirid`),
+  UNIQUE KEY `miid_rid_unique` (`miid`,`rid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

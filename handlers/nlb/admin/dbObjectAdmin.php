@@ -2,7 +2,7 @@
 
 class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
 
-function prepareFields($allColumns, &$useWysiwyg, &$vars)
+function prepareFields($allColumns, $specialFields, &$useWysiwyg, &$vars)
 {
 	foreach($allColumns as $table_name => $columns)
 	{
@@ -12,6 +12,12 @@ function prepareFields($allColumns, &$useWysiwyg, &$vars)
 				$useWysiwyg = TRUE;
 			$vars['columns'][] = $column;
 		}
+	}
+	foreach($specialFields as $field)
+	{
+		if($column->isType('wysiwyg'))
+			$useWysiwyg = TRUE;
+		$vars['columns'][] = $field;
 	}
 }
 
@@ -29,11 +35,15 @@ switch($_GET['action'])
 			$query = "SELECT `".$obj->getPrimaryIdColumn()."` FROM `".end($tables)->getTableName()."` ORDER BY `".$obj->getPrimaryIdColumn()."`";
 			
 			$res = DatabaseService::getInstance()->getSelectArray($query);
-			foreach($res as $row)
+			if(is_array($res) && count($res) > 0)
 			{
-				$objects[] = new $_GET['type']($row[$obj->getPrimaryIdColumn()]);
+				foreach($res as $row)
+				{
+					$objects[] = new $_GET['type']($row[$obj->getPrimaryIdColumn()]);
+				}
 			}
 			
+			$vars['template_obj'] = $obj;
 			$vars['objects'] = $objects;
 			$pageVars['title'] = $_GET['type'].' List';
 		}
@@ -51,10 +61,11 @@ switch($_GET['action'])
 			}
 		}
 		$allColumns = $obj->getColumns();
+		$specialFields = $obj->getSpecialFields();
 		$vars['object'] = $obj;
 		$vars['columns'] = array();
 		$useWysiwyg = FALSE;
-		prepareFields($allColumns, $useWysiwyg, $vars);
+		prepareFields($allColumns, $specialFields, $useWysiwyg, $vars);
 		if($useWysiwyg)
 		{
 			$UI->registerAsset('js/ckeditor/ckeditor.js', FALSE, FALSE);
@@ -67,10 +78,11 @@ switch($_GET['action'])
 		class_exists($_GET['type']) || require_once(NLB_LIB_ROOT.'dom/'.$_GET['type'].'.class.php');
 		$obj = new $_GET['type']($_GET['object_id']);
 		$allColumns = $obj->getColumns();
+		$specialFields = $obj->getSpecialFields();
 		$vars['object'] = $obj;
 		$vars['columns'] = array();
 		$useWysiwyg = FALSE;
-		prepareFields($allColumns, $useWysiwyg, $vars);
+		prepareFields($allColumns, $specialFields, $useWysiwyg, $vars);
 		if($useWysiwyg)
 		{
 			$UI->registerAsset('js/ckeditor/ckeditor.js', FALSE, FALSE);
@@ -111,7 +123,7 @@ switch($_GET['action'])
 		try
 		{
 			$obj->save();
-			if(isset($_POST['nlb_referrer']))
+			if(isset($_POST['nlb_referrer']) && $_POST['nlb_referrer'] != '')
 			{
 				header('Location: '.$_POST['nlb_referrer']);
 			}
