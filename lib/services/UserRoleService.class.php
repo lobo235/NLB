@@ -100,7 +100,7 @@ class UserRoleService {
 	 */
 	public function addRoleToUser($uid, $rid)
 	{
-		$query = "INSERT INTO `user_roles` (`uid`, `rid`) VALUES(?, ?)";
+		$query = "REPLACE INTO `user_roles` (`uid`, `rid`) VALUES(?, ?)";
 		$res = $this->DB->execUpdate($query, array($uid, $rid));
 		return $res;
 	}
