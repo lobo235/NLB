@@ -12,6 +12,7 @@ class DatabaseObject
 	protected $primaryIdColumn = NULL;
 	protected $Log;
 	protected $DB;
+	protected $specialFields;
 
 	public function __construct()
 	{
@@ -19,6 +20,7 @@ class DatabaseObject
 		$this->fields = array();
 		$this->Log = LogService::getInstance();
 		$this->DB = DatabaseService::getInstance();
+		$this->specialFields = array();
 	}
 
 	public function lookup()
@@ -343,5 +345,14 @@ class DatabaseObject
 	public function getTables()
 	{
 		return $this->tables;
+	}
+	
+	/**
+	 * This function returns an array of all the special fields
+	 * @return DatabaseColumn[] an array of DatabaseColumn objects representing the special fields in the Entity
+	 */
+	public function getSpecialFields()
+	{
+		return $this->specialFields;
 	}
 }

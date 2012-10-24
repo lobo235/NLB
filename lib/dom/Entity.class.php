@@ -9,7 +9,6 @@ class_exists('DatabaseObject') || require_once(NLB_LIB_ROOT.'dao/DatabaseObject.
  */
 class Entity extends DatabaseObject
 {
-	protected $specialFields;
 	/**
 	 * The constructor for the Entity class
 	 */
@@ -17,8 +16,6 @@ class Entity extends DatabaseObject
 	{
 		parent::__construct();
 		$this->setPrimaryIdColumn('eid');
-		
-		$this->specialFields = array();
 		
 		$table = new DatabaseTable('entities', 'eid');
 		$table->addColumn(new DatabaseColumn('eid', 'hidden,primary,id'));
@@ -174,14 +171,5 @@ class Entity extends DatabaseObject
 	public function getIdentifier()
 	{
 		return $this->getField($this->getField('nlb_identifier'));
-	}
-	
-	/**
-	 * This function returns an array of all the special fields
-	 * @return DatabaseColumn[] an array of DatabaseColumn objects representing the special fields in the Entity
-	 */
-	public function getSpecialFields()
-	{
-		return $this->specialFields;
 	}
 }
