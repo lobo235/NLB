@@ -240,9 +240,9 @@ class User extends Entity {
 		}
 		parent::save();
 		$roles = $this->getField('roles');
-		if(is_array($this->userRoles))
+		if(is_array($this->getUserRoles()))
 		{
-			foreach($this->userRoles as $userRole)
+			foreach($this->getUserRoles() as $userRole)
 			{
 				if(!in_array($userRole->getRid(), $roles))
 				{
@@ -265,9 +265,9 @@ class User extends Entity {
 		foreach($roles as $rid)
 		{
 			$hasRole = FALSE;
-			if(is_array($this->userRoles))
+			if(is_array($this->getUserRoles()))
 			{
-				foreach($this->userRoles as $userRole)
+				foreach($this->getUserRoles() as $userRole)
 				{
 					if($userRole->getRid() == $rid)
 					{
@@ -289,7 +289,7 @@ class User extends Entity {
 	public function delete()
 	{
 		parent::delete();
-		foreach($this->userRoles as $userRole)
+		foreach($this->getUserRoles() as $userRole)
 		{
 			if($userRole->getUrid() != NULL)
 			{
@@ -308,12 +308,12 @@ class User extends Entity {
 			if($value != '')
 			{
 				$this->passwordEncrypted = FALSE;
-				$this->fields[$name] = $value;
+				parent::setField($name, $value);
 			}
 		}
 		else
 		{
-			$this->fields[$name] = $value;
+			parent::setField($name, $value);
 		}
 	}
 }
