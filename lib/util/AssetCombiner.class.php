@@ -76,6 +76,7 @@ class AssetCombiner
 				rsort($cssModifiedTimes);
 				$this->combinedCSSFile = $this->outputDir . $this->filesHash() . $cssModifiedTimes[0] . '.cached.css';
 				$fileOutput = array();
+				$imports = array();
 				foreach($cssFiles as $file)
 				{
 					$fileContents = file_get_contents($file['filename']);
@@ -83,8 +84,21 @@ class AssetCombiner
 					if(0 == strncmp($fileContents, $bom, 3)) {
 						$fileContents = substr($fileContents, 3);
 					}
+					
+					$matches = null;
+					$num_matches = preg_match_all('(@import.*?;)', $fileContents, $matches, PREG_SET_ORDER);
+					if($num_matches > 0)
+					{
+						foreach($matches as $match)
+						{
+							$imports[] = $match[0];
+						}
+						$fileContents = preg_replace('(@import.*?;)', '', $fileContents);
+					}
+					
 					$fileOutput[] = "/* ".$file['filename']." */\n".($file['minify'] ? $this->cssCompress($fileContents) : $fileContents);
 				}
+				array_unshift($fileOutput, implode('', $imports));
 				file_put_contents($this->combinedCSSFile, implode("\n\n", $fileOutput), LOCK_EX);
 				chmod($this->combinedCSSFile, 0777);
 			}
