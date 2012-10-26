@@ -5,6 +5,11 @@ $nlb_routes = array(
 		'handler' => 'nlb/main.php',
 		'access' => array('anonymous user'),
 	),
+	'theme-asset/%theme/%file' => array(
+		'handler' => 'nlb/theme_asset.php?theme=%theme&f=%file',
+		'access' => array('anonymous user'),
+		'options' => array('supress theme'),
+	),
 	'error/%type' => array(
 		'handler' => 'nlb/error.php?t=%type',
 		'access' => array('anonymous user'),

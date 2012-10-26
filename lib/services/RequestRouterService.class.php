@@ -71,11 +71,15 @@ class RequestRouterService {
 			}
 			if($hasRights)
 			{
-				return $route['info']['handler'];
+				return $route['info'];
 			}
 			else
 			{
-				return 'nlb/403.php';
+				$noaccess = array(
+					'handler' => 'nlb/403.php',
+					'access' => array('anonymous user'),
+				);
+				return $noaccess;
 			}
 		}
 		else
@@ -88,7 +92,11 @@ class RequestRouterService {
 			}
 			
 			// No route or URL Alias found so 404
-			return 'nlb/404.php';
+			$noroute = array(
+					'handler' => 'nlb/404.php',
+					'access' => array('anonymous user'),
+				);
+			return $noroute;
 		}
 	}
 	

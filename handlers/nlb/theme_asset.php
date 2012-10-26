@@ -1,6 +1,6 @@
 <?php
 
-require_once(realpath(dirname(__FILE__).'/../includes/load_config.php'));
+require_once(realpath(dirname(__FILE__).'/../../includes/load_config.php'));
 
 if(isset($_GET['theme']) && $_GET['theme'] != '' && strpos($_GET['theme'], '..') === FALSE && isset($_GET['f']) && $_GET['f'] != '' && strpos($_GET['f'], '..') === FALSE)
 {
@@ -11,7 +11,7 @@ if(isset($_GET['theme']) && $_GET['theme'] != '' && strpos($_GET['theme'], '..')
 		'gif' => 'image/gif',
 		'png' => 'image/png',
 	);
-	$file = NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/themes/'.NLB_THEME.'/'.$_GET['f'];
+	$file = NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/themes/'.NLB_THEME.'/'.str_replace('|', '/', $_GET['f']);
 	$ext = pathinfo($file, PATHINFO_EXTENSION);
 	$foundExtension = FALSE;
 	foreach($extmap as $key => $value)
@@ -43,6 +43,7 @@ if(isset($_GET['theme']) && $_GET['theme'] != '' && strpos($_GET['theme'], '..')
 	}
 	
 	readfile($file);
+	exit();
 }
 
 /**

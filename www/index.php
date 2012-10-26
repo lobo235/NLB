@@ -48,14 +48,14 @@ $UI->registerThemeAssets();
 $handler = $RequestRouter->routeRequest($path, $user);
 
 // First look for the handler in the site specific handlers
-if(file_exists(NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/handlers/'.$handler))
+if(file_exists(NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/handlers/'.$handler['handler']))
 {
-	include(NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/handlers/'.$handler);
+	include(NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/handlers/'.$handler['handler']);
 }
 // Then look for the handler in the default NLB handlers
 else
 {
-	include(NLB_SITE_ROOT.'handlers/'.$handler);
+	include(NLB_SITE_ROOT.'handlers/'.$handler['handler']);
 }
 
 // Print our page
