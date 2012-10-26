@@ -43,7 +43,7 @@ function smarty_function_nlb_asset_combine(array $params, Smarty_Internal_Templa
 		}
 		$combine->combine();
 
-		$output = '<link rel="stylesheet" href="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedCSSFile()).'" />'."\n";
+		$output = '<link rel="stylesheet" type="text/css" href="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedCSSFile()).'" />'."\n";
 		foreach($notPackagedCSS as $file)
 		{
 			$output .= "\t\t".'<link rel="stylesheet" type="text/css" href="'.$app->urlRoot().$file['filename'].'" />\n';
