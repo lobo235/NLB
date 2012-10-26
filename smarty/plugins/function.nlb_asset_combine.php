@@ -64,7 +64,7 @@ function smarty_function_nlb_asset_combine(array $params, Smarty_Internal_Templa
 			if(file_exists(NLB_SITE_ROOT.'www/'.$file['filename']))
 				$resource = $app->urlRoot().$file['filename'];
 			else
-				$resource = $app->urlRoot().'theme_asset.php?theme='.NLB_THEME.'&f='.str_replace(NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/themes/'.NLB_THEME.'/', '', $file['filename']);
+				$resource = $app->urlRoot().'theme_asset.php?theme='.NLB_THEME.'&amp;f='.str_replace(NLB_SITE_ROOT.'sites/'.$app->siteFolder().'/themes/'.NLB_THEME.'/', '', $file['filename']);
 			
 			$ext = pathinfo($file['filename'], PATHINFO_EXTENSION);
 			if($ext == 'css')
