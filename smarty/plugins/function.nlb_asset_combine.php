@@ -46,7 +46,7 @@ function smarty_function_nlb_asset_combine(array $params, Smarty_Internal_Templa
 		$output = '<link rel="stylesheet" href="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedCSSFile()).'" />'."\n";
 		foreach($notPackagedCSS as $file)
 		{
-			$output .= "\t\t".'<link rel="stylesheet" href="'.$app->urlRoot().$file['filename'].'" />\n';
+			$output .= "\t\t".'<link rel="stylesheet" type="text/css" href="'.$app->urlRoot().$file['filename'].'" />\n';
 		}
 		$output .= "\t\t".'<script type="text/javascript" src="'.$app->urlRoot().str_replace(NLB_SITE_ROOT.'www/', '', $combine->getCachedJSFile()).'"></script>'."\n";
 		foreach($notPackagedJS as $file)
@@ -69,7 +69,7 @@ function smarty_function_nlb_asset_combine(array $params, Smarty_Internal_Templa
 			$ext = pathinfo($file['filename'], PATHINFO_EXTENSION);
 			if($ext == 'css')
 			{
-				$cssoutput .= '<link rel="stylesheet" href="'.$resource.'" />'."\n";
+				$cssoutput .= '<link rel="stylesheet" type="text/css" href="'.$resource.'" />'."\n";
 			}
 			elseif($ext == 'js')
 			{
