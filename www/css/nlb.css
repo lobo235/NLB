@@ -1,5 +1,37 @@
+/* @override http://local.independentassessments.com/css/nlb.css */
+
 .admin-menu {
 	list-style: none;
 	padding: 0;
 	margin: 17px 0 0 17px;
+}
+
+.admin-table {
+	border-bottom: 1px solid #bbb;
+	margin-right: 5px;
+}
+
+.admin-table th {
+	font-weight: bold;
+	padding: 3px 6px;
+	text-align: center;
+	vertical-align: bottom;
+}
+
+.admin-table tr.admin-table-header-row {
+	border-bottom: 1px solid #bbb;
+}
+
+.admin-table tr:hover {
+	background-color: #ccc !important;
+}
+
+.admin-table tr.odd {
+	background-color: #eee;
+}
+
+.admin-table td {
+	padding: 3px 6px;
+	vertical-align: middle;
+	border-left: 1px solid #bbb;
 }
