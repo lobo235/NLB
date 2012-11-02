@@ -34,34 +34,6 @@ $nlb_routes = array(
 		'handler' => 'nlb/entity.php?action=%action&eid=%eid',
 		'access' => array('anonymous user'),
 	),
-	'admin/entities' => array(
-		'handler' => 'nlb/admin/entityAdmin.php?action=list',
-		'access' => array('admin user'),
-	),
-	'admin/entities/%type' => array(
-		'handler' => 'nlb/admin/entityAdmin.php?action=list&type=%type',
-		'access' => array('admin user'),
-	),
-	'admin/entity/create/%entity_type' => array(
-		'handler' => 'nlb/admin/entityAdmin.php?action=create&entity_type=%entity_type',
-		'access' => array('admin user'),
-	),
-	'admin/entity/edit/%eid' => array(
-		'handler' => 'nlb/admin/entityAdmin.php?action=edit&eid=%eid',
-		'access' => array('admin user'),
-	),
-	'admin/entity/delete/%eid' => array(
-		'handler' => 'nlb/admin/entityAdmin.php?action=delete&eid=%eid',
-		'access' => array('admin user'),
-	),
-	'admin/entity/set-status/%eid/%statusid' => array(
-		'handler' => 'nlb/admin/entityAdmin.php?action=setstatus&eid=%eid&statusid=%statusid',
-		'access' => array('admin user'),
-	),
-	'admin/entity/save' => array(
-		'handler' => 'nlb/admin/entityAdmin.php?action=save',
-		'access' => array('admin user'),
-	),
 	'admin/db-objects/%type' => array(
 		'handler' => 'nlb/admin/dbObjectAdmin.php?action=list&type=%type',
 		'access' => array('admin user'),
@@ -80,6 +52,10 @@ $nlb_routes = array(
 	),
 	'admin/db-object/%type/save' => array(
 		'handler' => 'nlb/admin/dbObjectAdmin.php?action=save&type=%type',
+		'access' => array('admin user'),
+	),
+	'admin/db-object/%type/set-status/%object_id/%status_id' => array(
+		'handler' => 'nlb/admin/dbObjectAdmin.php?action=setstatus&type=%type&object_id=%object_id&statusid=%status_id',
 		'access' => array('admin user'),
 	),
 	'node/%nid' => array(
