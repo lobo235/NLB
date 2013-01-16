@@ -88,11 +88,14 @@ class LogService
 	{
 		$datetime = date('Y-m-d h:i:sa');
 		$server = $_SERVER['SERVER_NAME'];
+		$host = $_SERVER['HTTP_HOST'];
 		$uri = $_SERVER['REQUEST_URI'];
 		if(NLB_LOG_DEST_EMAIL != '')
 		{
 			$subject = strtoupper($type).": $server";
 			$msg = "Date/Time: $datetime\n";
+			$msg .= "Server: $server\n";
+			$msg .= "Host: $host\n";
 			$msg .= "Request URI: $uri\n";
 			$msg .= "Source: $src\n";
 			$msg .= "Message: $message\n";
