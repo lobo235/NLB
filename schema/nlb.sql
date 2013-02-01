@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `uid` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `eid` int(11) unsigned NOT NULL,
   `username` varchar(32) NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `password` varchar(32) NULL,
   `first_name` varchar(32) NOT NULL,
   `last_name` varchar(32) NOT NULL,
   `last_login_date` datetime DEFAULT NULL,

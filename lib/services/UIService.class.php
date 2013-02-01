@@ -2,6 +2,7 @@
 
 class_exists('Smarty') || require_once(NLB_SMARTY_CLASS_LOC);
 class_exists('App') || require_once(NLB_LIB_ROOT.'util/App.class.php');
+class_exists('LogService') || require_once(NLB_LIB_ROOT.'services/LogService.class.php');
 
 /**
  * The UIService class is a service class that handles UI related tasks
@@ -12,6 +13,7 @@ class UIService
 	private $smarty;
 	private $assets;
 	private $App;
+        private $Log;
 
 	/**
 	 * The constructor for the UI class
@@ -20,6 +22,7 @@ class UIService
 	private function __construct()
 	{
 		$this->App = App::getInstance();
+                $this->Log = LogService::getInstance();
 		$this->smarty = new Smarty();
 		$this->smarty->setConfigDir(NLB_SMARTY_DIR.'configs');
 		$this->smarty->setTemplateDir(NLB_SITE_ROOT.'sites/'.$this->App->siteFolder().'/themes/'.NLB_THEME);
@@ -57,6 +60,8 @@ class UIService
 	 */
 	public function renderTemplate($template, $vars = NULL, $indentLevel = 0)
 	{
+            try
+            {
 		// clear all assigned variables
 		$this->smarty->clearAllAssign();
 		
@@ -97,6 +102,11 @@ class UIService
 		{
 			return $this->addIndenting($this->smarty->fetch($template), $indentLevel);
 		}
+            }
+            catch(SmartyException $se)
+            {
+                $this->Log->error('UIService->renderTemplate()', 'SmartyException - '.$se->getCode().' : '.$se->getMessage().(isset($template_dir)?' ('.$template_dir.$template.')':''));
+            }
 	}
 	
 	public function registerAsset($filename, $minify = TRUE, $package = TRUE)
