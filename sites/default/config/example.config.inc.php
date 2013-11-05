@@ -19,6 +19,7 @@ define('NLB_MYSQL_HOST', 'localhost');
 define('NLB_MYSQL_USER', 'nlb');
 define('NLB_MYSQL_PASS', 'password');
 define('NLB_MYSQL_DB', 'nlb');
+define('NLB_MYSQL_PORT', 3306);
 
 // SMARTY
 define('NLB_THEME', 'nlb_default'); // This is where you change the theme for your site
