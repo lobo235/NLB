@@ -19,6 +19,10 @@ if(isset($_POST['username']) && isset($_POST['password']))
 		}
 		exit();
 	}
+	else
+	{
+		header('Location: '.$app->urlRoot().'login?failed=1');
+	}
 }
 
 $pageVars['title'] = 'Login';
@@ -26,5 +30,15 @@ $pageVars['login_dest'] = $app->l('user');
 if(isset($_REQUEST['login_dest']) && $_REQUEST['login_dest'] != '')
 {
 	$pageVars['login_dest'] = $_REQUEST['login_dest'];
+}
+
+if(isset($_REQUEST['failed']) && $_REQUEST['failed'] == 1)
+{
+	//echo "<pre>".print_r($_REQUEST, TRUE)."</pre>\n";
+	$pageVars['error_msg'] = "Login Failed, please check your username/password and try again.";
+}
+else
+{
+	$pageVars['error_msg'] = FALSE;
 }
 $pageVars['content'] = $UI->renderTemplate('login.tpl', $pageVars, 3);

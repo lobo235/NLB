@@ -1,3 +1,4 @@
+{if $error_msg}<div class="error">{$error_msg|escape}</div>{/if}
 <form method="post" action="{$app->urlRoot()}processLogin">
 	<label for="username">Username:</label><br />
 	<input type="text" name="username" id="username" value="" /><br /><br />
