@@ -111,3 +111,13 @@ CREATE TABLE IF NOT EXISTS `menu_item_roles` (
   PRIMARY KEY (`mirid`),
   UNIQUE KEY `miid_rid_unique` (`miid`,`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* faqs table */
+CREATE TABLE IF NOT EXISTS `faqs` (
+  `faqid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `eid` int(11) unsigned NOT NULL,
+  `question` text NULL,
+  `answer` text NULL,
+  PRIMARY KEY (`faqid`),
+  KEY `eid` (`eid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
