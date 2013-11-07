@@ -1,10 +1,10 @@
 <?php
 
-class_exists('DatabaseTable') || require_once(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
-class_exists('DatabaseColumn') || require_once(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
-class_exists('Entity') || require_once(NLB_LIB_ROOT.'dom/Entity.class.php');
-class_exists('UserRoleService') || require_once(NLB_LIB_ROOT.'services/UserRoleService.class.php');
-class_exists('UserService') || require_once(NLB_LIB_ROOT.'services/UserService.class.php');
+$GLOBALS['app']->loadClass('dao', 'DatabaseTable');
+$GLOBALS['app']->loadClass('dao', 'DatabaseColumn');
+$GLOBALS['app']->loadClass('dom', 'Entity');
+$GLOBALS['app']->loadClass('services', 'UserRoleService');
+$GLOBALS['app']->loadClass('services', 'UserService');
 
 /**
  * The User class represents a user of the system

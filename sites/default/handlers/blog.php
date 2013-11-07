@@ -1,6 +1,6 @@
 <?php
 
-class_exists('Node') || require_once(NLB_LIB_ROOT.'dom/Node.class.php');
+$GLOBALS['app']->loadClass('dom', 'Node');
 
 if($_GET['action'] == 'viewpost' && isset($_GET['id']))
 {

@@ -1,6 +1,6 @@
 <?php
 
-class_exists('DatabaseObject') || require_once(NLB_LIB_ROOT.'dao/DatabaseObject.class.php');
+$GLOBALS['app']->loadClass('dao', 'DatabaseObject');
 
 /**
  * The Menu class is a domain level object that represents a single Menu

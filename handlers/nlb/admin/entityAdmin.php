@@ -22,7 +22,7 @@ function prepareFields($allColumns, $specialFields, &$useWysiwyg, &$vars)
 switch($_GET['action'])
 {
 	case 'list':
-		class_exists('EntityService') || require_once(NLB_LIB_ROOT.'services/EntityService.class.php');
+		$GLOBALS['app']->loadClass('services', 'EntityService');
 		$entityService = EntityService::getInstance();
 		if(isset($_GET['type']) && $_GET['type'] != '')
 		{
@@ -38,7 +38,7 @@ switch($_GET['action'])
 		$pageVars['content'] = $UI->renderTemplate('admin-entityList.tpl', $vars, 5);
 		break;
 	case 'create':
-		class_exists($_GET['entity_type']) || require_once(NLB_LIB_ROOT.'dom/'.$_GET['entity_type'].'.class.php');
+		$GLOBALS['app']->loadClass('dom', $_GET['entity_type']);
 		$e = new $_GET['entity_type'];
 		$e->setType($_GET['entity_type']);
 		if(isset($_GET['default_params']) && is_array($_GET['default_params']))
@@ -65,7 +65,7 @@ switch($_GET['action'])
 	case 'edit':
 		$e = new Entity($_GET['eid']);
 		$entity_type = $e->getType();
-		class_exists($entity_type) || require_once(NLB_LIB_ROOT.'dom/'.$entity_type.'.class.php');
+		$GLOBALS['app']->loadClass('dom', $entity_type);
 		$e = new $entity_type();
 		$e->lookupUsingEid($_GET['eid']);
 		$allColumns = $e->getColumns();
@@ -85,7 +85,7 @@ switch($_GET['action'])
 	case 'delete':
 		$e = new Entity($_GET['eid']);
 		$entity_type = $e->getType();
-		class_exists($entity_type) || require_once(NLB_LIB_ROOT.'dom/'.$entity_type.'.class.php');
+		$GLOBALS['app']->loadClass('dom', $entity_type);
 		$e = new $entity_type();
 		$e->lookupUsingEid($_GET['eid']);
 		$e->delete();
@@ -103,7 +103,7 @@ switch($_GET['action'])
 		echo 'updating status of entity '.$_GET['eid'].' to '.$_GET['statusid'];
 		break;
 	case 'save':
-		class_exists($_POST['type']) || require_once(NLB_LIB_ROOT.'dom/'.$_POST['type'].'.class.php');
+		$GLOBALS['app']->loadClass('dom', $_POST['type']);
 		$e = new $_POST['type'];
 		if(isset($_POST['eid']) && $_POST['eid'] != '')
 		{

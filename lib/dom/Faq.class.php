@@ -1,8 +1,8 @@
 <?php
 
-class_exists('DatabaseTable') || require_once(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
-class_exists('DatabaseColumn') || require_once(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
-class_exists('Entity') || require_once(NLB_LIB_ROOT.'dom/Entity.class.php');
+$GLOBALS['app']->loadClass('dao', 'DatabaseTable');
+$GLOBALS['app']->loadClass('dao', 'DatabaseColumn');
+$GLOBALS['app']->loadClass('dom', 'Entity');
 
 /**
  * The Faq class represents a single Faq in the system

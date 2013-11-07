@@ -2,18 +2,22 @@
 
 // Determine which folder in 'sites' to use for this request
 $siteDirectory = 'default';
+// Exact Match (www.example.com)
 if(is_dir(realpath(dirname(__FILE__).'/../sites/'.$_SERVER['HTTP_HOST'])))
 {
 	$siteDirectory = $_SERVER['HTTP_HOST'];
 }
+// Strip off the first subdomain and try to match (*.example.com)
 elseif(substr_count($_SERVER['HTTP_HOST'], '.') > 0 && is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/^[^\.]*?\./', '', $_SERVER['HTTP_HOST']))))
 {
 	$siteDirectory = preg_replace('/^.*?\./', '', $_SERVER['HTTP_HOST']);
 }
+// Strip off the last part of the domain name (e.g. .com, .net, .org) and try to match (www.example.*)
 elseif(substr_count($_SERVER['HTTP_HOST'], '.') > 0 && is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/\.[^\.]*?$/', '', $_SERVER['HTTP_HOST']))))
 {
 	$siteDirectory = preg_replace('/\.[^\.]*?$/', '', $_SERVER['HTTP_HOST']);
 }
+// Strip off the first subdomain and the last part of the domain name and try to match (*.example.*)
 elseif(substr_count($_SERVER['HTTP_HOST'], '.') > 1 && is_dir(realpath(dirname(__FILE__).'/../sites/'.preg_replace('/\.[^\.]*?$|^[^.]*?\./', '', $_SERVER['HTTP_HOST']))))
 {
 	$siteDirectory = preg_replace('/\.[^\.]*?$|^[^.]*?\./', '', $_SERVER['HTTP_HOST']);

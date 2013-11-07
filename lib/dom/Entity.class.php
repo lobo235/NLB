@@ -1,8 +1,8 @@
 <?php
 
-class_exists('DatabaseTable') || require_once(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
-class_exists('DatabaseColumn') || require_once(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
-class_exists('DatabaseObject') || require_once(NLB_LIB_ROOT.'dao/DatabaseObject.class.php');
+$GLOBALS['app']->loadClass('dao', 'DatabaseTable');
+$GLOBALS['app']->loadClass('dao', 'DatabaseColumn');
+$GLOBALS['app']->loadClass('dao', 'DatabaseObject');
 
 /**
  * The Entity class serves as a base class for all of the custom objects that will make up the web site/application

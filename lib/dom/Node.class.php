@@ -1,9 +1,9 @@
 <?php
 
-class_exists('DatabaseTable') || require_once(NLB_LIB_ROOT.'dao/DatabaseTable.class.php');
-class_exists('DatabaseColumn') || require_once(NLB_LIB_ROOT.'dao/DatabaseColumn.class.php');
-class_exists('Entity') || require_once(NLB_LIB_ROOT.'dom/Entity.class.php');
-class_exists('UrlAliasService') || require_once(NLB_LIB_ROOT.'services/UrlAliasService.class.php');
+$GLOBALS['app']->loadClass('dao', 'DatabaseTable');
+$GLOBALS['app']->loadClass('dao', 'DatabaseColumn');
+$GLOBALS['app']->loadClass('dom', 'Entity');
+$GLOBALS['app']->loadClass('services', 'UrlAliasService');
 
 /**
  * The Node class represents a single Node in the system

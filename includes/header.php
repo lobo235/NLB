@@ -9,11 +9,11 @@ if($app->getVar('installed', 0) === 0)
 }
 
 // Load classes that will be needed on almost every page
-class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
-class_exists('UIService') || require_once(NLB_LIB_ROOT.'services/UIService.class.php');
-class_exists('User') || require_once(NLB_LIB_ROOT.'dom/User.class.php');
-class_exists('LogService') || require_once(NLB_LIB_ROOT.'services/LogService.class.php');
-class_exists('StringUtils') || require_once(NLB_LIB_ROOT.'util/StringUtils.class.php');
+$GLOBALS['app']->loadClass('services', 'DatabaseService');
+$GLOBALS['app']->loadClass('services', 'UIService');
+$GLOBALS['app']->loadClass('dom', 'User');
+$GLOBALS['app']->loadClass('services', 'LogService');
+$GLOBALS['app']->loadClass('util', 'StringUtils');
 
 // get an instance of the DatabaseService to communicate/use the database
 $DB = DatabaseService::getInstance();

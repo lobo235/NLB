@@ -1,6 +1,6 @@
 <?php
 
-class_exists('DatabaseObject') || require_once(NLB_LIB_ROOT.'dao/DatabaseObject.class.php');
+$GLOBALS['app']->loadClass('dao', 'DatabaseObject');
 
 /**
  * The MenuItemRole class is a domain level object that holds all the user roles for a particular MenuItem

@@ -1,6 +1,6 @@
 <?php
 
-class_exists('AssetCombiner') || require_once(NLB_LIB_ROOT.'util/AssetCombiner.class.php');
+$GLOBALS['app']->loadClass('util', 'AssetCombiner');
 
 if($_GET['t'] == 'combine')
 {

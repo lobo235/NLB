@@ -21,12 +21,13 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 	}
 
 	// Load and start our PageTimerService
-	class_exists('PageTimerService') || require_once(NLB_LIB_ROOT.'services/PageTimerService.class.php');
+	$GLOBALS['app']->loadClass('services', 'PageTimerService');
 	$PageTimer = new PageTimerService();
 	$PageTimer->start();
 
 	// Load classes that will be needed during install
-	class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+	$GLOBALS['app']->loadClass('services', 'DatabaseService');
+	$GLOBALS['app']->loadClass('util', 'App');
 	class_exists('App') || require_once(NLB_LIB_ROOT.'util/App.class.php');
 	
 	$app = App::getInstance();
@@ -100,8 +101,8 @@ if(isset($_POST['do']) && $_POST['do'] == 'Install')
 		echo "All SQL statements ran successfully...<br />\n";
 	}
 	
-	class_exists('UserService') || require_once(NLB_LIB_ROOT.'services/UserService.class.php');
-	class_exists('RoleService') || require_once(NLB_LIB_ROOT.'services/RoleService.class.php');
+	$GLOBALS['app']->loadClass('services', 'UserService');
+	$GLOBALS['app']->loadClass('services', 'RoleService');
 	$userService = UserService::getInstance();
 	$roleService = RoleService::getInstance();
 	

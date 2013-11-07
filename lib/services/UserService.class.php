@@ -1,9 +1,9 @@
 <?php
 
-class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
-class_exists('User') || require_once(NLB_LIB_ROOT.'dom/User.class.php');
-class_exists('Role') || require_once(NLB_LIB_ROOT.'dom/Role.class.php');
-class_exists('UserRole') || require_once(NLB_LIB_ROOT.'dom/UserRole.class.php');
+$GLOBALS['app']->loadClass('services', 'DatabaseService');
+$GLOBALS['app']->loadClass('dom', 'User');
+$GLOBALS['app']->loadClass('dom', 'Role');
+$GLOBALS['app']->loadClass('dom', 'UserRole');
 
 /**
  * The UserService is a service layer class that provides useful methods for dealing with User objects

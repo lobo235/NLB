@@ -1,6 +1,6 @@
 <?php
 
-class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+$GLOBALS['app']->loadClass('services', 'DatabaseService');
 
 /*
  * To change this template, choose Tools | Templates
@@ -68,7 +68,7 @@ class EntityService
 		{
 			foreach($res as $row)
 			{
-				class_exists($row['type']) || require_once(NLB_LIB_ROOT.'dom/'.$row['type'].'.class.php');
+				$GLOBALS['app']->loadClass('dom', $row['type']);
 				$entity = new $row['type']();
 				$entity->lookupUsingEid($row['eid']);
 				$entities[] = $entity;

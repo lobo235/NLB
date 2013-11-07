@@ -14,6 +14,7 @@ class App
 	private $UrlAliasService;
 	private $DB;
 	private $su;
+	private $objects;
 
 	/**
 	 * The constructor for the App class
@@ -25,6 +26,7 @@ class App
 		$this->UrlAliasService = UrlAliasService::getInstance();
 		$this->DB = DatabaseService::getInstance();
 		$this->su = StringUtils::getInstance();
+		$this->objects = array();
 	}
 
 	/**
@@ -146,5 +148,43 @@ class App
 	public function getCurrentPath()
 	{
 		return $this->su->str_replace_once($this->urlRoot(), '', $_SERVER['REQUEST_URI']);
+	}
+	
+	/**
+	 * Gets the registered objects (classes) for this App
+	 * @return array the list of objects (classes) that have been registered for this App
+	 */
+	public function getObjects()
+	{
+		return $this->objects;
+	}
+	
+	/**
+	 * Registers an object (class) for this App
+	 * @param string object (class) name to register
+	 */
+	public function registerObject($name)
+	{
+		array_push($this->objects, $name);
+	}
+	
+	/**
+	 * This function will include a class smartly (first tries to load the class from the site
+	 * specific folder and then tries to load a standard NLB lib)
+	 * @param string the type of the class to load (e.g. dom or services)
+	 * @param string the name of the class to load (e.g. User or Node) 
+	 */
+	public function loadClass($type, $name)
+	{
+		// First look for the class in the site specific lib folder
+		if(file_exists(NLB_SITE_ROOT.'sites/'.$this->siteFolder().'/lib/'.$type.'/'.$name.'.class.php'))
+		{
+			class_exists($name) || require_once(NLB_SITE_ROOT.'sites/'.$this->siteFolder().'/lib/'.$type.'/'.$name.'.class.php');
+		}
+		// Then look for the handler in the default NLB handlers
+		else
+		{
+			class_exists($name) || require_once(NLB_SITE_ROOT.'lib/'.$type.'/'.$name.'.class.php');
+		}
 	}
 }

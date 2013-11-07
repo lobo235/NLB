@@ -1,6 +1,6 @@
 <?php
 
-class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+$GLOBALS['app']->loadClass('services', 'DatabaseService');
 
 /**
  * The MenuService is a service layer class that provides useful methods for dealing with Menu objects

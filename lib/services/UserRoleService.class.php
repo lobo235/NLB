@@ -1,8 +1,8 @@
 <?php
 
-class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
-class_exists('UserRole') || require_once(NLB_LIB_ROOT.'dom/UserRole.class.php');
-class_exists('MenuItemRole') || require_once(NLB_LIB_ROOT.'dom/MenuItemRole.class.php');
+$GLOBALS['app']->loadClass('services', 'DatabaseService');
+$GLOBALS['app']->loadClass('dom', 'UserRole');
+$GLOBALS['app']->loadClass('dom', 'MenuItemRole');
 
 /**
  * The UserRoleService is a service layer class that provides useful methods for dealing with UserRole objects

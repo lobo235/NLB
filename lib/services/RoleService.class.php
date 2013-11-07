@@ -1,7 +1,7 @@
 <?php
 
-class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
-class_exists('Role') || require_once(NLB_LIB_ROOT.'dom/Role.class.php');
+$GLOBALS['app']->loadClass('services', 'DatabaseService');
+$GLOBALS['app']->loadClass('dom', 'Role');
 
 /**
  * The RoleService is a service layer class that provides useful methods for dealing with Role objects

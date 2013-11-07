@@ -1,6 +1,6 @@
 <?php
 
-class_exists('DatabaseService') || require_once(NLB_LIB_ROOT.'services/DatabaseService.class.php');
+$GLOBALS['app']->loadClass('services', 'DatabaseService');
 
 function prepareFields($allColumns, $specialFields, &$useWysiwyg, &$vars)
 {
@@ -26,7 +26,7 @@ switch($_GET['action'])
 	case 'list':
 		if(isset($_GET['type']) && $_GET['type'] != '')
 		{
-			class_exists($_GET['type']) || require_once(NLB_LIB_ROOT.'dom/'.$_GET['type'].'.class.php');
+			$GLOBALS['app']->loadClass('dom', $_GET['type']);
 			$obj = new $_GET['type'];
 			$objects = array();
 			
@@ -51,7 +51,7 @@ switch($_GET['action'])
 		$pageVars['content'] = $UI->renderTemplate('admin-dbObjectList.tpl', $vars, 5);
 		break;
 	case 'create':
-		class_exists($_GET['type']) || require_once(NLB_LIB_ROOT.'dom/'.$_GET['type'].'.class.php');
+		$GLOBALS['app']->loadClass('dom', $_GET['type']);
 		$obj = new $_GET['type'];
 		if(isset($_GET['default_params']) && is_array($_GET['default_params']))
 		{
@@ -75,7 +75,7 @@ switch($_GET['action'])
 		$pageVars['content'] = $UI->renderTemplate('admin-dbObjectForm.tpl', $vars, 5);
 		break;
 	case 'edit':
-		class_exists($_GET['type']) || require_once(NLB_LIB_ROOT.'dom/'.$_GET['type'].'.class.php');
+		$GLOBALS['app']->loadClass('dom', $_GET['type']);
 		$obj = new $_GET['type']($_GET['object_id']);
 		$allColumns = $obj->getColumns();
 		$specialFields = $obj->getSpecialFields();
@@ -92,6 +92,7 @@ switch($_GET['action'])
 		$pageVars['content'] = $UI->renderTemplate('admin-dbObjectForm.tpl', $vars, 5);
 		break;
 	case 'delete':
+		$GLOBALS['app']->loadClass('dom', $_GET['type']);
 		class_exists($_GET['type']) || require_once(NLB_LIB_ROOT.'dom/'.$_GET['type'].'.class.php');
 		$obj = new $_GET['type']($_GET['object_id']);
 		
@@ -107,6 +108,7 @@ switch($_GET['action'])
 		exit();
 		break;
 	case 'save':
+		$GLOBALS['app']->loadClass('dom', $_GET['type']);
 		class_exists($_GET['type']) || require_once(NLB_LIB_ROOT.'dom/'.$_GET['type'].'.class.php');
 		$obj = new $_GET['type'];
 		if(isset($_POST[$obj->getPrimaryIdColumn()]) && $_POST[$obj->getPrimaryIdColumn()] != '')

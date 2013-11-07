@@ -10,8 +10,8 @@
  * -------------------------------------------------------------
  */
 
-class_exists('AssetCombiner') || require_once(NLB_LIB_ROOT.'util/AssetCombiner.class.php');
-class_exists('App') || require_once(NLB_LIB_ROOT.'util/App.class.php');
+$GLOBALS['app']->loadClass('util', 'AssetCombiner');
+$GLOBALS['app']->loadClass('util', 'App');
 
 function smarty_function_nlb_asset_combine(array $params, Smarty_Internal_Template $template)
 {

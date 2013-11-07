@@ -1,8 +1,8 @@
 <?php
 
-class_exists('DatabaseObject') || require_once(NLB_LIB_ROOT.'dao/DatabaseObject.class.php');
-class_exists('MenuService') || require_once(NLB_LIB_ROOT.'services/MenuService.class.php');
-class_exists('UserRoleService') || require_once(NLB_LIB_ROOT.'services/UserRoleService.class.php');
+$GLOBALS['app']->loadClass('dao', 'DatabaseObject');
+$GLOBALS['app']->loadClass('services', 'MenuService');
+$GLOBALS['app']->loadClass('services', 'UserRoleService');
 
 /**
  * The MenuItem class is a domain level object that represents a single MenuItem
