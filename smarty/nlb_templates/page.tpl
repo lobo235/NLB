@@ -11,7 +11,7 @@
 			<div id="container">
 				<div id="left" class="{if !isset($sidebar1_content)}expand{/if}">
 					<div id="main-content">
-						<h1>{if isset($pageTitle)}{$pageTitle|escape}{elseif isset($title)}{$title|escape}{else}{$smarty.const.NLB_SITE_NAME}{/if}</h1>
+						<h1{if $titleClasses} class="{" "|implode:$titleClasses}"{/if}}>{if isset($pageTitle)}{$pageTitle|escape}{elseif isset($title)}{$title|escape}{else}{$smarty.const.NLB_SITE_NAME}{/if}</h1>
 {if isset($content)}{$content}{/if}
 					</div>
 				</div>

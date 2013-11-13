@@ -69,3 +69,7 @@ a.site-logo:hover {
 	margin-top: 10px;
 	color: white;
 }
+
+.unpublished {
+	color: #ff0000;
+}

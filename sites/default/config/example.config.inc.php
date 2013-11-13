@@ -2,6 +2,7 @@
 
 // SITE INFORMATION
 define('NLB_SITE_NAME', 'NLB Site');
+define('NLB_SITE_WEBMASTER_EMAIL', 'webmaster@example.com');
 
 // FILE SYSTEM
 define('NLB_SITE_ROOT', realpath(dirname(__FILE__).'/../../..').'/'); // You shouldn't need to change this.
